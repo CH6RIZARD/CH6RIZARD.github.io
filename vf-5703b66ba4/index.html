@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Void Fleet</title><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="robots" content="noindex,nofollow">
+<style>body{margin:0;background:#0c0d10;color:#e8e8ec;font:16px system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;text-align:center;padding:24px}
+button{font:inherit;padding:10px 16px;border:0;border-radius:8px;background:#7c8cff;color:#fff;margin-top:12px}.m{color:#8b8f9a;font-size:14px}</style></head><body>
+<div><div id="s">Finding your fleet…</div><div class="m" id="m"></div><div id="x"></div></div>
+<script>
+(async()=>{
+ const s=document.getElementById('s'),m=document.getElementById('m'),x=document.getElementById('x');
+ let tok=''; try{ if(location.hash.length>1){tok=location.hash.slice(1);localStorage.setItem('vt',tok);history.replaceState(null,'',location.pathname)} tok=localStorage.getItem('vt')||'' }catch{}
+ if(!tok){ s.textContent='Open your private link once to sign this device in.'; return }
+ try{
+  const r=await fetch('current.json?'+Date.now(),{cache:'no-store'}); const j=await r.json();
+  if(!j.url) throw 0;
+  const ok=await fetch(j.url+'/manifest.webmanifest',{mode:'no-cors',cache:'no-store'}).then(()=>true).catch(()=>false);
+  if(!ok){ s.textContent='Your PC looks offline.'; m.textContent='Last address was set '+(j.at||'?')+'. Make sure it is on.'; x.innerHTML='<button onclick="location.reload()">Try again</button>'; return }
+  location.replace(j.url+'/?t='+encodeURIComponent(tok));
+ }catch{ s.textContent='Could not reach the fleet.'; x.innerHTML='<button onclick="location.reload()">Try again</button>' }
+})();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></body></html>
