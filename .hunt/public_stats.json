@@ -1,0 +1,27 @@
+{
+ "built": "2026-11-11 15:38",
+ "applications": {
+  "applied": 19,
+  "blocked": 60,
+  "skipped": 81,
+  "linkedin_requests_sent": 37,
+  "emails_sent": 0,
+  "roles_in_queue": 92
+ },
+ "vc": {
+  "updated": "2026-11-11T15:38:08",
+  "goal": {
+   "emails_today": 250,
+   "dms_today": 100,
+   "deadline": "2026-11-11T22:00:00-05:00"
+  },
+  "emails_today": 198,
+  "emails_total": 782,
+  "dms_sent_today": 17,
+  "dms_by_platform_status": {
+   "X/Sent": 17,
+   "X/Skipped": 31
+  },
+  "replies_total": 64
+ }
+}

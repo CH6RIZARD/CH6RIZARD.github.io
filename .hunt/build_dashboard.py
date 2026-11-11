@@ -64,8 +64,10 @@ for j in jobs:
         reasons[key] = reasons.get(key, 0) + 1
 reasons = sorted(reasons.items(), key=lambda kv: -kv[1])[:8]
 
-PUBLIC = bool(os.environ.get('PUBLIC'))
-data = dict(public=PUBLIC, kpi=kpi, jobs=[{k: j.get(k, '') for k in ('tier', 'score', 'company', 'title', 'location', 'pay', 'url', 'status', 'why', 'new', 'ai', 'ai_why', 'first_seen')} for j in jobs],
+PUBLIC = os.environ.get('PUBLIC') == '1'
+_ps = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'public_stats.json')
+stats = json.load(open(_ps, encoding='utf-8')) if os.path.exists(_ps) else None   # aggregates only, written by make_public_stats.py
+data = dict(public=PUBLIC, stats=stats, kpi=kpi, jobs=[{k: j.get(k, '') for k in ('tier', 'score', 'company', 'title', 'location', 'pay', 'url', 'status', 'why', 'new', 'ai', 'ai_why', 'first_seen')} for j in jobs],
             contacts=contacts, reasons=reasons, built=datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))
 
 TEMPLATE = r'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="60">
@@ -90,13 +92,17 @@ td a{color:var(--blue);text-decoration:none}td a:hover{text-decoration:underline
 .why{color:var(--mute);font-size:12px;max-width:260px}.reasons li{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid var(--line);font-size:13px}ul{list-style:none;margin:0;padding:0}
 .new{color:var(--green);font-size:11px;margin-left:6px}
 </style></head><body><main>
-<h1 id="ttl">Job hunt dashboard</h1><div class="sub" id="built"></div>
+<div id="viewtog" style="display:none;gap:6px;margin-bottom:10px"><button type="button" id="vJobs" class="tg on">Role radar</button><button type="button" id="vApp" class="tg">Job applications</button><button type="button" id="vVc" class="tg">EZER VC raise</button></div>
+<style>.tg{background:transparent;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font:inherit;cursor:pointer;margin-right:6px}.tg.on{background:var(--blue);color:#06121f;border-color:var(--blue)}</style>
+<div id="appview" style="display:none"><h1>Job applications</h1><div class="sub" id="appsub"></div><div class="kpis" id="appkpis"></div><div class="sub">Counts only. Updated automatically from the owner's PC.</div></div>
+<div id="vcview" style="display:none"><h1>EZER VC raise</h1><div class="sub" id="vcsub"></div><div class="kpis" id="vckpis"></div><div class="card"><h2>DMS TODAY BY PLATFORM AND STATUS</h2><div style="overflow:auto"><table id="vcdms"></table></div></div><div class="sub" style="margin-top:8px">Counts only. No names, firms, emails or handles are shown.</div></div>
+<div id="jobsview"><h1 id="ttl">Job hunt dashboard</h1><div class="sub" id="built"></div>
 <div class="kpis" id="kpis"></div>
 <div class="row"><div class="card"><h2>PIPELINE</h2><div class="bar" id="bar"></div><div class="leg" id="leg"></div></div>
 <div class="card"><h2>WHY ROLES WERE SKIPPED</h2><ul class="reasons" id="reasons"></ul></div></div>
 <div class="card" style="margin-bottom:12px"><h2>ROLES</h2><div class="tools"><input id="q" placeholder="Search company, title, city" size="28"><select id="st"><option value="">All statuses</option><option>queued</option><option>applied</option><option>skipped</option><option>blocked</option></select><select id="tier"><option value="">All tiers</option><option value="0">Realistic first</option><option value="1">Elite-bar (last)</option></select><select id="sort"><option value="new">Newest first, then priority</option><option value="pri">Priority first (best fit)</option></select></div><div style="overflow:auto"><table id="jobs"></table></div></div>
 <div class="card"><h2>CONTACTS</h2><div style="overflow:auto"><table id="contacts"></table></div></div>
-</main><script>
+</div></main><script>
 const D=__DATA__;const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const PUB=D.public;if(PUB)$('ttl').textContent='Role radar: early-career software, simulation and AI roles';
 $('built').textContent=PUB?'Updated '+D.built+' (refreshes automatically every 30 minutes).':'Built '+D.built+'. Re-run build_dashboard.py to refresh.';
@@ -112,6 +118,7 @@ function jobs(){const q=$('q').value.toLowerCase(),st=$('st').value,t=$('tier').
  const rows=D.jobs.slice().sort($('sort').value==='pri'?pri:byNew).filter(j=>(!st||j.status===st)&&(!t||j.tier===t)&&(!q||(j.company+' '+j.title+' '+j.location).toLowerCase().includes(q)));
  $('jobs').innerHTML='<tr><th>AI fit</th><th>Company</th><th>Role</th><th>Location</th><th>Pay</th><th>Added</th>'+(PUB?'':'<th>Status</th>')+'</tr>'+rows.map(j=>`<tr><td title="${esc(j.ai_why)}">${j.ai===''?'<span style="color:var(--mute)">'+j.score+'</span>':'<b>'+j.ai+'/10</b>'}<div class="why">${esc(j.ai_why)}</div></td><td>${esc(j.company)}${j.tier==='1'?' <span class="chip elite">elite</span>':''}${j.new===true?'<span class="new">new</span>':''}</td><td><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a></td><td>${esc(j.location)}</td><td>${esc(j.pay)}</td><td>${esc(j.first_seen)}</td>${PUB?'':`<td><span class="chip ${esc(j.status)}">${esc(j.status)}</span>${j.why?`<div class="why">${esc(j.why)}</div>`:''}</td>`}</tr>`).join('')||'<tr><td>No roles match.</td></tr>';}
 ['q','st','tier','sort'].forEach(i=>$(i).addEventListener('input',jobs));jobs();
+if(PUB&&D.stats){const S=D.stats,A=S.applications||{},V=S.vc;$('viewtog').style.display='flex';$('appsub').textContent='Updated '+S.built+'.';$('appkpis').innerHTML=[[A.applied,'Applications submitted'],[A.skipped,'Roles reviewed and skipped'],[A.blocked,'Waiting on a human step'],[A.linkedin_requests_sent,'LinkedIn requests sent'],[A.emails_sent,'Emails sent'],[A.roles_in_queue,'Roles in the review queue']].map(([n,l])=>`<div class="k"><b>${esc(n??0)}</b><span>${esc(l)}</span></div>`).join('');if(V){const g=V.goal||{};$('vcsub').textContent='Updated '+V.updated+'. Goal today: '+g.emails_today+' emails and '+g.dms_today+' DMs.';$('vckpis').innerHTML=[[V.emails_today,'Emails today (goal '+g.emails_today+')'],[V.emails_total,'Emails all time'],[V.dms_sent_today,'DMs sent today (goal '+g.dms_today+')'],[V.replies_total,'Replies']].map(([n,l])=>`<div class="k"><b>${esc(n??0)}</b><span>${esc(l)}</span></div>`).join('');$('vcdms').innerHTML='<tr><th>Platform / status</th><th>Count</th></tr>'+(Object.entries(V.dms_by_platform_status||{}).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join('')||'<tr><td>None yet.</td></tr>');}else{$('vVc').style.display='none'}const show=v=>{$('jobsview').style.display=v==='jobs'?'':'none';$('appview').style.display=v==='app'?'':'none';$('vcview').style.display=v==='vc'?'':'none';[['vJobs','jobs'],['vApp','app'],['vVc','vc']].forEach(([i,k])=>$(i).classList.toggle('on',v===k))};$('vJobs').onclick=()=>show('jobs');$('vApp').onclick=()=>show('app');$('vVc').onclick=()=>show('vc');show('jobs');}
 if(PUB){document.querySelector('.row').style.display='none';$('contacts').closest('.card').style.display='none';$('st').style.display='none';}
 $('contacts').innerHTML=D.contacts.length?'<tr><th>Company</th><th>Role</th><th>Person</th><th>School</th><th>Channel</th><th>Status</th></tr>'+D.contacts.filter(c=>c.status==='sent'||c.person).map(c=>`<tr><td>${esc(c.company)}</td><td>${esc(c.role)}</td><td>${esc(c.person)}<div class="why">${esc(c.title)}</div></td><td>${esc(c.school)}</td><td>${esc(c.channel)}</td><td><span class="chip ${esc(c.status)}">${esc(c.status)}</span></td></tr>`).join(''):'<tr><td>No contacts logged yet.</td></tr>';
 </script></body></html>'''
