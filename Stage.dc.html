@@ -98,7 +98,7 @@ class Component extends DCLogic {
   componentWillUnmount() { if (this.ro) this.ro.disconnect(); clearInterval(this.timer); }
   renderVals() {
     const p = this.props.p || {}, id = p.id, s = this.state, bare = !!this.props.bare, L = true;
-    const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/search', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
+    const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
     const mk = (key, src, title, poster, cta, label) => { const can = !!src, on = can && (!!this.props.auto || !poster || !!s.entered[key]);
       return { src: on ? src : '', title: title || '', live: on, posterOn: !on, poster: poster || '', canEnter: can && !on, noEnter: !can, cta: cta || 'Open', label: label || '', hasLabel: !!label, enter: () => this.setState({ entered: { ...s.entered, [key]: true } }) }; };
     let kind = 'plate', screens = [];

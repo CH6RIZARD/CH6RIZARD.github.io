@@ -86,6 +86,19 @@ h1,h2,h3,p{margin:0}
         </sc-for>
       </aside>
     </sc-if>
+    <sc-if value="{{ moreSheet }}" hint-placeholder-val="{{ false }}">
+      <div role="dialog" aria-modal="true" aria-label="{{ moreCur.name }}" style="position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(0,0,0,.55)">
+        <button type="button" aria-label="Close" onClick="{{ closeMore }}" style="flex:1 0 3vh;border:0;background:none;cursor:pointer"></button>
+        <div style="position:relative;max-height:85%;overflow-y:auto;overscroll-behavior:contain;background:#161615;border-radius:22px 22px 0 0;border-top:1px solid #3A3936;padding:8px 20px 28px">
+          <span style="position:absolute;left:50%;top:6px;transform:translateX(-50%);width:40px;height:5px;border-radius:3px;background:#3A3936"></span>
+          <div style="display:flex;justify-content:flex-end"><button type="button" aria-label="Close" onClick="{{ closeMore }}" style="width:44px;height:44px;margin-right:-12px;padding:0;background:none;border:0;cursor:pointer;color:#ECEAE3;font:400 22px/1 Inter,system-ui,sans-serif">×</button></div>
+          <span style="font:400 10.5px/1.4 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#9A9890">{{ moreCur.status }} · {{ moreCur.kind }}</span>
+          <h2 style="font:300 30px/1.1 Fraunces,Georgia,serif;letter-spacing:-.02em;margin-top:6px">{{ moreCur.name }}</h2>
+          <p style="margin:14px 0 16px;font-size:15px;line-height:1.6;text-wrap:pretty">{{ moreCur.about }}</p>
+          <div style="padding:10px 0;border-top:1px solid #262624;font-size:14px;line-height:1.5"><b style="display:block;font:400 10.5px/1.6 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#9A9890">Stack</b>{{ moreCur.stack }}</div>
+        </div>
+      </div>
+    </sc-if>
   </sc-if>
 
   <sc-if value="{{ isMob }}" hint-placeholder-val="{{ false }}">
@@ -251,7 +264,7 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state, mob = this.narrow(), L = true;
     const SHORT = { morgan: 'Morgan', frame: 'Agent Frame' };
-    const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/search', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
+    const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
     const WEB = { hugo: 'realms/hugo/index.html', revelation: 'https://revelati6n.com' };
     const dec = (p, dev) => p && ({ ...p, rows: (p.rows || []).map(([k, v]) => ({ k, v })), short: SHORT[p.id] || p.name, status: p.status || '', kind: p.kind || '', isLive: p.status === 'Live',
       hasThumb: !!p.thumb, noThumb: !p.thumb, thumb: p.thumb || '', glyph: p.glyph || '', hasHref: !!p.href, href: p.href || '', line: p.line || '', about: p.about || '',
@@ -277,8 +290,9 @@ class Component extends DCLogic {
       col: this.col, phRef: this.phRef, moRef: this.moRef, actPh: () => this.act('ph'), actMo: () => this.act('mo'), notes: by(this.NOTES),
       phItems: by(mob ? this.PH : [...this.PH, 'notes'], 'ph'), moItems: by(mob ? this.MO : [...this.MO, 'notes'], 'mo'),
       moreBox: mob ? { gridColumn: '1 / -1', order: 1, padding: '0 8px', margin: '-8px 0 -10px', textAlign: 'center' } : { gridColumn: '1 / -1', alignSelf: 'start', padding: s.moreOpen ? '10px 0 0' : 0, margin: 0, textAlign: 'center' },
-      toggleMore: () => { this.setState({ moreOpen: !s.moreOpen, more: null }, () => this.reveal(this.moreRef.current, 8)); }, moreRef: this.moreRef, chev: { display: 'inline-block', transition: 'transform .2s', transform: s.moreOpen ? 'rotate(90deg)' : 'none' }, moreCurOn: !!s.more,
-      more: by(this.NOTES).map(n => ({ ...n, on: s.more === n.id, style: { height: 30, padding: '0 12px', background: s.more === n.id ? '#262624' : 'none', border: '1px solid ' + (s.more === n.id ? '#3A3936' : '#262624'), borderRadius: 999, color: s.more === n.id ? '#ECEAE3' : '#9A9890', cursor: 'pointer', font: '400 13px/1 Inter,system-ui,sans-serif', whiteSpace: 'nowrap' }, go: () => { const off = s.more === n.id; this.setState({ more: off ? null : n.id, mo: off ? (s.mo === 'notes' ? null : s.mo) : 'notes', ph: off ? (s.ph === 'notes' ? null : s.ph) : 'notes' }, () => this.reveal(this.moreRef.current, 8)); } })), moreOpen: !!s.moreOpen, moreCur: get(s.more) || {}, moreId: s.more || '',
+      toggleMore: () => { this.setState({ moreOpen: !s.moreOpen, more: null }, () => this.reveal(this.moreRef.current, 8)); }, moreRef: this.moreRef, chev: { display: 'inline-block', transition: 'transform .2s', transform: s.moreOpen ? 'rotate(90deg)' : 'none' }, moreCurOn: !!s.more && !mob, moreSheet: !!s.more && mob, closeMore: () => this.setState({ more: null }),
+      more: by(this.NOTES).map(n => ({ ...n, on: s.more === n.id, style: { height: 30, padding: '0 12px', background: s.more === n.id ? '#262624' : 'none', border: '1px solid ' + (s.more === n.id ? '#3A3936' : '#262624'), borderRadius: 999, color: s.more === n.id ? '#ECEAE3' : '#9A9890', cursor: 'pointer', font: '400 13px/1 Inter,system-ui,sans-serif', whiteSpace: 'nowrap' }, go: () => { const off = s.more === n.id; if (mob) return this.setState({ more: off ? null : n.id });   // phones: a bottom sheet, the devices stay as they are
+        this.setState({ more: off ? null : n.id, mo: off ? (s.mo === 'notes' ? null : s.mo) : 'notes', ph: off ? (s.ph === 'notes' ? null : s.ph) : 'notes' }, () => this.reveal(this.moreRef.current, 8)); } })), moreOpen: !!s.moreOpen, moreCur: get(s.more) || {}, moreId: s.more || '',
       phOpen: get(s.ph), moOpen: get(s.mo), phHome: home('ph'), moHome: home('mo'),
       hasFocus: !!focus, focus: focus || {}, drawerAside: !!s.drawer && !!focus && !mob, drawerInline: !!s.drawer && !!focus && mob,
       inlineBox: { gridColumn: '1 / -1', order: focus && this.PH.includes(focus.id) ? 0 : 3, padding: '14px 12px 18px', borderTop: '1px solid #262624', borderBottom: '1px solid #262624' }, hasDetails: !!focus && focus.id !== 'notes',

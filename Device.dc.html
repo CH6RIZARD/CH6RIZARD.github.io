@@ -122,7 +122,7 @@ class Component extends DCLogic {
   componentWillUnmount() { if (this.ro) this.ro.disconnect(); clearInterval(this.timer); (this.tm || []).forEach(clearTimeout); removeEventListener('resize', this.fit); }
   renderVals() {
     const s = this.state, pr = this.props, phone = pr.kind === 'phone', o = pr.open || null, id = o && o.id, L = true;
-    const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/search', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
+    const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
     const WEB = { hugo: 'realms/hugo/index.html', revelation: 'https://revelati6n.com' };
     const scr = (x) => ({ items: [], desk: false, web: false, plate: false, src: '', title: '', status: '', label: '', hasLabel: false, ...x });
     let screens = [], gate = false;
