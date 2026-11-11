@@ -98,8 +98,8 @@ td a{color:var(--blue);text-decoration:none}td a:hover{text-decoration:underline
 <div class="card"><h2>CONTACTS</h2><div style="overflow:auto"><table id="contacts"></table></div></div>
 </main><script>
 const D=__DATA__;const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-$('built').textContent=PUB?'Updated '+D.built+' (refreshes every 2 hours automatically).':'Built '+D.built+'. Re-run build_dashboard.py to refresh.';
 const PUB=D.public;if(PUB)$('ttl').textContent='Role radar: early-career software, simulation and AI roles';
+$('built').textContent=PUB?'Updated '+D.built+' (refreshes every 2 hours automatically).':'Built '+D.built+'. Re-run build_dashboard.py to refresh.';
 const K=D.kpi,items0=[['roles','Roles found to date'],['open_now','Open now'],['new','New today'],['queued','Queued'],['scored','AI scored'],['applied','Applied'],['skipped','Skipped'],['contacted','Contacts sent'],['noroute','No contact route']];
 const items=PUB?items0.filter(i=>['roles','open_now','new'].includes(i[0])):items0;
 $('kpis').innerHTML=items.map(([k,l])=>`<div class="k"><b>${K[k]}</b><span>${l}</span></div>`).join('');
