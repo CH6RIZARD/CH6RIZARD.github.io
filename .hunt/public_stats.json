@@ -1,17 +1,17 @@
 {
- "built": "2026-11-11 17:52",
+ "built": "2026-11-11 18:03",
  "applications": {
-  "applied": 39,
-  "blocked": 90,
-  "skipped": 269,
-  "applied_current_resume": 11,
+  "applied": 44,
+  "blocked": 96,
+  "skipped": 296,
+  "applied_current_resume": 16,
   "applied_old_resume": 28,
   "linkedin_requests_sent": 37,
   "emails_sent": 0,
   "roles_in_queue": 92
  },
  "vc": {
-  "updated": "2026-11-11T17:52:06",
+  "updated": "2026-11-11T18:03:39",
   "goal": {
    "emails_today": 250,
    "dms_today": 100,
@@ -19,16 +19,17 @@
   },
   "emails_today": 480,
   "emails_total": 1064,
-  "dms_sent_today": 70,
+  "dms_sent_today": 76,
   "dms_by_platform_status": {
    "X/Sent": 35,
    "X/Skipped": 51,
-   "X/Blocked": 4,
+   "X/Blocked": 5,
    "linkedin/Skipped": 9,
    "linkedin/Request sent": 29,
    "linkedin/Blocked": 1,
-   "instagram/Sent": 6,
-   "instagram/Skipped": 1
+   "instagram/Sent": 12,
+   "instagram/Skipped": 9,
+   "instagram/Blocked": 2
   },
   "replies_total": 64
  }
