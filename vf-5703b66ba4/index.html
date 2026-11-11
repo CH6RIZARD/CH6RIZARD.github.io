@@ -13,7 +13,7 @@ button{font:inherit;padding:10px 16px;border:0;border-radius:8px;background:#7c8
   const r=await fetch('current.json?'+Date.now(),{cache:'no-store'}); const j=await r.json();
   if(!j.url) throw 0;
   const ok=await fetch(j.url+'/manifest.webmanifest',{mode:'no-cors',cache:'no-store'}).then(()=>true).catch(()=>false);
-  if(!ok){ s.textContent='Your PC looks offline.'; m.textContent='Last address was set '+(j.at||'?')+'. Make sure it is on.'; x.innerHTML='<button onclick="location.reload()">Try again</button>'; return }
+  if(!ok){ s.textContent='Your PC looks offline.'; m.textContent='Last address was set '+(j.at||'?')+'. Retrying automatically every 15 s.'; x.innerHTML='<button onclick="location.reload()">Try again</button>'; setTimeout(()=>location.reload(),15000); return }
   location.replace(j.url+'/?t='+encodeURIComponent(tok));
  }catch{ s.textContent='Could not reach the fleet.'; x.innerHTML='<button onclick="location.reload()">Try again</button>' }
 })();
