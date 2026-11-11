@@ -35,7 +35,8 @@ function resize() {
   camera.fov = 2 * Math.atan(innerHeight / 2 / CFG.perspective) * 180 / Math.PI;
   camera.position.set(0, 0, CFG.perspective); camera.updateProjectionMatrix();
 }
-resize(); addEventListener('resize', () => { resize(); dirty = true; });
+let pageW = document.documentElement.clientWidth;   // cached: a per-frame read after style writes forces a layout
+resize(); addEventListener('resize', () => { resize(); dirty = true; pageW = document.documentElement.clientWidth; });
 const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(-400, 600, 700);
 const rim = new THREE.DirectionalLight(0x3550ff, 2.4); rim.position.set(300, 250, -700);
 scene.add(key, rim, new THREE.HemisphereLight(0xffffff, 0xf1ede4, 1.2));
@@ -839,7 +840,8 @@ function frame(now) {
   // Real time, up to a quarter second per frame: on a slow page (a busy machine draws a few frames a second) he keeps
   // living at the right speed, and in step with REL's clock, instead of moving in slow motion. Physics runs in 50 ms slices.
   const dt = Math.min((now - last) / 1000, 0.25); last = now; t += dt;
-  if ((dirty && now - scanAt > 400) || now - scanAt > 2500) scan();   // not on every scroll frame
+  // not on every scroll frame, and not mid-scroll at all (a full-page layout read then stutters the scroll), unless very stale
+  if ((now - scrolledAt > 250 && ((dirty && now - scanAt > 400) || now - scanAt > 2500)) || now - scanAt > 6000) scan();
   if (!st.floor && !st.air && !st.held && st.mode !== 'climb') { if (!born()) { canvas.style.visibility = 'hidden'; return; } }
   if (window.REL) {   // H10: what REL's contact did to him; he animates it himself
     const hb = window.REL.body('hugo'); st.dazed = hb.dazed > 0; st.carrying = window.REL.body('dove').heldBy === 'hugo';
@@ -864,7 +866,7 @@ function frame(now) {
   st.vxw = st.mode === 'walk' && !st.air ? (st.amt < 0.05 ? 0 : 1) * st.dir * walkSpeed() * (0.35 + 0.65 * st.amt) * (st.spdK || 1) : st.vx;
   const sy = st.y - scrollY;
   if (sy < -CFG.size - 40 || sy > innerHeight + 60) { canvas.style.visibility = 'hidden'; hit.style.display = 'none'; hud.style.opacity = 0; return; }   // alive, just not in view
-  hit.style.display = ''; hit.style.transform = `translate(${Math.round(st.x - scrollX - HALF_W)}px,${Math.round(sy - CFG.size)}px)`;
+  hit.style.display = ''; hit.style.transform = `translate3d(${Math.round(st.x - scrollX - HALF_W)}px,${Math.round(sy - CFG.size)}px,0)`;
   if (st.hover || st.held) {
     hud.style.opacity = 1; hud.style.transform = `translate(${Math.round(st.x - scrollX + HALF_W + 10)}px,${Math.round(sy - CFG.size)}px)`;
     const spd = Math.hypot(st.vx, st.vy);
@@ -915,12 +917,14 @@ function frame(now) {
       if (!best || (d && Math.abs(x - d.x) < Math.abs(best.x - d.x))) best = { x, y }; }
     st.hand = best; }
   // Render only the BOX around him: same camera, cropped with a view offset, and the canvas parked there in page coords.
-  const W = document.documentElement.clientWidth;
+  const W = pageW;
   const ox = Math.max(0, Math.min(W - BOX, Math.round(st.x - scrollX - BOX / 2))), oy = Math.round(sy - CFG.size * 0.5 - BOX / 2);
   camera.setViewOffset(innerWidth, innerHeight, ox, oy, BOX, BOX);
-  canvas.style.transform = `translate(${ox + scrollX}px,${oy + scrollY}px)`; canvas.style.visibility = '';
+  canvas.style.transform = `translate3d(${ox + scrollX}px,${oy + scrollY}px,0)`; if (canvas.style.visibility) canvas.style.visibility = '';
   renderer.render(scene, camera);
 }
-addEventListener('scroll', () => { dirty = true; }, { passive: true });
-new MutationObserver(() => { dirty = true; }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'open', 'style'] });
+let scrolledAt = 0;
+addEventListener('scroll', () => { dirty = true; scrolledAt = performance.now(); }, { passive: true });
+// the agents rewrite their own transforms every frame: those mutations are not page changes and must not trigger a rescan
+new MutationObserver(ms => { if (ms.some(m => m.target !== hit && m.target !== hud && !(m.target.closest && m.target.closest(skipSel)))) dirty = true; }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'open', 'style'] });
 requestAnimationFrame(frame);

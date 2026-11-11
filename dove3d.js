@@ -41,7 +41,8 @@ function resize() {
   camera.fov = 2 * Math.atan(innerHeight / 2 / CFG.perspective) * 180 / Math.PI;
   camera.position.set(0, 0, CFG.perspective); camera.updateProjectionMatrix();
 }
-resize(); addEventListener('resize', resize);
+let pageW = document.documentElement.clientWidth;   // cached: no per-frame layout read
+resize(); addEventListener('resize', () => { resize(); pageW = document.documentElement.clientWidth; });
 
 // Light: soft key from above-left in front, warm paper bounce from below, and a rim in the portfolio's accent blue.
 const key = new THREE.DirectionalLight(0xffffff, 2.4); key.position.set(-400, 600, 700);
@@ -105,10 +106,10 @@ function frame(now) {
   group.rotation.set(st.roll * D2R, st.heading * D2R, -st.pitch * D2R);
   group.scale.set((1 - st.breath * 0.4) * (1 + 0.12 * st.puff), 1 + st.breath, (1 - st.breath * 0.4) * (1 + 0.12 * st.puff));
 
-  const W = document.documentElement.clientWidth, sy = st.y - scrollY;
+  const W = pageW, sy = st.y - scrollY;
   const ox = Math.max(0, Math.min(W - BOX, Math.round(st.x - scrollX - BOX / 2))), oy = Math.round(sy - 20 - BOX / 2);
   camera.setViewOffset(innerWidth, innerHeight, ox, oy, BOX, BOX);
-  canvas.style.transform = `translate(${ox + scrollX}px,${oy + scrollY}px)`;
+  canvas.style.transform = `translate3d(${ox + scrollX}px,${oy + scrollY}px,0)`;
   // Behind cards: st.clip lists the cards (viewport rects) it is flying behind; cut them out of this canvas.
   const c = st.clip && st.clip.length ? `path(evenodd, "M0 0H${BOX}V${BOX}H0Z${st.clip.map(q => `M${q.left - ox} ${q.top - oy}H${q.right - ox}V${q.bottom - oy}H${q.left - ox}Z`).join('')}")` : '';
   if (c !== clip) canvas.style.clipPath = clip = c;
