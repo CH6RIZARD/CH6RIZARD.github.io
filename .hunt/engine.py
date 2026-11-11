@@ -38,19 +38,19 @@ def strip(s):
 
 def gh(s):
     d = get(f'https://boards-api.greenhouse.io/v1/boards/{s}/jobs?content=true')
-    return [dict(co=s, title=j['title'], loc=(j.get('location') or {}).get('name', ''), url=j['absolute_url'], text=strip(j.get('content')), src='greenhouse') for j in (d or {}).get('jobs', [])]
+    return [dict(co=s, title=j['title'], loc=(j.get('location') or {}).get('name', ''), url=j['absolute_url'], text=strip(j.get('content')), src='greenhouse', posted=(j.get('first_published') or j.get('updated_at') or '')[:10]) for j in (d or {}).get('jobs', [])]
 
 
 def lv(s):
     d = get(f'https://api.lever.co/v0/postings/{s}?mode=json')
     return [dict(co=s, title=j['text'], loc=(j.get('categories') or {}).get('location', '') + ' ' + (j.get('workplaceType') or ''), url=j['hostedUrl'],
-                 text=(j.get('descriptionPlain') or '') + ' ' + ' '.join(l.get('text', '') + ' ' + strip(l.get('content', '')) for l in j.get('lists', [])), src='lever') for j in (d or []) if isinstance(j, dict)]
+                 text=(j.get('descriptionPlain') or '') + ' ' + ' '.join(l.get('text', '') + ' ' + strip(l.get('content', '')) for l in j.get('lists', [])), src='lever', posted=(__import__('datetime').datetime.utcfromtimestamp(j['createdAt']/1000).date().isoformat() if j.get('createdAt') else '')) for j in (d or []) if isinstance(j, dict)]
 
 
 def ab(s):
     d = get(f'https://api.ashbyhq.com/posting-api/job-board/{s}?includeCompensation=true')
     return [dict(co=s, title=j['title'], loc=(j.get('location') or '') + ' ' + ('remote' if j.get('isRemote') else ''), url=j.get('jobUrl', ''), text=(j.get('descriptionPlain') or ''),
-                 pay=(j.get('compensation') or {}).get('compensationTierSummary', ''), src='ashby') for j in (d or {}).get('jobs', [])]
+                 pay=(j.get('compensation') or {}).get('compensationTierSummary', ''), src='ashby', posted=(j.get('publishedAt') or '')[:10]) for j in (d or {}).get('jobs', [])]
 
 
 def years(text):
@@ -73,15 +73,17 @@ def main():
     keep = []
     for j in jobs:
         t, l = j['title'], j['loc'] or 'remote'
+        if j.get('posted') and j['posted'] < (date.today() - __import__('datetime').timedelta(days=30)).isoformat():
+            continue   # older than 30 days: skip, newer postings only
         if BADT.search(t) or NONSW.search(t) or not ROLE.search(t) or not CITY.search(l):
             continue
         y = years(j['text'])
-        if y > 2 or not (ENTRY.search(t) or y in (1, 2) or re.search(r'0-?2 years|entry.level|new grad|recent graduate|early career', j['text'][:3000], re.I)):
+        if y > 3 or not (ENTRY.search(t) or y in (0, 1, 2, 3) or re.search(r'0-?2 years|entry.level|new grad|recent graduate|early career', j['text'][:3000], re.I)):
             continue
         score = sum(w for r, w in FITR if r.search(t + ' ' + j['text'][:5000]))
         pay = j.get('pay') or ', '.join(re.findall(r'\$\s?\d{2,3},\d{3}\s*(?:-|to|–)\s*\$\s?\d{2,3},\d{3}', j['text'])[:1])
-        keep.append(dict(tier=1 if j['co'].lower() in ELITE else 0, score=score, company=j['co'], title=t, location=j['loc'].strip(), pay=pay, min_years=y, url=j['url'], source=j['src'], desc=j['text'][:1800]))
-    keep.sort(key=lambda k: (k['tier'], -k['score']))   # realistic first, elite-bar companies last
+        keep.append(dict(tier=1 if j['co'].lower() in ELITE else 0, score=score, company=j['co'], title=t, location=j['loc'].strip(), pay=pay, posted=j.get('posted', ''), min_years=y, url=j['url'], source=j['src'], desc=j['text'][:1800]))
+    keep.sort(key=lambda k: (k['tier'], k['posted'] == '', [-ord(c) for c in k['posted']], -k['score']))   # realistic first, elite-bar companies last
     keep_all = list(keep)
     cnt = {}
     capped = []
@@ -93,7 +95,7 @@ def main():
     today = date.today().isoformat()
     for k in keep:
         k['first_seen'] = seen.setdefault(k['url'], today)
-    cols = ['tier', 'score', 'company', 'title', 'location', 'pay', 'min_years', 'url', 'source', 'first_seen']
+    cols = ['tier', 'score', 'company', 'title', 'location', 'pay', 'posted', 'min_years', 'url', 'source', 'first_seen']
     for name, rows in (('jobs_all.csv', keep), ('jobs_new_today.csv', [k for k in keep if k['first_seen'] == today])):
         with open(name, 'w', newline='', encoding='utf-8') as f:
             w = csv.DictWriter(f, fieldnames=cols, extrasaction='ignore')
