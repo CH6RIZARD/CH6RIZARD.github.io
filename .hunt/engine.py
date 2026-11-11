@@ -12,6 +12,7 @@ SLUGS = {
 CITY = re.compile(r"\b(remote|new york|nyc|brooklyn|long island|hauppauge|melville|bohemia|ronkonkoma|islandia|farmingdale|bethpage|plainview|hicksville|garden city|uniondale|westbury|huntington|smithtown|stony brook|port jefferson|riverhead|syosset|jericho|great neck|lake success|brookville|greenvale|mineola|bay shore|commack|deer park|yaphank|upton|greenlawn|northport|oyster bay|"
                   r"austin|dallas|plano|frisco|irving|addison|richardson|arlington|denton|mckinney|southlake|las colinas|carrollton|lewisville|allen|coppell|fort worth|houston|the woodlands|sugar land|katy|pearland|webster|clear lake|san antonio|round rock|cedar park|georgetown|waco|college station|lubbock|el paso|corpus christi|texas|, tx|"
                   r"oklahoma|tulsa|norman|edmond|, ok\b|miami|fort lauderdale|boca raton|doral|orlando|tampa|jacksonville|florida|, fl\b|atlanta|alpharetta|marietta|norcross|duluth|kennesaw|georgia|, ga)\b", re.I)
+NONUS = re.compile(r"\b(uk|united kingdom|london|england|poland|germany|berlin|munich|india|bangalore|mexico|apac|emea|europe|canada|toronto|vancouver|ireland|dublin|france|paris|spain|netherlands|amsterdam|sweden|singapore|australia|sydney|japan|tokyo|brazil|israel|tel aviv|china|korea|philippines|colombia|argentina|lithuania|portugal|switzerland|zurich)\b", re.I)
 BADT = re.compile(r"(senior|sr\.|staff|principal|lead\b|director|manager|head of|vp\b|architect|intern\b|internship|phd|distinguished|fellow|\biii\b|\biv\b|\bv\b|level [3-9]|l[4-9]\b)", re.I)
 ENTRY = re.compile(r"(new grad|new college grad|university|early career|entry|junior|jr\.?\b|associate|graduate|apprentice|resident|software engineer i\b|engineer i\b|developer i\b|software engineer 1|engineer 1\b|level 1|swe i\b|\b2027\b|\b2026\b)", re.I)
 ROLE = re.compile(r"(software|developer|engineer|programmer|machine learning|ml |ai |data|backend|front.?end|full.?stack|simulation|robotic|graphics|game|mobile|ios|android|platform|infrastructure|devops|sre|security|forward deployed)", re.I)
@@ -75,6 +76,8 @@ def main():
         t, l = j['title'], j['loc'] or 'remote'
         if j.get('posted') and j['posted'] < (date.today() - __import__('datetime').timedelta(days=30)).isoformat():
             continue   # older than 30 days: skip, newer postings only
+        if NONUS.search(l):
+            continue   # remote roles tied to another country are not his
         if BADT.search(t) or NONSW.search(t) or not ROLE.search(t) or not CITY.search(l):
             continue
         y = years(j['text'])
