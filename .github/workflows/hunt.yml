@@ -1,7 +1,7 @@
 name: Role radar refresh
 on:
   schedule:
-    - cron: '7,37 * * * *'
+    - cron: '*/6 * * * *'
   workflow_dispatch:
 permissions:
   contents: write
