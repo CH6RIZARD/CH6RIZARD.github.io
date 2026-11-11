@@ -576,7 +576,7 @@ body.simple>section,body.simple>footer,body.simple>.mindex{display:none!importan
       <div class="panes">
         <div class="stage desk" data-tab="maren" data-src="https://live-maren.com/" data-allow=""><div class="tools"><a href="https://live-maren.com/" target="_blank" rel="noopener">Open</a></div></div>
         <div class="stage desk" data-tab="sly" data-src="realms/sly/index.html" data-allow="" hidden><div class="tools"><a href="realms/sly/index.html" target="_blank" rel="noopener">Open</a></div></div>
-        <div class="stage desk" data-tab="impact" data-src="realms/impact/index.html" data-allow="" hidden><div class="tools"><a href="realms/impact/index.html" target="_blank" rel="noopener">Open</a></div></div>
+        <div class="stage desk" data-tab="impact" data-src="realms/impact/index.html" data-allow="" hidden><div class="tools"><a href="https://shop.impact-threads.com/" target="_blank" rel="noopener">Open</a></div></div>
       </div>
       <div class="chin"><i></i></div>
     </div><div class="foot"></div>
@@ -775,7 +775,7 @@ const load = st => {
   const name = st.closest('section').querySelector('h2').textContent;
   const src = st.dataset.src === '__EZER__' ? EZER_URL : st.dataset.src === '__MORGAN__' ? MORGAN_URL : st.dataset.src === '__VOID__' ? VOID_URL : st.dataset.src;
   // The two app builds route from their own URL root; on the artifact copy there is no such host yet.
-  if (!LOCAL && /^__/.test(st.dataset.src)) { st.dataset.label = name + ' runs at its own address. Open the local build or the deployed app.'; st.classList.add('unavailable'); return; }
+  if (!LOCAL && /^__/.test(st.dataset.src) && /\.example\/|ezersaves\.com/.test(src)) { st.dataset.label = name + ' runs at its own address. Open the local build or the deployed app.'; st.classList.add('unavailable'); return; }
   const f = document.createElement('iframe');
   // app builds: a build stamp on the URL so a browser never shows a stale copy of the app shell
   f.src = /^__/.test(st.dataset.src) ? src + (src.includes('?') ? '&' : '?') + 'b=' + BUILD : src; f.allow = st.dataset.allow || ''; f.title = name;
@@ -786,7 +786,7 @@ const load = st => {
 for (const st of document.querySelectorAll('.stage[data-src]')) st.dataset.label = 'loading ' + st.closest('section').querySelector('h2').textContent + '…';
 (() => {
   const b = document.querySelector('.browser'); if (!b) return;
-  const URL = { maren: 'https://live-maren.com/', sly: 'realms/sly/index.html', impact: 'realms/impact/index.html' };
+  const URL = { maren: 'https://live-maren.com/', sly: 'realms/sly/index.html', impact: 'https://shop.impact-threads.com/' };
   const pick = id => {
     b.dataset.store = id;
     for (const t of b.querySelectorAll('.tabs [data-tab]')) t.setAttribute('aria-selected', t.dataset.tab === id);
