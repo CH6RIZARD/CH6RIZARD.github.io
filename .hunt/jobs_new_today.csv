@@ -3,22 +3,33 @@ tier,score,company,title,location,pay,posted,min_years,url,source,first_seen
 0,2,launchdarkly,"Security Analyst - Governance, Risk, and Compliance",Remote - US,"$152,900 - $210,210",2026-11-10,0,https://job-boards.greenhouse.io/launchdarkly/jobs/8039312003,greenhouse,2026-11-11
 0,14,notion,"Software Engineer, Web Infrastructure","San Francisco, California remote","$150,000 - $168,000",2026-11-09,0,https://jobs.ashbyhq.com/notion/06c2599d-4dd5-4f97-843f-7194b546f042,ashby,2026-11-11
 0,13,elevenlabs,Full-Stack Engineer - ElevenAPI,Remote remote,,2026-11-09,0,https://jobs.ashbyhq.com/ElevenLabs/108c99e6-ba2b-44a0-b830-7d535e14a152,ashby,2026-11-11
+0,11,descript,AI Growth Specialist (BDR),"San Francisco, CA or Remote, US",,2026-11-09,3,https://boards.greenhouse.io/descript/jobs/8109681003?gh_jid=8109681003,greenhouse,2026-11-11
 0,6,ramp,"Software Engineer, Backend, Comms Platform",Remote (US) remote,$172K – $280K • Offers Equity • Offers Bonus,2026-11-09,0,https://jobs.ashbyhq.com/ramp/939892e5-5273-4bfc-8c41-a6c51cabb228,ashby,2026-11-11
 0,3,gitlab,Professional Services Engineer - KSA,"Remote, KSA",,2026-11-09,0,https://job-boards.greenhouse.io/gitlab/jobs/8928253002,greenhouse,2026-11-11
+0,17,tenstorrent,"Engineer, CPU Performance Verification","Austin, Texas, United States; Santa Clara, California, United States",,2026-11-08,0,https://job-boards.greenhouse.io/tenstorrent/jobs/5284404007,greenhouse,2026-11-11
 0,14,samsara,Firmware Engineer ,"Remote - Austin; Remote - Seattle; San Francisco, CA, United States",,2026-11-06,2,https://www.samsara.com/company/careers/roles/8359978?gh_jid=8359978,greenhouse,2026-11-11
 0,13,abnormalsecurity,"Software Engineer II, Attack Detection",Remote - USA,,2026-11-06,2,https://abnormal.ai/careers/jobs/8197230003?gh_jid=8197230003,greenhouse,2026-11-11
+0,11,tanium,Applied AI Engineer II,"Addison, TX (Hybrid); Durham, NC (Hybrid)","$154,000 to $236,000",2026-11-06,3,https://job-boards.greenhouse.io/tanium/jobs/8335147,greenhouse,2026-11-11
 0,11,elevenlabs,IT Support Engineer,New York remote,,2026-11-06,0,https://jobs.ashbyhq.com/ElevenLabs/750a8325-7ce1-45ea-b0b1-61dab78a456e,ashby,2026-11-11
-0,6,posthog, Technical Support Engineer,Remote remote,,2026-11-06,0,https://jobs.ashbyhq.com/PostHog/db808740-242e-4a40-ad43-d41f26c049d7,ashby,2026-11-11
 0,6,prefect,Security & IT Operations Engineer ,Remote remote,$149K – $219K • Offers Equity • Multiple Ranges,2026-11-06,0,https://jobs.ashbyhq.com/prefect/6bc102cc-112f-441f-adc8-d53dc83a93ec,ashby,2026-11-11
+0,6,posthog, Technical Support Engineer,Remote remote,,2026-11-06,0,https://jobs.ashbyhq.com/PostHog/db808740-242e-4a40-ad43-d41f26c049d7,ashby,2026-11-11
 0,2,samsara,Security Operations Engineer I,Remote - CA,,2026-11-06,0,https://www.samsara.com/company/careers/roles/8353283?gh_jid=8353283,greenhouse,2026-11-11
+0,14,betterment,Mobile Engineer,Betterment HQ - New York City,"$140,000 - $160,000",2026-11-05,0,https://www.betterment.com/careers/current-openings/job?gh_jid=8356891&gh_jid=8356891,greenhouse,2026-11-11
+0,13,cerebras,Developer Relations,"Sunnyvale, CA remote",,2026-11-05,0,https://jobs.ashbyhq.com/cerebras/ae958e4c-2f4b-43e6-bdbd-47ab32b80e03,ashby,2026-11-11
 0,8,roblox,Developer Engagement Team  (Contract),Remote,,2026-11-05,0,https://careers.roblox.com/jobs/8357783?gh_jid=8357783,greenhouse,2026-11-11
+0,8,fly,AI-Native Detection and Triage Engineer,Remote remote,,2026-11-05,0,https://jobs.lever.co/fly/7a425cd7-471d-4373-a96b-80ca84ce83fc,lever,2026-11-11
+0,7,coreweave,"Data Center Technician - Miami, FL","Miami, FL","$65,000 to $85,000",2026-11-05,0,https://coreweave.com/careers/job?4727033006&board=coreweave&gh_jid=4727033006,greenhouse,2026-11-11
+0,4,fly,Platform Security Engineer,Remote remote,,2026-11-05,0,https://jobs.lever.co/fly/93fa7e55-5cb4-4b59-a4bc-569e3ac9c8ea,lever,2026-11-11
 0,0,gitlab,Customer Success Engineer,"Remote, United States",,2026-11-05,0,https://job-boards.greenhouse.io/gitlab/jobs/8931347002,greenhouse,2026-11-11
 0,13,render,Cloud - Bare Metal Infrastructure Engineer,Remote: United States remote,$230K – $290K • Offers Equity,2026-11-04,0,https://jobs.ashbyhq.com/render/a22230e6-803d-4e2e-82f8-ff5f500cdc3d,ashby,2026-11-11
+0,13,cerebras,AI Engineer,"Sunnyvale, CA remote",,2026-11-04,0,https://jobs.ashbyhq.com/cerebras/c6f607ce-306c-4deb-8825-4175201a7cd4,ashby,2026-11-11
 0,12,empowerpharmacy,Associate Software Engineer – Full Stack,"Houston, TX",,2026-11-04,0,https://careers.empowerpharmacy.com/jobs/?gh_jid=4479712009,greenhouse,2026-11-11
 0,15,pariveda,Software Engineer,Bogota remote,COP 9.3M – COP 10.6M per month,2026-11-03,0,https://jobs.ashbyhq.com/pariveda/a588c9fa-0137-46d6-bc9b-6ae142f9345b,ashby,2026-11-11
 0,13,elevenlabs,Full-Stack Engineer (Frontend Leaning) - Studio,Remote remote,,2026-11-03,0,https://jobs.ashbyhq.com/ElevenLabs/e6924f60-c8cc-42b3-9d05-2442ec30e12d,ashby,2026-11-11
 0,12,ramp,"Research Engineer, Benchmarks & Evaluation","New York, NY (HQ) remote",$204.4K – $352K • Offers Equity,2026-11-03,0,https://jobs.ashbyhq.com/ramp/d8925f84-562f-470c-a5bd-4f6c20009361,ashby,2026-11-11
 0,11,toast,"Software Engineer II, Backend",Remote US,,2026-11-03,2,https://careers.toasttab.com/jobs?gh_jid=8334794,greenhouse,2026-11-11
+0,10,esri,Incident Response Product Security Engineer II,"Remote Eligible, US",,2026-11-03,2,https://www.esri.com/careers/5282912007?gh_jid=5282912007,greenhouse,2026-11-11
+0,9,headway,Security Engineer (Detection & Response),Remote remote,"$182,750 – $215,000 • Offers Equity",2026-11-03,2,https://jobs.ashbyhq.com/headway/373a16fe-81e1-4cf9-8966-43bc16d921fa,ashby,2026-11-11
 0,4,cribl,"Customer Success Engineer, West Region","Remote - Denver, Colorado",,2026-11-03,0,https://cribl.io/job-detail/?gh_jid=6240800004,greenhouse,2026-11-11
 0,17,elevenlabs,Full-Stack Engineer (Backend Leaning) - Payments Engineering,Remote remote,,2026-11-02,0,https://jobs.ashbyhq.com/ElevenLabs/e4e0450f-d139-4f8e-b210-2f326a680d90,ashby,2026-11-11
 0,14,elevenlabs,Mobile Engineer - ElevenMusic,Remote remote,,2026-11-02,0,https://jobs.ashbyhq.com/ElevenLabs/1b90a2b2-1352-458d-b2b7-3900f6e02df5,ashby,2026-11-11
@@ -31,41 +42,87 @@ tier,score,company,title,location,pay,posted,min_years,url,source,first_seen
 0,4,replit,"Support Engineer I (NYC, Weekend Shift)",NYC (SoHo) remote,$110K – $140K • Offers Equity,2026-11-02,0,https://jobs.ashbyhq.com/replit/4e64e46f-f69d-4454-89b6-bd27302a464d,ashby,2026-11-11
 0,0,carvana,Security Systems Project & Integration Specialist,"Atlanta, GA",,2026-11-02,2,https://www.carvana.com/careers/apply?gh_jid=8348090,greenhouse,2026-11-11
 0,13,airbyte,Customer Support Developer (Databases),United States remote,$99K – $115K • Offers Equity,2026-10-30,0,https://jobs.ashbyhq.com/airbyte/9d81a132-966b-4f37-b198-d950e23a7765,ashby,2026-11-11
+0,4,dust,Partnerships Solutions Engineer ,New York remote,$240K – $300K,2026-10-30,0,https://jobs.ashbyhq.com/dust/7207f358-42a5-4c4d-b7ee-142b1d9dba04,ashby,2026-11-11
+0,19,hellofresh,WMS Software Engineer [OPERATIONS TECHNOLOGY],"Goodyear, AZ, United States; Irving, TX, United States; Phoenix, AZ, United States",,2026-10-29,2,https://careers.hellofresh.com/global/en/job/8334962?gh_jid=8334962,greenhouse,2026-11-11
+0,19,hellofresh,WMS Software Engineer [OPERATIONS TECHNOLOGY],"New York, NY, United States; Newark, NJ, United States",,2026-10-29,2,https://careers.hellofresh.com/global/en/job/8313385?gh_jid=8313385,greenhouse,2026-11-11
 0,19,inngest,Developer Success Engineer,San Francisco remote,$130K – $170K • Offers Equity,2026-10-29,0,https://jobs.ashbyhq.com/inngest/33b9f4ae-3be8-4a00-8548-8a00c276fd88,ashby,2026-11-11
 0,11,elevenlabs,Full-Stack Engineer - ElevenCreative Enterprise,Remote remote,,2026-10-29,0,https://jobs.ashbyhq.com/ElevenLabs/34dbe44c-9815-40b2-81f4-91c607fd84b2,ashby,2026-11-11
+0,7,oscar,Provider Data Operations Supervisor,Remote,"$72,036 - $85,000",2026-10-29,2,https://oscarhealth.com/careers/jobs?gh_jid=8334720,greenhouse,2026-11-11
 0,7,motional,Perception Engineer ,"Boston, Massachusetts, United States; Remote U.S.","$165,000 to $197,698",2026-10-29,0,https://motional.com/open-positions/?gh_jid=8081593003#/8081593003,greenhouse,2026-11-11
-0,10,twilio,Machine Learning Engineer 2,Remote - US,"$128,560 - $160,700",2026-10-28,0,https://job-boards.greenhouse.io/twilio/jobs/8240487,greenhouse,2026-11-11
+0,4,zocdoc,Data Scientist,"New York, NY","$165,000 – $175,000",2026-10-29,2,https://job-boards.greenhouse.io/zocdoc/jobs/8335345,greenhouse,2026-11-11
+0,2,saucelabs,Data Center Engineer,"Atlanta, GA",,2026-10-29,2,https://job-boards.greenhouse.io/saucelabs/jobs/8334168,greenhouse,2026-11-11
+0,14,commure,"Ambulatory AI Specialist, East Coast",United States remote,$150K,2026-10-28,3,https://jobs.ashbyhq.com/Commure/a69ed52b-e2c4-4328-900e-bc5a1bec2a82,ashby,2026-11-11
+0,12,checkly,"Support Engineer (DevTools & AI Reliability, remote)",Eastern Time zone remote,$43K – $87K • Offers Equity • Multiple Ranges,2026-10-28,0,https://jobs.ashbyhq.com/checkly/0d236bb0-f860-4317-bc1c-84fed94d0f5a,ashby,2026-11-11
 0,10,carvana,Security Guard - ADESA Tulsa,"Tulsa, OK",,2026-10-28,2,https://www.carvana.com/careers/apply?gh_jid=8331466,greenhouse,2026-11-11
+0,10,twilio,Machine Learning Engineer 2,Remote - US,"$128,560 - $160,700",2026-10-28,0,https://job-boards.greenhouse.io/twilio/jobs/8240487,greenhouse,2026-11-11
+0,16,scribe,"Backend Engineer, Data Ingestion",San Francisco remote,$140K – $215K • Offers Equity,2026-10-27,2,https://jobs.ashbyhq.com/scribe/d8e906b1-3f7f-4406-a313-c7b5b713709f,ashby,2026-11-11
 0,14,elevenlabs,iOS Engineer - Creative App,Remote remote,,2026-10-27,0,https://jobs.ashbyhq.com/ElevenLabs/815547bf-0ade-482d-84b0-4163ab1161e5,ashby,2026-11-11
+0,13,generate,"Software Engineer, Data","San Francisco, CA - Hybrid remote","$130,000 - $160,000",2026-10-27,3,https://jobs.ashbyhq.com/generate/91d20c40-c3e8-46f2-bea8-a42b565e31c8,ashby,2026-11-11
+0,9,baseten,Software Engineer - Storage Systems (Agent Infra),San Francisco remote,$160K – $330K • Offers Equity,2026-10-27,0,https://jobs.ashbyhq.com/baseten/ed8ab178-e7a4-4524-8714-7ef55d574c7d,ashby,2026-11-11
 0,8,affirm,Software Engineer II - CIAM,Remote US,"$165,000 - $225,000",2026-10-27,0,https://job-boards.greenhouse.io/affirm/jobs/8040751003,greenhouse,2026-11-11
 0,14,elevenlabs,Android Engineer - Creative App,Remote remote,,2026-10-26,0,https://jobs.ashbyhq.com/ElevenLabs/b380fb97-bb18-46a5-91db-5132e6693e93,ashby,2026-11-11
 0,13,branch,Data Engineer,"Remote, US",,2026-10-26,3,https://job-boards.greenhouse.io/branch/jobs/8044391003,greenhouse,2026-11-11
+0,9,oscar,Operations Engineer I,"New York, New York, United States","$106,812 - $140,191",2026-10-26,1,https://oscarhealth.com/careers/jobs?gh_jid=8301410,greenhouse,2026-11-11
+0,9,oscar,Operations Engineer II,"New York, New York, United States","$135,792 - $178,227",2026-10-26,3,https://oscarhealth.com/careers/jobs?gh_jid=8302024,greenhouse,2026-11-11
+0,9,baseten,Software Engineer - Networking (Agent Infra),San Francisco remote,$160K – $330K • Offers Equity,2026-10-26,0,https://jobs.ashbyhq.com/baseten/d7e9ee32-dee8-459f-9d8a-538d65df51ae,ashby,2026-11-11
+0,6,baseten,Software Engineer - Compute & Isolation,San Francisco remote,$165K – $330K • Offers Equity,2026-10-26,0,https://jobs.ashbyhq.com/baseten/7c0ba27d-2f09-42f2-9277-1b756076b00b,ashby,2026-11-11
+0,4,runpod,Technical Support Engineer (L1),Remote - USA remote,"$55,000 - $73,300",2026-10-26,2,https://jobs.ashbyhq.com/runpod/f9f9e6f1-4203-4ea9-a9b4-4a108e684372,ashby,2026-11-11
 0,12,reddit,"Software Engineer, Ad Signals",Remote - United States,,2026-10-24,0,https://job-boards.greenhouse.io/reddit/jobs/8319655,greenhouse,2026-11-11
 0,9,supabase,Data API Engineer,"Remote, Global remote",,2026-10-24,3,https://jobs.ashbyhq.com/supabase/950e8ffc-79a5-4626-b1dd-115fcbcddad0,ashby,2026-11-11
+0,13,calm,Software Development Engineer in Test ,"Remote, United States",,2026-10-23,3,https://job-boards.greenhouse.io/calm/jobs/8912981002,greenhouse,2026-11-11
+0,13,gorgias,GTM Engineer - Growth,Belgrade remote,"€58,140 – €74,577 • 0.003% – 0.009%",2026-10-23,3,https://jobs.ashbyhq.com/gorgias/d9e8e70f-ad5a-4575-8bfc-7fe2f4a59c1e,ashby,2026-11-11
 0,10,waabi,Systems Engineer - Behavior Verification,Remote US remote,,2026-10-23,0,https://jobs.lever.co/waabi/5964c6a7-8232-4ee5-b20d-3309ccd67d6f,lever,2026-11-11
 0,9,ziosk,DevOps Engineer (on-site),"Plano, TX",,2026-10-23,0,https://www.ziosk.com/careers?gh_jid=4465558009,greenhouse,2026-11-11
+0,7,coreweave,"Data Center Technician - Douglasville, GA","Douglasville, GA",,2026-10-23,0,https://coreweave.com/careers/job?4724074006&board=coreweave&gh_jid=4724074006,greenhouse,2026-11-11
+0,5,lambda,"Data Center Operations System Engineer II (Plano, TX)","Dallas, TX - Data Center",$89K – $119K,2026-10-23,0,https://jobs.ashbyhq.com/Lambda/a467c9e6-fa5f-45eb-af15-355247650efc,ashby,2026-11-11
+0,17,baseten,Product Platform - Product Engineer,San Francisco remote,$165K – $330K • Offers Equity,2026-10-22,0,https://jobs.ashbyhq.com/baseten/7428d7cc-36d7-4d02-b19a-bd558fba6751,ashby,2026-11-11
+0,16,hostinger,Full Stack Engineer | PHP and Node.js,Vilnius remote,,2026-10-22,2,https://jobs.ashbyhq.com/hostinger/4ff88740-ba6e-4e38-9832-3c0ffd72852b,ashby,2026-11-11
+0,13,baseten,Software Engineer - Billing & Internal Tooling,San Francisco remote,$165K – $330K • Offers Equity,2026-10-22,0,https://jobs.ashbyhq.com/baseten/34fd4416-49f3-4ef7-b9f8-5883f8d0710c,ashby,2026-11-11
 0,10,ramp,"Software Engineer, Forward Deployed, Enterprise Product","New York, NY (HQ) remote",$189K – $330K • Offers Equity,2026-10-22,3,https://jobs.ashbyhq.com/ramp/09360e92-fc95-4ba6-9611-dfefd60b13ce,ashby,2026-11-11
+0,7,coreweave,"Operations Engineer, Fleet Reliability","Plano, TX","$83,000 to $110,000",2026-10-22,0,https://coreweave.com/careers/job?4724187006&board=coreweave&gh_jid=4724187006,greenhouse,2026-11-11
+0,5,veeva,Software Engineer in Test,Massachusetts - Boston remote,"$75,000 - $150,000",2026-10-22,2,https://jobs.lever.co/veeva/0d88dc70-1023-4ee5-a7fe-67eb0b5cb848,lever,2026-11-11
+0,5,veeva,Software Engineer in Test,North Carolina - Raleigh remote,"$75,000 - $150,000",2026-10-22,2,https://jobs.lever.co/veeva/fc5343d1-f637-4729-9ecb-aeb963619e01,lever,2026-11-11
+0,4,baseten,Software Engineer - Partner Platform,San Francisco remote,$165K – $330K • Offers Equity,2026-10-22,0,https://jobs.ashbyhq.com/baseten/08bededd-d362-453e-b014-384a2003cbf1,ashby,2026-11-11
 0,18,supabase,Software Engineer - Turso,"Remote, Global remote",,2026-10-21,0,https://jobs.ashbyhq.com/supabase/7c5eb3fc-1087-4c1c-b3a2-a19fe01dd259,ashby,2026-11-11
 0,16,planetscale,AI Developer Experience Engineer,Remote US,"$170,000 - $220,000",2026-10-21,0,https://job-boards.greenhouse.io/planetscale/jobs/4463390009,greenhouse,2026-11-11
+0,16,tanium,AI Research Scientist,"Addison, TX (Hybrid); Bellevue, WA (Hybrid); Durham, NC (Hybrid); Emeryville, CA (Hybrid); Reston, VA (Hybrid)","$143,000 to $219,000",2026-10-21,1,https://job-boards.greenhouse.io/tanium/jobs/8232146,greenhouse,2026-11-11
 0,16,elevenlabs,IT Engineer,Remote remote,,2026-10-21,0,https://jobs.ashbyhq.com/ElevenLabs/9aca205e-b2bc-405b-85d6-3d2aadbe49b1,ashby,2026-11-11
 0,14,notion,"Growth Engineer, Startups & SMBs","New York, New York remote","$150,000 - $180,000",2026-10-21,2,https://jobs.ashbyhq.com/notion/45f60d0e-e44f-40c5-985e-4096a8966860,ashby,2026-11-11
 0,13,affirm,"Analyst, Early Career (Full Stack)","New York, New York, United States; San Francisco, California, United States",,2026-10-21,0,https://job-boards.greenhouse.io/affirm/jobs/8039471003,greenhouse,2026-11-11
+0,12,onetrust,AI Systems Engineer,"Atlanta, Georgia",,2026-10-21,0,https://job-boards.greenhouse.io/onetrust/jobs/8301165,greenhouse,2026-11-11
+0,11,pinecone,"Full-Stack Software Engineer, Experience",New York City remote,$165K – $190K • Offers Equity,2026-10-21,2,https://jobs.ashbyhq.com/pinecone/08760530-e6c3-4167-9272-923d85a2388d,ashby,2026-11-11
 0,10,verkada,"Enterprise Solutions Engineer, State","Oklahoma City, OK United States",,2026-10-21,3,https://job-boards.greenhouse.io/verkada/jobs/5271481007,greenhouse,2026-11-11
+0,0,ashby,Demo Engineer ,Remote - US remote,$130K – $184K • Offers Equity • Multiple Ranges,2026-10-21,0,https://jobs.ashbyhq.com/Ashby/1d7ac90f-ce1c-41ed-9c5b-b0dc8e561a39,ashby,2026-11-11
+0,21,astra,Backend Engineer,Remote - US Only remote,$125K – $160K • Offers Equity,2026-10-20,3,https://jobs.ashbyhq.com/astra/c34d486b-4fc9-4c24-8a18-577fcd6d5194,ashby,2026-11-11
+0,18,quora,"Full Stack Software Engineer, New Grad - Quora (Remote)",Remote - Multiple Locations remote,"$97,600 - $139,000",2026-10-20,0,https://jobs.ashbyhq.com/quora/5494e6a1-a973-46af-b9f3-57208eb91b52,ashby,2026-11-11
+0,13,future,Applied AI Engineer,Remote,"$ 215,000– $ 250,000",2026-10-20,0,https://job-boards.greenhouse.io/future/jobs/4745515005,greenhouse,2026-11-11
+0,12,patreon,"Software Engineer, Backend",New York remote,$189K – $255.5K • Offers Equity,2026-10-20,3,https://jobs.ashbyhq.com/patreon/2c79ab4b-6479-451d-bbac-e2e2fb0dc911,ashby,2026-11-11
 0,9,seatgeek,Helpdesk Automation Engineer,"New York, New York","$95,000 - $137,000",2026-10-20,3,https://seatgeek.com/jobs/8304201?gh_jid=8304201,greenhouse,2026-11-11
+0,7,coreweave,"Data Center Technician - Douglasville, GA","Douglasville, GA",,2026-10-20,0,https://coreweave.com/careers/job?4723562006&board=coreweave&gh_jid=4723562006,greenhouse,2026-11-11
 0,6,ramp,"Software Engineer, Backend, AI Spend Management","New York, NY (HQ) remote",$204K – $280K • Offers Equity,2026-10-20,0,https://jobs.ashbyhq.com/ramp/b7514711-8a29-4bd2-a97a-967be14e336f,ashby,2026-11-11
+0,4,esri,GIS Solution Engineer - Local Government (New York),"New York, New York, United States",,2026-10-20,1,https://www.esri.com/careers/5267626007?gh_jid=5267626007,greenhouse,2026-11-11
 0,2,geotab,Site Reliability Engineering,Remote - US,,2026-10-20,3,https://job-boards.greenhouse.io/geotab/jobs/5453858008,greenhouse,2026-11-11
-0,11,notion,"Software Engineer, Developer Platform","San Francisco, California remote","$150,000 – $200,000",2026-10-19,2,https://jobs.ashbyhq.com/notion/8c0bf773-e536-45c9-9a6c-8ee478148cc8,ashby,2026-11-11
 0,11,ramp,Technical Sourcer | Engineering (Contract),"New York, NY (HQ) remote",$90K – $150K,2026-10-19,2,https://jobs.ashbyhq.com/ramp/e8e96e0c-3780-42ed-8297-1ccfa505cd94,ashby,2026-11-11
+0,11,notion,"Software Engineer, Developer Platform","San Francisco, California remote","$150,000 – $200,000",2026-10-19,2,https://jobs.ashbyhq.com/notion/8c0bf773-e536-45c9-9a6c-8ee478148cc8,ashby,2026-11-11
+0,10,cerebras,"Infrastructure Systems Engineer – Linux, Storage & Automation ","Sunnyvale, CA remote",,2026-10-19,0,https://jobs.ashbyhq.com/cerebras/dbb21f89-1e93-4142-99da-8fe7c5d62e8b,ashby,2026-11-11
 0,9,abnormalsecurity,Software Engineer 1 - Cloud Infrastructure,Remote - USA,,2026-10-17,1,https://abnormal.ai/careers/jobs/8015179003?gh_jid=8015179003,greenhouse,2026-11-11
 0,17,justworks,"Software Engineer, Solutions Engineering","New York, New York","$131,000 - $169,000",2026-10-16,2,https://boards.greenhouse.io/justworks/jobs/8286381?gh_jid=8286381,greenhouse,2026-11-11
 0,15,supabase,SDK Engineer - Python,"Remote, Global remote",,2026-10-16,0,https://jobs.ashbyhq.com/supabase/b65287c7-2071-4bc6-8717-58c090e2a372,ashby,2026-11-11
 0,15,affirm,"Software Engineer I, Fullstack (Search)",Remote US,"$130,000 - $180,000",2026-10-15,0,https://job-boards.greenhouse.io/affirm/jobs/8017340003,greenhouse,2026-11-11
 0,11,garnerhealth,Data Engineer II,"New York City, New York","$ 138,000 - $160,000",2026-10-15,2,https://job-boards.greenhouse.io/garnerhealth/jobs/6225499004,greenhouse,2026-11-11
+0,8,quora,"Machine Learning Engineer, New Grad - Quora (Remote)",Remote - Multiple Locations remote,"$107,360 - $152,900",2026-10-15,0,https://jobs.ashbyhq.com/quora/40659fe7-545e-4b08-b6d7-2567b18b9ed3,ashby,2026-11-11
+0,0,vultr,Technical Support Engineer,Remote - United States remote,,2026-10-15,3,https://jobs.ashbyhq.com/Vultr/3a01ed6f-b8a3-4897-b8dd-ccd332ebd71f,ashby,2026-11-11
 0,15,reddit,Analytics Engineer,Remote - United States,,2026-10-14,3,https://job-boards.greenhouse.io/reddit/jobs/8282760,greenhouse,2026-11-11
 0,13,elevenlabs,Forward Deployed Engineer - Software Engineer - USA,San Francisco remote,,2026-10-14,0,https://jobs.ashbyhq.com/ElevenLabs/6c4c57c1-ec72-42ba-af3a-eb7aebbde2e6,ashby,2026-11-11
+0,12,virtu,Weekend Systems Engineer,"Austin, TX",,2026-10-14,1,https://job-boards.greenhouse.io/virtu/jobs/8885314002,greenhouse,2026-11-11
 0,10,supabase,FinOps Data Engineer ,"Remote, Global",,2026-10-14,0,https://jobs.ashbyhq.com/supabase/73ddf93b-fe0c-455d-ba27-cdde0d3fb94f,ashby,2026-11-11
+0,6,latent,Security Engineer,New York City remote,$200K – $240K • Offers Equity,2026-10-14,0,https://jobs.ashbyhq.com/latent/64e0ffe0-dff1-4efa-8ec0-11da43a18e6d,ashby,2026-11-11
+0,21,substack,Full Stack Software Engineer - Payments,San Francisco (HQ) remote,"$140,000 - $260,000",2026-10-13,3,https://jobs.ashbyhq.com/substack/64738c2b-f929-4f4e-b9c4-4adc1dc14097,ashby,2026-11-11
 0,12,supabase,Platform Engineer - Compute,"Remote, Global",,2026-10-13,3,https://jobs.ashbyhq.com/supabase/6b314e83-6617-49fc-8c73-021ebae9a757,ashby,2026-11-11
+0,10,onetrust,Web Developer — React & Next.js,"Atlanta, Georgia",,2026-10-13,3,https://job-boards.greenhouse.io/onetrust/jobs/8244284,greenhouse,2026-11-11
 0,8,modal,GTM Engineer - Data Platform,New York,$200K – $220K,2026-10-13,0,https://jobs.ashbyhq.com/modal/dd6fe63b-8265-474e-b1f0-fcc1c5a28daf,ashby,2026-11-11
+0,7,veeva,Associate QA Engineer,Massachusetts - Boston remote,"$ 85,000 - $110,000",2026-10-13,2,https://jobs.lever.co/veeva/a35bb73f-41fb-4a2d-be86-bba12a7d74d8,lever,2026-11-11
+0,5,veeva,Associate DevOps Engineer,Massachusetts - Boston remote,"$ 65,000 - $90,000",2026-10-13,1,https://jobs.lever.co/veeva/7d78e2b9-7916-4d30-b1e4-3ecfb41206e2,lever,2026-11-11
 1,12,spacex,Data Engineer (Starship),"Starbase, TX",,2026-11-11,1,https://boards.greenhouse.io/spacex/jobs/8938027002?gh_jid=8938027002,greenhouse,2026-11-11
 1,12,spacex,Software Engineer (Starship),"Starbase, TX",,2026-11-11,1,https://boards.greenhouse.io/spacex/jobs/8937000002?gh_jid=8937000002,greenhouse,2026-11-11
 1,8,openai,"Partner Applied AI Engineer, Google Cloud ",San Francisco remote,$197K – $278K • Offers Equity,2026-11-11,0,https://jobs.ashbyhq.com/openai/9a57d693-24ad-4457-a408-50617551ea5e,ashby,2026-11-11
