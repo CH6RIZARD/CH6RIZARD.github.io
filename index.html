@@ -490,7 +490,7 @@ body.simple>section,body.simple>footer,body.simple>.mindex{display:none!importan
 <section class="realm" id="void"><div class="wrap">
   <div class="top">
     <div><div class="kicker"><span class="st live">Live cams</span><span class="st">Mobile · social</span></div><h2>THE VOID</h2></div>
-    <div><p class="about">A globe of live public cameras and the loudest arguments on earth, by place. Anonymous by default, no location permission, no GPS: a map of places and topics, not of people. This is the current Expo app build itself, exported for the web and running in a phone against the live backend.</p><p class="how">Tap a nation · live rooms, polls and the feed · anonymous by default</p></div>
+    <div><p class="about">Mobile app on Supabase Postgres with PostGIS and row-level security, HLS live streams, libsignal end-to-end encrypted DMs and an algorithm that uses users' physiological signals to rank for controversy and conspiracy on top of the industry-standard engagement behavioral model. Wrapped in the UI of international news, niche live streams, reels and feeds, and a unique polls and discussion module.</p><p class="how">Tap a nation · live rooms, polls and the feed · anonymous by default</p></div>
   </div>
   <div class="split with-phone">
     <div class="aside">
@@ -562,7 +562,7 @@ body.simple>section,body.simple>footer,body.simple>.mindex{display:none!importan
 <section class="realm" id="impact"><div class="wrap">
   <div class="top">
     <div><div class="kicker"><span class="st live">Live</span><span class="st">Impact Threads · MAREN · Sly Sculpted</span></div><h2>Stores</h2></div>
-    <div><p class="about">Three storefronts I run end to end from one studio: a streetwear brand with its own headless store on the Shopify Storefront API, a travel-goods brand on a static Astro site with Meta ads behind it, and an independent beauty-tech resale store built on mandatory condition disclosure. Same honesty rules everywhere: no fake reviews, no fake scarcity, every claim traceable.</p><p class="how"><a href="https://shop.impact-threads.com/">shop.impact-threads.com</a> · <a href="https://live-maren.com/">live-maren.com</a> · Sly Sculpted</p></div>
+    <div><p class="about">Three storefronts I run end to end from one studio: a streetwear brand with its own headless store on the Shopify Storefront API, a travel-goods brand on a static Astro site with Meta ads behind it, and an independent beauty-tech resale store built on mandatory condition disclosure. Same honesty rules everywhere: no fake reviews, no fake scarcity, every claim traceable.</p><p class="how"><a href="https://impact-threads.com/">impact-threads.com</a> · <a href="https://live-maren.com/">live-maren.com</a> · <a href="https://www.slysculpted.com/">slysculpted.com</a></p></div>
   </div>
   <div class="split with-phone browser" data-store="maren">
     <div>
@@ -575,8 +575,8 @@ body.simple>section,body.simple>footer,body.simple>.mindex{display:none!importan
       <div class="urlbar"><span class="nav">‹ › ↻</span><span class="url">https://live-maren.com/</span></div>
       <div class="panes">
         <div class="stage desk" data-tab="maren" data-src="https://live-maren.com/" data-allow=""><div class="tools"><a href="https://live-maren.com/" target="_blank" rel="noopener">Open</a></div></div>
-        <div class="stage desk" data-tab="sly" data-src="realms/sly/index.html" data-allow="" hidden><div class="tools"><a href="realms/sly/index.html" target="_blank" rel="noopener">Open</a></div></div>
-        <div class="stage desk" data-tab="impact" data-src="realms/impact/index.html" data-allow="" hidden><div class="tools"><a href="https://shop.impact-threads.com/" target="_blank" rel="noopener">Open</a></div></div>
+        <div class="stage desk" data-tab="sly" data-src="https://www.slysculpted.com/" data-allow="" hidden><div class="tools"><a href="https://www.slysculpted.com/" target="_blank" rel="noopener">Open</a></div></div>
+        <div class="stage desk" data-tab="impact" data-src="https://impact-threads.com/" data-allow="" hidden><div class="tools"><a href="https://impact-threads.com/" target="_blank" rel="noopener">Open</a></div></div>
       </div>
       <div class="chin"><i></i></div>
     </div><div class="foot"></div>
@@ -588,8 +588,8 @@ body.simple>section,body.simple>footer,body.simple>.mindex{display:none!importan
     </div>
     <div class="phone-wrap"><div class="phone"><div class="island"></div>
       <div class="screen stage scrollpage" data-tab="maren" data-src="https://live-maren.com/" data-allow=""><button class="enter" type="button"><span>Open MAREN · phone</span></button></div>
-      <div class="screen stage scrollpage" data-tab="sly" data-src="realms/sly/index.html" data-allow="" hidden><button class="enter" type="button"><span>Open Sly Sculpted · phone</span></button></div>
-      <div class="screen stage scrollpage" data-tab="impact" data-src="realms/impact/index.html" data-allow="" hidden><button class="enter" type="button"><span>Open Impact Threads · phone</span></button></div>
+      <div class="screen stage scrollpage" data-tab="sly" data-src="https://www.slysculpted.com/" data-allow="" hidden><button class="enter" type="button"><span>Open Sly Sculpted · phone</span></button></div>
+      <div class="screen stage scrollpage" data-tab="impact" data-src="https://impact-threads.com/" data-allow="" hidden><button class="enter" type="button"><span>Open Impact Threads · phone</span></button></div>
     </div></div>
   </div>
 </div></section>
@@ -764,9 +764,9 @@ document.getElementById('copyEmail').addEventListener('click',e=>{e.preventDefau
 })();
 const LOCAL = /^(127\.0\.0\.1|localhost)$/.test(location.hostname);
 const BUILD = '20261030i';
-const EZER_URL = LOCAL ? 'http://127.0.0.1:8766/' : 'https://app.ezersaves.com/';
+const EZER_URL = LOCAL ? 'http://127.0.0.1:8766/' : 'https://ezer-demo.daniel4chigs.workers.dev/';
 // Morgan Futures mobile app (Expo web export), served at its own root like EZER.
-const MORGAN_URL = LOCAL ? 'http://127.0.0.1:8767/' : 'https://morgan.ezersaves.com/';
+const MORGAN_URL = LOCAL ? 'http://127.0.0.1:8767/' : 'https://morgan-demo.daniel4chigs.workers.dev/app/';
 // The Void's current build is the Expo app (void-app), exported for web; same own-root rule.
 const VOID_URL = LOCAL ? 'http://127.0.0.1:8768/' : 'https://void-app-d35c.pages.dev/search';
 // Every stage loads its real app as it comes near the viewport: no gate, no poster.
@@ -786,7 +786,7 @@ const load = st => {
 for (const st of document.querySelectorAll('.stage[data-src]')) st.dataset.label = 'loading ' + st.closest('section').querySelector('h2').textContent + '…';
 (() => {
   const b = document.querySelector('.browser'); if (!b) return;
-  const URL = { maren: 'https://live-maren.com/', sly: 'realms/sly/index.html', impact: 'https://shop.impact-threads.com/' };
+  const URL = { maren: 'https://live-maren.com/', sly: 'https://www.slysculpted.com/', impact: 'https://impact-threads.com/' };
   const pick = id => {
     b.dataset.store = id;
     for (const t of b.querySelectorAll('.tabs [data-tab]')) t.setAttribute('aria-selected', t.dataset.tab === id);

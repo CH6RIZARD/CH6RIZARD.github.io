@@ -97,12 +97,12 @@ class Component extends DCLogic {
   }
   componentWillUnmount() { if (this.ro) this.ro.disconnect(); clearInterval(this.timer); }
   renderVals() {
-    const p = this.props.p || {}, id = p.id, s = this.state, bare = !!this.props.bare, L = /^(127\.0\.0\.1|localhost)$/.test(location.hostname);
-    const APP = { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' };
+    const p = this.props.p || {}, id = p.id, s = this.state, bare = !!this.props.bare, L = true;
+    const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/search', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
     const mk = (key, src, title, poster, cta, label) => { const can = !!src, on = can && (!!this.props.auto || !poster || !!s.entered[key]);
       return { src: on ? src : '', title: title || '', live: on, posterOn: !on, poster: poster || '', canEnter: can && !on, noEnter: !can, cta: cta || 'Open', label: label || '', hasLabel: !!label, enter: () => this.setState({ entered: { ...s.entered, [key]: true } }) }; };
     let kind = 'plate', screens = [];
-    if (id === 'stores') { kind = 'mon'; screens = [mk('impact', 'realms/impact/index.html', 'Impact Threads', '', '', 'Impact Threads'), mk('maren', 'https://live-maren.com/', 'MAREN', '', '', 'MAREN'), mk('sly', 'realms/sly/index.html', 'Sly Sculpted', '', '', 'Sly Sculpted')]; }
+    if (id === 'stores') { kind = 'mon'; screens = [mk('impact', 'https://impact-threads.com/', 'Impact Threads', '', '', 'Impact Threads'), mk('maren', 'https://live-maren.com/', 'MAREN', '', '', 'MAREN'), mk('sly', 'https://www.slysculpted.com/', 'Sly Sculpted', '', '', 'Sly Sculpted')]; }
     else if (id === 'hugo' || id === 'revelation') { kind = bare ? 'bare' : 'mon'; screens = [mk(id, id === 'hugo' ? 'realms/hugo/index.html' : 'https://revelati6n.com', p.name, p.poster, p.cta)]; }
     else if (APP[id]) { kind = bare ? 'bare' : 'phone'; screens = [mk(id, L ? APP[id] : '', p.name, p.poster, p.cta)]; }
     else if (id === 'frame') kind = 'gate';

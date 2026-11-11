@@ -121,14 +121,14 @@ class Component extends DCLogic {
   componentDidUpdate() { if (this.fit) this.fit(); }
   componentWillUnmount() { if (this.ro) this.ro.disconnect(); clearInterval(this.timer); (this.tm || []).forEach(clearTimeout); removeEventListener('resize', this.fit); }
   renderVals() {
-    const s = this.state, pr = this.props, phone = pr.kind === 'phone', o = pr.open || null, id = o && o.id, L = /^(127\.0\.0\.1|localhost)$/.test(location.hostname);
-    const APP = { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' };
+    const s = this.state, pr = this.props, phone = pr.kind === 'phone', o = pr.open || null, id = o && o.id, L = true;
+    const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/search', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
     const WEB = { hugo: 'realms/hugo/index.html', revelation: 'https://revelati6n.com' };
     const scr = (x) => ({ items: [], desk: false, web: false, plate: false, src: '', title: '', status: '', label: '', hasLabel: false, ...x });
     let screens = [], gate = false;
     if (!phone) {
       if (!o) screens = [scr({ desk: true, items: pr.items || [] })];
-      else if (id === 'stores') screens = [['realms/impact/index.html', 'Impact Threads'], ['https://live-maren.com/', 'MAREN'], ['realms/sly/index.html', 'Sly Sculpted']].map(([src, label]) => scr({ web: true, src, title: label, label, hasLabel: true }));
+      else if (id === 'stores') screens = [['https://impact-threads.com/', 'Impact Threads'], ['https://live-maren.com/', 'MAREN'], ['https://www.slysculpted.com/', 'Sly Sculpted']].map(([src, label]) => scr({ web: true, src, title: label, label, hasLabel: true }));
       else if (WEB[id]) screens = [scr({ web: true, src: WEB[id], title: o.name })];
       else if (id === 'frame') gate = true;
       else screens = [scr({ plate: true, title: o.name, status: o.status })];

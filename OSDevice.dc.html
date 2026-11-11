@@ -177,12 +177,12 @@ class Component extends DCLogic {
   componentDidUpdate(p) { if (p.note !== this.props.note && this.state.note) this.setState({ note: null }); }
   componentWillUnmount() { if (this.ro) this.ro.disconnect(); clearInterval(this.timer); (this.tm || []).forEach(clearTimeout); removeEventListener('resize', this.fit); }
   renderVals() {
-    const s = this.state, pr = this.props, phone = pr.kind === 'phone', o = pr.open || null, id = o && o.id, L = /^(127\.0\.0\.1|localhost)$/.test(location.hostname);
-    const APP = { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' };
+    const s = this.state, pr = this.props, phone = pr.kind === 'phone', o = pr.open || null, id = o && o.id, L = true;
+    const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/search', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
     const WEB = { hugo: 'realms/hugo/index.html', revelation: 'https://revelati6n.com' };
     const notes = pr.notes || [], nCur = notes.find(n => n.id === (s.note || pr.note)) || null;
     const noteList = notes.map(n => ({ ...n, sel: (nCur || notes[0] || {}).id === n.id, pick: () => this.setState({ note: n.id }) }));
-    const STORES = [['maren', 'https://live-maren.com/', 'MAREN', '#ECEAE3'], ['sly', 'realms/sly/index.html', 'Sly Sculpted', '#9A9890'], ['impact', 'realms/impact/index.html', 'Impact Threads', '#6B6D73'], ['_', '', '', '#8FA0FF']];
+    const STORES = [['maren', 'https://live-maren.com/', 'MAREN', '#ECEAE3'], ['sly', 'https://www.slysculpted.com/', 'Sly Sculpted', '#9A9890'], ['impact', 'https://impact-threads.com/', 'Impact Threads', '#6B6D73'], ['_', '', '', '#8FA0FF']];
     const tabs = STORES.filter(t => t[0] !== '_').map(([key, src, label, dot]) => ({ src, label, dot, on: s.tab === key, go: () => this.setState({ tab: key }),
       style: { flex: '0 0 auto', height: 54, display: 'flex', alignItems: 'center', gap: 14, padding: '0 28px', background: s.tab === key ? '#161615' : 'none', color: s.tab === key ? '#ECEAE3' : '#9A9890', border: 0, borderRadius: '14px 14px 0 0', cursor: 'pointer', font: '400 24px/1 Inter,system-ui,sans-serif' },
       frame: { position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0, background: '#000', visibility: s.tab === key ? 'visible' : 'hidden' } }));

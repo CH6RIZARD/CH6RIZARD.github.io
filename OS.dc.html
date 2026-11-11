@@ -178,7 +178,7 @@ class Component extends DCLogic {
     { id: 'morgan', name: 'Morgan Futures', status: 'Live', kind: 'Mobile · trading', thumb: 'realms/thumbs/morgan.jpg', demo: true, line: 'Signals, paper trading, a Claude decision layer.', stack: 'Python · Flask · Railway · Kraken · Claude API',
       about: 'My automated futures trading system. The bot runs on Railway: Kraken perpetual-futures data through four signal strategies, a Claude API decision layer filtering entries, a paper engine, a prop-firm challenge tracker, and Rithmic execution on micro gold and micro Dow. This is my mobile app for it, four tabs: Signals, Paper, Account, Profile.',
       rows: [['Signals', 'KZ · ORB · ASHL · LRNY, scanned on an interval against live and historical bars.'], ['Decision', 'Claude API agent over signal confluence; every call and refusal lands in the decision log.'], ['Backtests', 'Morgan converts Pine Script strategies to Python and reports win rate and expectancy on real history.'], ['Execution', 'Rithmic protobuf · MGC · MYM. One funded evaluation passed, one real payout.'], ['Risk', 'Trailing drawdown, consistency rules, daily loss limits, three trades a day, stop after the first loss.'], ['Stack', 'Python · Flask · gunicorn · Railway · Kraken · yfinance · Lightweight Charts · Claude API']] },
-    { id: 'stores', name: 'Stores', status: 'Live', kind: 'Impact Threads · MAREN · Sly Sculpted', thumb: 'realms/thumbs/impact.jpg', demo: true, href: 'https://shop.impact-threads.com/', line: 'Impact Threads, MAREN and Sly Sculpted.', stack: 'Shopify Storefront API · Astro · Express',
+    { id: 'stores', name: 'Stores', status: 'Live', kind: 'Impact Threads · MAREN · Sly Sculpted', thumb: 'realms/thumbs/impact.jpg', demo: true, href: 'https://impact-threads.com/', line: 'Impact Threads, MAREN and Sly Sculpted.', stack: 'Shopify Storefront API · Astro · Express',
       about: 'Three storefronts I run end to end from one studio: a streetwear brand with its own headless store on the Shopify Storefront API, a travel-goods brand on a static Astro site with Meta ads behind it, and an independent beauty-tech resale store built on mandatory condition disclosure. Same honesty rules everywhere: no fake reviews, no fake scarcity, every claim traceable.',
       rows: [['Impact Threads', 'Streetwear as protest. Headless Shopify, generated SEO pages, checkout on Shopify.'], ['MAREN', 'The Weekender Set. Astro on Netlify, Shopify checkout, Meta pixel and ads run by script.'], ['Sly Sculpted', 'Independent Dyson resale. Condition disclosure on every listing, Express backend for reviews, tracking and chat.']] },
     { id: 'frame', name: 'Mortal Agent Frame', status: 'Built', kind: 'Agent architecture', glyph: 'AI', demo: true, href: 'https://github.com/CH6RIZARD/digital-entity', line: 'The substrate under Hugo and AgentTube.', stack: 'Python · 7 layers · 40 tests',
@@ -249,9 +249,9 @@ class Component extends DCLogic {
   }
   componentWillUnmount() { removeEventListener('scroll', this.onAnyScroll, true); removeEventListener('resize', this.onAnyScroll); clearInterval(this.timer); removeEventListener('message', this.msg); removeEventListener('keydown', this.key); removeEventListener('resize', this.rs); }
   renderVals() {
-    const s = this.state, mob = this.narrow(), L = /^(127\.0\.0\.1|localhost)$/.test(location.hostname);
+    const s = this.state, mob = this.narrow(), L = true;
     const SHORT = { morgan: 'Morgan', frame: 'Agent Frame' };
-    const APP = { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' };
+    const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/search', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
     const WEB = { hugo: 'realms/hugo/index.html', revelation: 'https://revelati6n.com' };
     const dec = (p, dev) => p && ({ ...p, rows: (p.rows || []).map(([k, v]) => ({ k, v })), short: SHORT[p.id] || p.name, status: p.status || '', kind: p.kind || '', isLive: p.status === 'Live',
       hasThumb: !!p.thumb, noThumb: !p.thumb, thumb: p.thumb || '', glyph: p.glyph || '', hasHref: !!p.href, href: p.href || '', line: p.line || '', about: p.about || '',
@@ -289,7 +289,7 @@ class Component extends DCLogic {
       canInfo: !!cur && id !== 'notes', sheet: s.sheet && !!cur, toggleSheet: () => this.setState({ sheet: !s.sheet }),
       mFrameSrc: !!WEB[id] || (!!APP[id] && L), mSrc: WEB[id] || (L && APP[id]) || '', mSlot: !!APP[id] && !L,
       slotId: 'shot-' + id, slotText: 'Drop a portrait screenshot of ' + ((cur && cur.name) || 'the app'),
-      mStores: id === 'stores', stores: [['realms/impact/index.html', 'Impact Threads'], ['https://live-maren.com/', 'MAREN'], ['realms/sly/index.html', 'Sly Sculpted']].map(([src, label]) => ({ src, label })),
+      mStores: id === 'stores', stores: [['https://impact-threads.com/', 'Impact Threads'], ['https://live-maren.com/', 'MAREN'], ['https://www.slysculpted.com/', 'Sly Sculpted']].map(([src, label]) => ({ src, label })),
       mGate: id === 'frame',
       gates: [['pw', 'Power'], ['se', 'Sensors'], ['mo2', 'Motor']].map(([key, name]) => ({ n: name, on: s[key], state: s[key] ? 'holding' : 'cut', toggle: () => this.setState({ [key]: !s[key] }) })),
       gateLine: s.alive ? 'Gate open. Identity is accruing.' : 'ENDED. This one does not come back.',
