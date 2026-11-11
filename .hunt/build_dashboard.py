@@ -65,7 +65,7 @@ for j in jobs:
 reasons = sorted(reasons.items(), key=lambda kv: -kv[1])[:8]
 
 PUBLIC = bool(os.environ.get('PUBLIC'))
-data = dict(public=PUBLIC, kpi=kpi, jobs=[{k: j.get(k, '') for k in ('tier', 'score', 'company', 'title', 'location', 'pay', 'url', 'status', 'why', 'new', 'ai', 'ai_why')} for j in jobs],
+data = dict(public=PUBLIC, kpi=kpi, jobs=[{k: j.get(k, '') for k in ('tier', 'score', 'company', 'title', 'location', 'pay', 'url', 'status', 'why', 'new', 'ai', 'ai_why', 'first_seen')} for j in jobs],
             contacts=contacts, reasons=reasons, built=datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))
 
 TEMPLATE = r'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="60">
@@ -94,12 +94,12 @@ td a{color:var(--blue);text-decoration:none}td a:hover{text-decoration:underline
 <div class="kpis" id="kpis"></div>
 <div class="row"><div class="card"><h2>PIPELINE</h2><div class="bar" id="bar"></div><div class="leg" id="leg"></div></div>
 <div class="card"><h2>WHY ROLES WERE SKIPPED</h2><ul class="reasons" id="reasons"></ul></div></div>
-<div class="card" style="margin-bottom:12px"><h2>ROLES</h2><div class="tools"><input id="q" placeholder="Search company, title, city" size="28"><select id="st"><option value="">All statuses</option><option>queued</option><option>applied</option><option>skipped</option><option>blocked</option></select><select id="tier"><option value="">All tiers</option><option value="0">Realistic first</option><option value="1">Elite-bar (last)</option></select></div><div style="overflow:auto"><table id="jobs"></table></div></div>
+<div class="card" style="margin-bottom:12px"><h2>ROLES</h2><div class="tools"><input id="q" placeholder="Search company, title, city" size="28"><select id="st"><option value="">All statuses</option><option>queued</option><option>applied</option><option>skipped</option><option>blocked</option></select><select id="tier"><option value="">All tiers</option><option value="0">Realistic first</option><option value="1">Elite-bar (last)</option></select><select id="sort"><option value="new">Newest first, then priority</option><option value="pri">Priority first (best fit)</option></select></div><div style="overflow:auto"><table id="jobs"></table></div></div>
 <div class="card"><h2>CONTACTS</h2><div style="overflow:auto"><table id="contacts"></table></div></div>
 </main><script>
 const D=__DATA__;const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const PUB=D.public;if(PUB)$('ttl').textContent='Role radar: early-career software, simulation and AI roles';
-$('built').textContent=PUB?'Updated '+D.built+' (refreshes every 2 hours automatically).':'Built '+D.built+'. Re-run build_dashboard.py to refresh.';
+$('built').textContent=PUB?'Updated '+D.built+' (refreshes automatically every 30 minutes).':'Built '+D.built+'. Re-run build_dashboard.py to refresh.';
 const K=D.kpi,items0=[['roles','Roles found to date'],['open_now','Open now'],['new','New today'],['queued','Queued'],['scored','AI scored'],['applied','Applied'],['skipped','Skipped'],['contacted','Contacts sent'],['noroute','No contact route']];
 const items=PUB?items0.filter(i=>['roles','open_now','new'].includes(i[0])):items0;
 $('kpis').innerHTML=items.map(([k,l])=>`<div class="k"><b>${K[k]}</b><span>${l}</span></div>`).join('');
@@ -108,9 +108,10 @@ $('bar').innerHTML=seg.map(s=>`<i style="width:${s[2]/tot*100}%;background:${s[1
 $('leg').innerHTML=seg.map(s=>`<span><u style="background:${s[1]}"></u>${s[0]} ${s[2]}</span>`).join('');
 $('reasons').innerHTML=D.reasons.length?D.reasons.map(([r,n])=>`<li><span>${esc(r)}</span><b>${n}</b></li>`).join(''):'<li><span>No skips yet</span></li>';
 function jobs(){const q=$('q').value.toLowerCase(),st=$('st').value,t=$('tier').value;
- const rows=D.jobs.slice().sort((a,c)=>(c.ai===''?-1:c.ai)-(a.ai===''?-1:a.ai)).filter(j=>(!st||j.status===st)&&(!t||j.tier===t)&&(!q||(j.company+' '+j.title+' '+j.location).toLowerCase().includes(q)));
- $('jobs').innerHTML='<tr><th>AI fit</th><th>Company</th><th>Role</th><th>Location</th><th>Pay</th>'+(PUB?'':'<th>Status</th>')+'</tr>'+rows.map(j=>`<tr><td title="${esc(j.ai_why)}">${j.ai===''?'<span style="color:var(--mute)">'+j.score+'</span>':'<b>'+j.ai+'/10</b>'}<div class="why">${esc(j.ai_why)}</div></td><td>${esc(j.company)}${j.tier==='1'?' <span class="chip elite">elite</span>':''}${j.new===true?'<span class="new">new</span>':''}</td><td><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a></td><td>${esc(j.location)}</td><td>${esc(j.pay)}</td>${PUB?'':`<td><span class="chip ${esc(j.status)}">${esc(j.status)}</span>${j.why?`<div class="why">${esc(j.why)}</div>`:''}</td>`}</tr>`).join('')||'<tr><td>No roles match.</td></tr>';}
-['q','st','tier'].forEach(i=>$(i).addEventListener('input',jobs));jobs();
+ const pri=(a,c)=>(+a.tier-+c.tier)||((c.ai===''?-1:c.ai)-(a.ai===''?-1:a.ai))||(+c.score-+a.score),byNew=(a,c)=>String(c.first_seen||'').localeCompare(String(a.first_seen||''))||pri(a,c);
+ const rows=D.jobs.slice().sort($('sort').value==='pri'?pri:byNew).filter(j=>(!st||j.status===st)&&(!t||j.tier===t)&&(!q||(j.company+' '+j.title+' '+j.location).toLowerCase().includes(q)));
+ $('jobs').innerHTML='<tr><th>AI fit</th><th>Company</th><th>Role</th><th>Location</th><th>Pay</th><th>Added</th>'+(PUB?'':'<th>Status</th>')+'</tr>'+rows.map(j=>`<tr><td title="${esc(j.ai_why)}">${j.ai===''?'<span style="color:var(--mute)">'+j.score+'</span>':'<b>'+j.ai+'/10</b>'}<div class="why">${esc(j.ai_why)}</div></td><td>${esc(j.company)}${j.tier==='1'?' <span class="chip elite">elite</span>':''}${j.new===true?'<span class="new">new</span>':''}</td><td><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a></td><td>${esc(j.location)}</td><td>${esc(j.pay)}</td><td>${esc(j.first_seen)}</td>${PUB?'':`<td><span class="chip ${esc(j.status)}">${esc(j.status)}</span>${j.why?`<div class="why">${esc(j.why)}</div>`:''}</td>`}</tr>`).join('')||'<tr><td>No roles match.</td></tr>';}
+['q','st','tier','sort'].forEach(i=>$(i).addEventListener('input',jobs));jobs();
 if(PUB){document.querySelector('.row').style.display='none';$('contacts').closest('.card').style.display='none';$('st').style.display='none';}
 $('contacts').innerHTML=D.contacts.length?'<tr><th>Company</th><th>Role</th><th>Person</th><th>School</th><th>Channel</th><th>Status</th></tr>'+D.contacts.filter(c=>c.status==='sent'||c.person).map(c=>`<tr><td>${esc(c.company)}</td><td>${esc(c.role)}</td><td>${esc(c.person)}<div class="why">${esc(c.title)}</div></td><td>${esc(c.school)}</td><td>${esc(c.channel)}</td><td><span class="chip ${esc(c.status)}">${esc(c.status)}</span></td></tr>`).join(''):'<tr><td>No contacts logged yet.</td></tr>';
 </script></body></html>'''
