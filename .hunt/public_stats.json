@@ -1,10 +1,10 @@
 {
- "built": "2026-11-12 01:45",
+ "built": "2026-11-12 02:35",
  "applications": {
-  "applied": 206,
-  "blocked": 167,
-  "skipped": 469,
-  "applied_current_resume": 178,
+  "applied": 226,
+  "blocked": 172,
+  "skipped": 472,
+  "applied_current_resume": 198,
   "applied_old_resume": 28,
   "linkedin_requests_sent": 37,
   "emails_sent": 21,
