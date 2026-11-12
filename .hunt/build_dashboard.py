@@ -67,7 +67,9 @@ reasons = sorted(reasons.items(), key=lambda kv: -kv[1])[:8]
 PUBLIC = os.environ.get('PUBLIC') == '1'
 _ps = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'public_stats.json')
 stats = json.load(open(_ps, encoding='utf-8')) if os.path.exists(_ps) else None   # aggregates only, written by make_public_stats.py
-data = dict(public=PUBLIC, stats=stats, kpi=kpi, jobs=[{k: j.get(k, '') for k in ('tier', 'score', 'company', 'title', 'location', 'pay', 'url', 'status', 'why', 'new', 'ai', 'ai_why', 'first_seen')} for j in jobs],
+_ni = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'needs_input.json')
+needs = json.load(open(_ni, encoding='utf-8')) if os.path.exists(_ni) else None   # sanitized, written on the owner's PC by make_needs_input.py
+data = dict(public=PUBLIC, stats=stats, needs=needs, kpi=kpi, jobs=[{k: j.get(k, '') for k in ('tier', 'score', 'company', 'title', 'location', 'pay', 'url', 'status', 'why', 'new', 'ai', 'ai_why', 'first_seen')} for j in jobs],
             contacts=contacts, reasons=reasons, built=datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))
 
 TEMPLATE = r'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="60">
@@ -97,6 +99,7 @@ td a{color:var(--blue);text-decoration:none}td a:hover{text-decoration:underline
 <div id="appview" style="display:none"><h1>Job applications</h1><div class="sub" id="appsub"></div><div class="kpis" id="appkpis"></div><div class="sub">Counts only. Updated automatically from the owner's PC.</div></div>
 <div id="vcview" style="display:none"><h1>EZER VC raise</h1><div class="sub" id="vcsub"></div><div class="kpis" id="vckpis"></div><div class="card"><h2>DMS TODAY BY PLATFORM AND STATUS</h2><div style="overflow:auto"><table id="vcdms"></table></div></div><div class="sub" style="margin-top:8px">Counts only. No names, firms, emails or handles are shown.</div></div>
 <div id="jobsview"><h1 id="ttl">Job hunt dashboard</h1><div class="sub" id="built"></div>
+<div class="card" id="needs" style="display:none;margin-bottom:14px"><h2>NEEDS INPUT <span id="needsn"></span></h2><div class="sub" id="needssub" style="margin:0 0 8px"></div><div style="overflow:auto"><table id="needst"></table></div><button type="button" class="tg" id="needsmore" style="margin-top:10px;display:none"></button></div>
 <div class="kpis" id="kpis"></div>
 <div class="row"><div class="card"><h2>PIPELINE</h2><div class="bar" id="bar"></div><div class="leg" id="leg"></div></div>
 <div class="card"><h2>WHY ROLES WERE SKIPPED</h2><ul class="reasons" id="reasons"></ul></div></div>
@@ -106,6 +109,11 @@ td a{color:var(--blue);text-decoration:none}td a:hover{text-decoration:underline
 const D=__DATA__;const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const PUB=D.public;if(PUB)$('ttl').textContent='Role radar: early-career software, simulation and AI roles';
 $('built').textContent=PUB?'Updated '+D.built+' (refreshes automatically every 6 minutes).':'Built '+D.built+'. Re-run build_dashboard.py to refresh.';
+if(D.needs&&D.needs.items.length){const N=D.needs,NI=N.items;let all=false;$('needs').style.display='';$('needsn').textContent='('+NI.length+')';
+ $('needssub').innerHTML='Only the founder can do these. Newest first. Updated '+esc(N.updated)+'. <a href="'+esc(N.board)+'" target="_blank" rel="noopener" style="color:var(--blue)">Open the needs-human board</a>';
+ const drawN=()=>{$('needst').innerHTML='<tr><th>When</th><th>Program</th><th>What is needed</th><th></th></tr>'+(all?NI:NI.slice(0,6)).map(n=>`<tr><td style="white-space:nowrap">${esc(n.when)}</td><td>${esc(n.program)}${n.kind==='account'?' <span class="chip queued">account</span>':''}</td><td class="why" style="max-width:none">${esc(n.what)}</td><td>${n.link?`<a href="${esc(n.link)}" target="_blank" rel="noopener">Open</a>`:''}</td></tr>`).join('');
+  $('needsmore').style.display=NI.length>6?'':'none';$('needsmore').textContent=all?'Show fewer':'Show all '+NI.length;};
+ $('needsmore').onclick=()=>{all=!all;drawN()};drawN();}
 const K=D.kpi,items0=[['roles','Roles found to date'],['open_now','Open now'],['new','New today'],['queued','Queued'],['scored','AI scored'],['applied','Applied'],['skipped','Skipped'],['contacted','Contacts sent'],['noroute','No contact route']];
 const items=PUB?items0.filter(i=>['roles','open_now','new'].includes(i[0])):items0;
 $('kpis').innerHTML=items.map(([k,l])=>`<div class="k"><b>${K[k]}</b><span>${l}</span></div>`).join('');
