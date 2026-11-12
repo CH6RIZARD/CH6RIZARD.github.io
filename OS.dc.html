@@ -28,11 +28,12 @@ html{touch-action:manipulation}
 @keyframes sk{to{background-position:-200% 0}}
 .sk,.sc-placeholder,[data-sk] .sc-placeholder[title=OSDevice]::before{background:linear-gradient(100deg,#1b1b19 38%,#282826 50%,#1b1b19 62%) 0 0/200% 100% #1b1b19!important;animation:sk 1.7s linear infinite;border:0!important}
 .sc-placeholder{border-radius:14px!important}
-[data-sk=phone] .sc-placeholder:not([title=OSDevice]){border-radius:48px!important}
+[data-sk=phone] .sc-placeholder:not([title=OSDevice]){border-radius:56px!important;border:14px solid #0b0b0c!important;box-shadow:0 0 0 3px #2a2a2c;background-clip:padding-box!important;box-sizing:border-box}
 [data-sk] .sc-placeholder[title=OSDevice]{background:none!important;animation:none;border-radius:0!important;display:grid;place-items:center;container-type:size}
-[data-sk] .sc-placeholder[title=OSDevice]::before{content:"";margin-bottom:38px}
-[data-sk=phone] .sc-placeholder[title=OSDevice]::before{width:min(100cqw,calc((100cqh - 38px)*402/874));aspect-ratio:402/874;border-radius:12%/5.5%}
-[data-sk=mon] .sc-placeholder[title=OSDevice]::before{width:min(100cqw,calc((100cqh - 38px)*1468/980));aspect-ratio:1468/980;border-radius:10px}
+[data-sk] .sc-placeholder[title=OSDevice]::before{content:"";margin-bottom:38px;box-sizing:border-box;background-clip:padding-box!important}
+/* the skeleton wears the device's bezel (iPhone: black rim, island, icon rows; monitor: black rim) so the frame shows while the build loads */
+[data-sk=phone] .sc-placeholder[title=OSDevice]::before{width:min(100cqw,calc((100cqh - 38px)*402/874));aspect-ratio:402/874;border-radius:12%/5.5%;border:min(1.6cqw,7px) solid #0b0b0c!important;box-shadow:0 0 0 1.5px #2a2a2c;background:radial-gradient(closest-side,#000 96%,#0000) 50% 1.8%/27% 3% no-repeat,radial-gradient(closest-side,#2a2a28 62%,#0000 66%) 0 9%/25% 11% repeat-x,radial-gradient(closest-side,#2a2a28 62%,#0000 66%) 0 21%/25% 11% repeat-x,linear-gradient(100deg,#1b1b19 38%,#282826 50%,#1b1b19 62%) 0 0/200% 100% #1b1b19!important}
+[data-sk=mon] .sc-placeholder[title=OSDevice]::before{width:min(100cqw,calc((100cqh - 38px)*1468/980));aspect-ratio:1468/980;border-radius:12px;border:min(1.4cqw,9px) solid #0b0b0c!important;border-bottom-width:min(2.6cqw,16px)!important;box-shadow:0 0 0 1.5px #2a2a2c}
 @media (max-width:760px){[data-sk=mon] .sc-placeholder[title=OSDevice]::before{width:min(100cqw,calc((100cqh - 38px)*1028/1080));aspect-ratio:1028/1080}}
 @keyframes skin{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.sk,.sc-placeholder,[data-sk] .sc-placeholder[title=OSDevice]::before{animation:none}}
