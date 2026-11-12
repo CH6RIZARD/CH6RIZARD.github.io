@@ -72,7 +72,7 @@ needs = json.load(open(_ni, encoding='utf-8')) if os.path.exists(_ni) else None 
 data = dict(public=PUBLIC, stats=stats, needs=needs, kpi=kpi, jobs=[{k: j.get(k, '') for k in ('tier', 'score', 'company', 'title', 'location', 'pay', 'url', 'status', 'why', 'new', 'ai', 'ai_why', 'first_seen')} for j in jobs],
             contacts=contacts, reasons=reasons, built=datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))
 
-TEMPLATE = r'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="60">
+TEMPLATE = r'''<!doctype html><html lang="en"><head><meta charset="utf-8"><script>try{if(localStorage.getItem("vt")&&!/[?&]public=1/.test(location.search))location.replace("../vf-5703b66ba4/?v=radar")}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="60">
 <title>Role radar</title>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <style>
