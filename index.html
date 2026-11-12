@@ -859,7 +859,7 @@ fetch('dove.glb', { method: 'HEAD' }).then(r => bootAgents(r.ok ? '' : '.wasm'))
   const set = on => {
     document.body.classList.toggle('simple', on); os.hidden = !on; b.setAttribute('aria-pressed', on);
     b.setAttribute('aria-label', on ? 'Read less view on. Switch to scroll view' : 'Scroll view on. Switch to read less view');
-    if (on && !f) { f = document.createElement('iframe'); f.src = 'OS.dc.html?v=20261111n'; f.title = 'Projects'; f.allow = 'fullscreen; pointer-lock; autoplay; clipboard-write'; os.append(f); }
+    if (on && !f) { f = document.createElement('iframe'); f.src = 'OS.dc.html?v=20261111o'; f.title = 'Projects'; f.allow = 'fullscreen; pointer-lock; autoplay; clipboard-write'; os.append(f); }
     if (on) scrollTo(0, 0);
     try { localStorage.setItem('chaze.mode', on ? 'simple' : 'scroll'); } catch {}
   };
