@@ -395,6 +395,7 @@ body.simple .mode span:first-child{background:none;color:var(--muted)}
 #os iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .hudslot{display:none;position:fixed;left:0;bottom:0;width:340px;height:108px;background:rgba(128,128,128,.02);pointer-events:none}
 body.simple nav a.proj{display:none}
+body.simple nav{background:var(--paper);backdrop-filter:none}   /* read less: flat fill, no frosted bar */
 @media (max-width:760px){nav .wrap{gap:14px}nav a.sec{display:none}.mode span{padding:15px 9px}}
 body.simple{min-height:100dvh;overflow:hidden;--paper:#161615;--ink:#ECEAE3;--muted:#9A9890;--line:#3A3936;--rule:#262624;--stage:#000;--accent:#8FA0FF}
 body.simple>section,body.simple>footer,body.simple>.mindex{display:none!important}
@@ -860,7 +861,7 @@ const bootAgents = ext => {
   window.SCION_GLB = 'dove.glb' + ext;
   window.HUGO_CONFIG = { size: matchMedia('(max-width:760px)').matches ? 64 : 150, glb: 'realms/hugo/hugo.glb' + ext };
   const add = (src, type) => new Promise(r => { const s = document.createElement('script'); if (type) s.type = type; s.src = src; s.onload = r; s.onerror = r; document.head.append(s); });
-  add('bond.js?v=20261031soul').then(() => add('dove-agent.js?v=20261110q')).then(() => { add('dove3d.js?v=20261111s', 'module'); add('hugo3d.js?v=20261111s', 'module'); });
+  add('bond.js?v=20261112frame').then(() => add('dove-agent.js?v=20261110q')).then(() => { add('dove3d.js?v=20261111s', 'module'); add('hugo3d.js?v=20261112frame', 'module'); });
 };
 fetch('dove.glb', { method: 'HEAD' }).then(r => bootAgents(r.ok ? '' : '.wasm')).catch(() => bootAgents('.wasm'));
 
@@ -871,7 +872,7 @@ fetch('dove.glb', { method: 'HEAD' }).then(r => bootAgents(r.ok ? '' : '.wasm'))
   const set = on => {
     document.body.classList.toggle('simple', on); os.hidden = !on; b.setAttribute('aria-pressed', on);
     b.setAttribute('aria-label', on ? 'Read less view on. Switch to scroll view' : 'Scroll view on. Switch to read less view');
-    if (on && !f) { f = document.createElement('iframe'); f.src = 'OS.dc.html?v=20261112b9'; f.title = 'Projects'; f.allow = 'fullscreen; pointer-lock; autoplay; clipboard-write'; os.append(f); }
+    if (on && !f) { f = document.createElement('iframe'); f.src = 'OS.dc.html?v=20261112cd2'; f.title = 'Projects'; f.allow = 'fullscreen; pointer-lock; autoplay; clipboard-write'; os.append(f); }
     if (on) scrollTo(0, 0);
     try { localStorage.setItem('chaze.mode', on ? 'simple' : 'scroll'); } catch {}
   };

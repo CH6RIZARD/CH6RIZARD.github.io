@@ -301,7 +301,8 @@ function gesture(dt, sitting, still) {
   if (forced && (!gest || t - gest.t0 > gest.dur)) gest = { name: forced, t0: t, dur: 6, side: 1, amp: 1 };
   const dv = window.__scion;
   // Knocked dizzy: hands on his knees until his head clears.
-  if (st.dazed) { if (!gest || gest.name !== 'breathe') gest = { name: 'breathe', t0: t, dur: 2, side: 1, amp: 1, f: 1 }; }
+  if (st.dead) gest = { name: 'dead', t0: Math.max(st.deadAt, t - 2), dur: 4, side: 1, amp: 1, f: 1 };   // held at the middle of the pose: slumped until the next BIRTH
+  else if (st.dazed) { if (!gest || gest.name !== 'breathe') gest = { name: 'breathe', t0: t, dur: 2, side: 1, amp: 1, f: 1 }; }
   else {   // what passes between him and the dove is REL's call: its order's gesture replaces whatever he was doing
     const o = st.relOrder;
     if (o && o.gesture && !o.gDone && (!gest || gest.rel !== o.id) && !(gest && (gest.name === 'throw' || gest.name === 'lift'))) {
@@ -347,7 +348,7 @@ function gesture(dt, sitting, still) {
       mix(B.chest, 0.04, c * 0.12, b * 0.08 * A, w); mix(B.thighL, -0.15 - Math.max(0, b) * 0.25, 0, 0, w); mix(B.thighR, -0.15 - Math.max(0, -b) * 0.25, 0, 0, w);
       mix(B.shinL, 0.2 + Math.max(0, b) * 0.4, 0, 0, w); mix(B.shinR, 0.2 + Math.max(0, -b) * 0.4, 0, 0, w);
       armMix('L', [0.5, 0.1 + c * 0.4, 0.4], [0.2, 0.6 + b * 0.3, 0.3], w); armMix('R', [0.5, 0.1 - c * 0.4, 0.4], [0.2, 0.6 - b * 0.3, 0.3], w); lookGoal = c * 0.3; break; }
-    case 'nap': { const br = Math.sin(t * 1.6) * 0.03; mix(B.chest, -0.22 + br, 0, 0, w); mix(B.head, 0.42, 0, sd * 0.2, w); lookGoal = 0;   // dozing where he sits
+    case 'nap': case 'dead': { const br = gest.name === 'dead' ? -0.1 : Math.sin(t * 1.6) * 0.03;   // dead: the same slump, deeper, no breath mix(B.chest, -0.22 + br, 0, 0, w); mix(B.head, 0.42, 0, sd * 0.2, w); lookGoal = 0;   // dozing where he sits
       armMix('L', [0.25, -0.75, -0.55], [0.1, -1, -0.2], w); armMix('R', [0.25, -0.75, -0.55], [0.1, -1, -0.2], w); break; }
     case 'curious': { const tg = st.interest;   // something caught his eye: he leans toward it, looks, and reaches out to it
       const dx = tg ? tg.x - st.x : sd * 60, dy = tg ? (st.y - CFG.size * 0.6) - tg.y : 0;
@@ -520,7 +521,7 @@ function floorNear(x, y) {   // somewhere he can stand at or just under (x, y), 
 // The mind's wish, carried out with his own body. Never while he is held, airborne, climbing, crawling, mid-jump or busy
 // with the dove (REL leads there); a wish he cannot carry out is just dropped.
 window.__hugoAct = (act, target) => {
-  if (!act || st.held || st.air || st.relOrder || ['climb', 'prep', 'crawl'].includes(st.mode) || (st.crawlK || 0) > 0.05) return 'busy';
+  if (!act || st.dead || st.held || st.air || st.relOrder || ['climb', 'prep', 'crawl'].includes(st.mode) || (st.crawlK || 0) > 0.05) return 'busy';
   const p = target && target !== 'cursor' ? places.find((q, i) => 'p' + (i + 1) === target) : null;
   const cp = { x: pointer.cx + scrollX, y: pointer.cy + scrollY };
   const stand = (name, dur) => { if (st.mode === 'sit') return; st.mode = 'idle'; st.amt = 0; st.idleUntil = t + dur; gest = { name, t0: t, dur, side: Math.random() < 0.5 ? -1 : 1, amp: 0.8 + Math.random() * 0.3, f: 0.8 + Math.random() * 0.5 }; };
@@ -543,7 +544,14 @@ window.__hugoAct = (act, target) => {
     default: return 'carry on';
   }
 };
-// Something happened to him: his mind (hugo-mind via bond.js) thinks again right away instead of at its next beat.
+// The Mortal Agent Frame's life (bond.js): ENDED = the body goes limp where it is, the next BIRTH stands it up again.
+window.__hugoLife = alive => { if (!alive === !!st.dead) return; st.dead = !alive; st.deadAt = t; gest = null; if (st.dead) { relEnd('interrupted'); st.prep = null; } else st.idleUntil = t + 0.6; };
+// What he says aloud (the frame's "say", or its reply to the visitor). The bubble lives in the agent layer, so nobody stands on it.
+const say = layer.appendChild(document.createElement('div')); let sayTimer;
+Object.assign(say.style, { position: 'absolute', left: 0, top: 0, maxWidth: '240px', padding: '9px 12px', font: '13px/1.4 system-ui,sans-serif', color: '#15171C', background: '#fff',
+  border: '1px solid #D8D8D2', borderRadius: '14px', boxShadow: '0 8px 24px rgba(21,23,28,.16)', opacity: 0, transition: 'opacity .35s' });   // the dove's bubble (#scion-say), same look
+window.__hugoSay = text => { text = String(text || '').replace(/\s+/g, ' ').trim().slice(0, 220); if (!text) return; say.textContent = text; say.style.opacity = 1; clearTimeout(sayTimer); sayTimer = setTimeout(() => { say.style.opacity = 0; }, 2500 + text.length * 50); };
+// Something happened to him: his mind (the frame, or hugo-mind, via bond.js) thinks again right away instead of at its next beat.
 let pokes = 0, pokeWhy = '';
 function poke(why) { pokes++; pokeWhy = why; }
 // A wall ahead (words or a box he cannot walk or crawl under). A person does not walk into it over and over: he gets on
@@ -645,7 +653,7 @@ function relArrive(f) {   // got where the order wanted him
   if (!o.gesture && !o.sit) relEnd('ok', { won: o.ex === 'displace' && dd > 50, stayed: dd < CFG.size * 2 });
 }
 function relStep(f) {
-  const R = window.REL; if (!R || t < (st.relAt || 0) || st.dazed || st.mode === 'crawl' || (st.crawlK || 0) > 0.05) return;   // no standing up under a low ceiling for the bird
+  const R = window.REL; if (!R || t < (st.relAt || 0) || st.dead || st.dazed || st.mode === 'crawl' || (st.crawlK || 0) > 0.05) return;   // no standing up under a low ceiling for the bird
   st.relAt = t + 0.75;
   const d = window.__scion;
   const reach = !!d && d.mode === 'perch' && !d.held && d.y >= st.y - CFG.size * 2.2 && floors.some(q => Math.abs(q.y - d.y) < 6 && d.x > q.x1 && d.x < q.x2);
@@ -831,7 +839,7 @@ function step(dt) {
   } else if (st.mode === 'idle') { st.amt = Math.max(0, st.amt - dt * 4); if (t > st.idleUntil) { st.mode = 'walk'; restyle(); } }
   else if (st.mode === 'sit') {
     st.swingV += (-st.swing * 9 - st.swingV * 1.6) * dt; st.swing += st.swingV * dt;
-    if (Math.random() < dt / 6) st.swingV += 2;
+    if (!st.dead && Math.random() < dt / 6) st.swingV += 2;
     if (t > st.idleUntil) { st.mode = 'walk'; if (Math.random() < 0.5) st.dir = -st.dir; }
   }
 }
@@ -853,6 +861,7 @@ function frame(now) {
       }
     }
   }
+  if (st.dead && st.floor && !st.held && !st.air && st.mode !== 'climb') { st.goal = null; st.amt = 0; st.idleUntil = t + 1; st.mode = clear(st.x, st.floor.y, SIT_H + 4) ? 'sit' : 'idle'; }   // he can still fall or be carried
   if (!reduced) { for (let r = dt; r > 1e-6; r -= 0.05) step(Math.min(0.05, r)); } else st.mode = 'idle';
   { const goal = st.mode === 'sit' && !st.held && !st.air ? 1 : 0;
     if (st.held || st.air || st.mode === 'climb') st.sitK = 0;
@@ -921,6 +930,7 @@ function frame(now) {
   const ox = Math.max(0, Math.min(W - BOX, Math.round(st.x - scrollX - BOX / 2))), oy = Math.round(sy - CFG.size * 0.5 - BOX / 2);
   camera.setViewOffset(innerWidth, innerHeight, ox, oy, BOX, BOX);
   canvas.style.transform = `translate3d(${ox + scrollX}px,${oy + scrollY}px,0)`; if (canvas.style.visibility) canvas.style.visibility = '';
+  if (say.style.opacity === '1') say.style.transform = `translate(${Math.max(scrollX + 8, Math.min(scrollX + W - 250, st.x - 30))}px,${Math.max(scrollY + 4, st.y - CFG.size - say.offsetHeight - 6)}px)`;   // over his head, kept on screen
   renderer.render(scene, camera);
 }
 let scrolledAt = 0;

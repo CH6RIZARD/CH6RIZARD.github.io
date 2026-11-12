@@ -1286,7 +1286,7 @@
   const LIFE = Math.random().toString(36).slice(2, 10);   // one visit, one life: the mind's memory is keyed to it
   let hugoMindBusy = false, thoughtAt = -1e9, pokesSeen = 0, logSeen = 0, lastResult = null;
   if (HUGO_MIND) setInterval(async () => {
-    if (!S || SIM || hugoMindBusy || document.hidden) return;
+    if (!S || SIM || hugoMindBusy || document.hidden || frame.up || frame.dead) return;   // the frame is his mind when it is up
     const now = performance.now() / 1000, sense = G.__hugoSense ? G.__hugoSense() : null;
     const hit = S.log.some(e => e.t > logSeen && (e.a === 'hugo' || e.b === 'hugo') && e.a !== 'mind' && e.sev >= .3);
     if (!(now - thoughtAt >= 12 || ((hit || (sense && sense.poke !== pokesSeen)) && now - thoughtAt >= 3))) return;
@@ -1300,22 +1300,89 @@
       S.hugoMind = { ...r, result: lastResult };
     } catch (e) { /* no mind reachable: REL and his own body, as before */ } finally { hugoMindBusy = false; }
   }, 1000);
+  // His mind, first choice: the Mortal Agent Frame (run_web_body.py --port 8081 --body hugo), the same frame and the same
+  // protocol as the dove's link in dove-agent.js (linkTick / openStream): the body reports what it senses about once a
+  // second, the frame's own being answers with BODY_INTENT. Its life is the frame's: BIRTH = a new being in this body,
+  // ENDED (or the frame vanishing mid-life) = the body goes limp until the next BIRTH. Frame not running (every public
+  // visitor: no URL, no request at all) = REL and his reflexes, as before.
+  const FRAME = HUGO_MIND ? 'http://127.0.0.1:8081' : '';
+  const frame = { up: false, id: null, es: null, busy: false, fails: 0, retryAt: 0, dead: false, deadAt: 0, leaving: false };
+  const frameSense = () => JSON.stringify({
+    gate: { power: !document.hidden && !frame.leaving, sensors: !!G.__hugoSense, actuators: !!G.__hugoAct },   // the truth: a hidden or closing tab is a body with no power
+    observation: { ...hugoBrief(), ...G.__hugoSense(), last_wish_result: lastResult } });
+  const framePost = (path, body, keepalive) => fetch(FRAME + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive, signal: keepalive ? undefined : AbortSignal.timeout(3000) });
+  function frameBorn(id) {
+    if (!id || id === frame.id) return;
+    frame.id = id; frame.dead = false; lastResult = null; S.nudge.hugo = {}; S.hugoMind = { born: id };
+    newBody('hugo', id); G.__hugoLife(true);
+  }
+  function frameDied(cause) {
+    if (frame.dead || !frame.id) return;
+    frame.dead = true; frame.deadAt = performance.now(); S.hugoMind = { ended: cause, id: frame.id }; G.__hugoLife(false);
+  }
+  async function frameTick() {
+    const now = performance.now();
+    if (!S || SIM || frame.busy || document.hidden || !G.__hugoSense || !G.__hugoAct || (!frame.up && now < frame.retryAt)) return;
+    frame.busy = true;
+    try {
+      if (!frame.up) {
+        const h = await (await fetch(FRAME + '/health', { cache: 'no-store', signal: AbortSignal.timeout(3000) })).json();
+        if (!h.alive) throw 0;
+        frame.up = true; frame.fails = 0; frameStream();
+      }
+      const r = await (await framePost('/api/body/sense', frameSense())).json();
+      frame.fails = 0; frameBorn(r.instance_id);
+    } catch (e) {
+      if (frame.up && ++frame.fails >= 3) { frame.up = false; frame.es.close(); frameDied('frame unreachable'); }   // the process is gone, and that being with it
+      if (!frame.up) {   // a dead body waits 30 s for the supervisor's next being, then lives on REL alone; with no frame, a quiet look every 15 s
+        frame.retryAt = now + (frame.dead ? 2000 : 15000);
+        if (frame.dead && now - frame.deadAt > 30000) { frame.dead = false; frame.id = null; G.__hugoLife(true); }
+      }
+    } finally { frame.busy = false; }
+  }
+  function frameStream() {
+    const es = frame.es = new EventSource(FRAME + '/events');
+    es.onerror = () => { if (S) frameDied('frame process gone'); };   // killed outright it sends no ENDED; the being lived in its RAM, so it is dead all the same
+    es.onmessage = m => {
+      let e; try { e = JSON.parse(m.data); } catch (x) { return; }
+      if (!S) return;
+      if (e.event_type === 'BIRTH') return frameBorn(e.instance_id);
+      if (frame.dead || (e.instance_id && e.instance_id !== frame.id)) return;
+      if (e.event_type === 'BODY_INTENT') {
+        if (MOT.includes(e.lean)) { S.nudge.hugo[e.lean] = { v: .3, until: S.t + 20 }; logEv('mind', 'mind', 'hugo', 0, { do: e.lean }); }
+        lastResult = `${e.do}${e.target ? ' ' + e.target : ''}: ${G.__hugoAct(e.do, e.target)}`;
+        if (e.say) G.__hugoSay(e.say);
+        S.hugoMind = { ...e, result: lastResult };
+      }
+      // as with the dove, only its replies to the visitor are spoken: its background musings stay in the agent's own log
+      else if (e.event_type === 'PAGE' && (e.tags || []).includes('chat_reply')) G.__hugoSay(e.text);
+      else if (e.event_type === 'ENDED') frameDied(e.cause);
+    };
+  }
+  if (FRAME) {
+    setInterval(frameTick, 1000);
+    const powerOff = () => { if (frame.up && !frame.dead && S && G.__hugoSense) framePost('/api/body/sense', frameSense(), true).catch(() => {}); };
+    document.addEventListener('visibilitychange', () => { if (document.hidden) powerOff(); });
+    addEventListener('pagehide', () => { frame.leaving = true; powerOff(); });
+    G.__hugoChat = message => framePost('/api/chat', JSON.stringify({ message }));   // no chat box for him yet: the console can talk to him
+    G.__hugoFrame = frame;   // read-only peek for debugging, like __hugo
+  }
   function spotKey(el, x) {
     let t = '';
     try { const sec = el && el.closest && el.closest('section,article'), hh = sec && sec.querySelector('h1,h2,h3'); t = (hh ? hh.textContent : '').trim().slice(0, 30); } catch (e) { /* detached */ }
     return t + '|' + Math.round(x / 40);
   }
   function newBody(who, id, mode) {
-    if (!S || who !== 'dove') return;
-    const M = S.M, prev = M.doveId; M.doveId = id;
-    if (S.hold.who === 'dove') { S.hold = { who: null, t0: 0, tier: 0, by: 'visitor', stress: 0 }; if (S.ph) S.ph.frozen = false; }
+    if (!S || (who !== 'dove' && who !== 'hugo')) return;
+    const M = S.M, k = who + 'Id', prev = M[k]; M[k] = id;
+    if (S.hold.who === who) { S.hold = { who: null, t0: 0, tier: 0, by: 'visitor', stress: 0 }; if (S.ph) S.ph.frozen = false; }
     if (prev == null || prev === id) return;
-    // a different dove: nothing the old one felt carries over; Hugo's memories of "the dove" fade by half
-    M.facts = M.facts.filter(f => f.b !== 'dove');
-    for (const f of M.facts) if (f.a === 'dove') f.v *= .5;
-    M.hab.dove = o0(HABK); S.conf.dove = 0; M.W.dove = {};
-    S.body.dove = { ruffled: 0, sore: 0, dazed: 0, hits: 0, lastHit: null, heldBy: null, heldUntil: 0 };
-    S.I.dove = o0(MOT, .2); S.phi.dove = o0(MOT); S.cur.dove = null; S.imp.dove = [];
+    // a different being in that body: nothing the old one felt carries over; the other's memories of it fade by half
+    M.facts = M.facts.filter(f => f.b !== who);
+    for (const f of M.facts) if (f.a === who) f.v *= .5;
+    M.hab[who] = o0(HABK); S.conf[who] = 0; M.W[who] = {};
+    S.body[who] = { ruffled: 0, sore: 0, dazed: 0, hits: 0, lastHit: null, heldBy: null, heldUntil: 0 };
+    S.I[who] = o0(MOT, .2); S.phi[who] = o0(MOT); S.cur[who] = null; S.imp[who] = [];
     refreshMem();
     if (S.ph) close('separated');
   }
