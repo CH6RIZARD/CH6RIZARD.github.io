@@ -10,9 +10,15 @@ button{font:inherit;padding:10px 16px;border:0;border-radius:8px;background:#7c8
  let tok=''; try{ if(location.hash.length>1){tok=location.hash.slice(1);localStorage.setItem('vt',tok);history.replaceState(null,'',location.pathname)} tok=localStorage.getItem('vt')||'' }catch{}
  if(!tok){ s.textContent='Open your private link once to sign this device in.'; return }
  try{
-  const r=await fetch('current.json?'+Date.now(),{cache:'no-store'}); const j=await r.json();
+  const up=u=>fetch(u+'/manifest.webmanifest',{mode:'no-cors',cache:'no-store'}).then(()=>true).catch(()=>false);
+  let j={}; try{ j=await (await fetch('current.json?'+Date.now(),{cache:'no-store'})).json() }catch{}
+  let ok=!!j.url&&await up(j.url);
+  if(!ok){ // Pages redeploys a few minutes after a tunnel change: read the commit itself (API, then raw) for a newer address
+   for(const f of ['https://api.github.com/repos/CH6RIZARD/CH6RIZARD.github.io/contents/vf-5703b66ba4/current.json','https://raw.githubusercontent.com/CH6RIZARD/CH6RIZARD.github.io/main/vf-5703b66ba4/current.json?'+Date.now()]){
+    try{ const k=await (await fetch(f,{cache:'no-store',headers:f.includes('api.github')?{Accept:'application/vnd.github.raw'}:{}})).json(); if(k.url&&k.url!==j.url&&await up(k.url)){ j=k; ok=true; break } }catch{}
+   }
+  }
   if(!j.url) throw 0;
-  const ok=await fetch(j.url+'/manifest.webmanifest',{mode:'no-cors',cache:'no-store'}).then(()=>true).catch(()=>false);
   if(!ok){ s.textContent='Your PC looks offline.'; m.textContent='Last address was set '+(j.at||'?')+'. Retrying automatically every 15 s.'; x.innerHTML='<button onclick="location.reload()">Try again</button>'; setTimeout(()=>location.reload(),15000); return }
   const v=new URLSearchParams(location.search).get('v');location.replace(j.url+'/?t='+encodeURIComponent(tok)+(/^(fleet|fund|job|needs|radar|ezer|mail|vc|today)$/.test(v||'')?'#'+v:''));
  }catch{ s.textContent='Could not reach the fleet.'; x.innerHTML='<button onclick="location.reload()">Try again</button>' }
