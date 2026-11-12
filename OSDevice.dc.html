@@ -16,17 +16,25 @@
         <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
           <div style="position:absolute;inset:0;background:#0b0b0c">
             <sc-if value="{{ pHome }}" hint-placeholder-val="{{ true }}">
-              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:30px 14px;padding:92px 30px 0">
-                <sc-for list="{{ items }}" as="it" hint-placeholder-count="6">
-                  <button type="button" onClick="{{ it.pick }}" aria-label="{{ it.name }}" style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:0;background:none;border:0;cursor:pointer;color:#fff">
-                    <sc-if value="{{ it.hasThumb }}" hint-placeholder-val="{{ false }}"><span style="width:84px;height:84px;border-radius:20px;background-size:cover;background-position:center;background-image:url({{ it.thumb }})"></span></sc-if>
-                    <sc-if value="{{ it.noThumb }}" hint-placeholder-val="{{ true }}"><span style="width:84px;height:84px;border-radius:20px;background:#1d1d1b;border:1px solid #3A3936;display:grid;place-items:center;font:500 19px/1 'IBM Plex Mono',monospace;color:#9A9890">{{ it.glyph }}</span></sc-if>
-                    <span style="font:400 15px/1.2 Inter,system-ui,sans-serif;text-align:center;max-width:108px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.short }}</span>
+              <div aria-hidden="true" style="{{ wall }}"></div>
+              <sc-for list="{{ homeItems }}" as="it" hint-placeholder-count="4">
+                <button type="button" onClick="{{ it.pick }}" aria-label="{{ it.name }}" style="{{ it.st }}">
+                  <sc-if value="{{ it.hasThumb }}" hint-placeholder-val="{{ false }}"><span class="sk" style="display:block;width:104px;height:104px;border-radius:25px"><span style="display:block;width:100%;height:100%;border-radius:25px;background-size:cover;background-position:center;background-image:url({{ it.thumb }})"></span></span></sc-if>
+                  <sc-if value="{{ it.noThumb }}" hint-placeholder-val="{{ true }}"><span style="width:104px;height:104px;border-radius:25px;background:#1d1d1b;border:1px solid #3A3936;display:grid;place-items:center;font:500 23px/1 'IBM Plex Mono',monospace;color:#9A9890">{{ it.glyph }}</span></sc-if>
+                  <span style="font:400 15px/1.2 Inter,system-ui,sans-serif;text-align:center;max-width:124px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.6)">{{ it.short }}</span>
+                </button>
+              </sc-for>
+              <div style="position:absolute;left:16px;right:16px;bottom:26px;height:92px;border-radius:32px;background:rgba(236,234,227,.07);border:1px solid rgba(236,234,227,.09);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;gap:24px">
+                <sc-for list="{{ homeItems }}" as="it" hint-placeholder-count="4">
+                  <button type="button" onClick="{{ it.pick }}" aria-label="{{ it.dock }}" tabindex="-1" style="padding:0;background:none;border:0;cursor:pointer;display:block">
+                    <sc-if value="{{ it.hasThumb }}" hint-placeholder-val="{{ false }}"><span class="sk" style="display:block;width:62px;height:62px;border-radius:15px"><span style="display:block;width:100%;height:100%;border-radius:15px;background-size:cover;background-position:center;background-image:url({{ it.thumb }})"></span></span></sc-if>
+                    <sc-if value="{{ it.noThumb }}" hint-placeholder-val="{{ true }}"><span style="width:62px;height:62px;border-radius:15px;background:#1d1d1b;border:1px solid #3A3936;display:grid;place-items:center;font:500 15px/1 'IBM Plex Mono',monospace;color:#9A9890">{{ it.glyph }}</span></sc-if>
                   </button>
                 </sc-for>
               </div>
             </sc-if>
-            <sc-if value="{{ pLive }}" hint-placeholder-val="{{ false }}"><iframe src="{{ pSrc }}" title="{{ name }}" allow="fullscreen; autoplay; clipboard-write" style="position:absolute;left:0;right:0;top:54px;bottom:0;width:100%;height:calc(100% - 54px);border:0;background:#000"></iframe></sc-if>
+            <sc-if value="{{ pWait }}" hint-placeholder-val="{{ false }}"><div class="sk" style="position:absolute;left:0;right:0;top:54px;bottom:0"></div></sc-if>
+            <sc-if value="{{ pLive }}" hint-placeholder-val="{{ false }}"><iframe src="{{ pSrc }}" title="{{ name }}" onLoad="{{ pLoaded }}" allow="fullscreen; autoplay; clipboard-write" style="{{ pFr }}"></iframe></sc-if>
             <sc-if value="{{ pSlot }}" hint-placeholder-val="{{ false }}"><image-slot id="{{ slotId }}" shape="rect" placeholder="{{ slotText }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot></sc-if>
             <sc-if value="{{ pPlate }}" hint-placeholder-val="{{ false }}">
               <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 34px;text-align:center">
@@ -66,9 +74,9 @@
     <sc-if value="{{ isMon }}" hint-placeholder-val="{{ false }}">
       <div style="{{ holder }}"><div style="{{ inner }}">
         <sc-for list="{{ screens }}" as="m" hint-placeholder-count="1">
-          <figure style="margin:0;width:1468px;flex:0 0 auto">
+          <figure style="{{ m.fig }}">
             <div style="background:#0b0b0c;border-radius:28px;padding:14px 14px 0;box-shadow:inset 0 0 0 2px #2a2a2c">
-              <div style="position:relative;width:1440px;height:900px;border-radius:8px;overflow:hidden;background:#161615">
+              <div style="{{ m.scr }}">
                 <sc-if value="{{ m.desk }}" hint-placeholder-val="{{ true }}">
                   <div style="position:absolute;inset:0;display:grid;grid-auto-flow:column;grid-template-rows:repeat(4,196px);gap:14px 30px;padding:34px 56px;justify-content:start;align-content:start">
                     <sc-for list="{{ m.items }}" as="it" hint-placeholder-count="7">
@@ -89,11 +97,13 @@
                     </div>
                     <div style="flex:0 0 66px;display:flex;align-items:center;gap:16px;padding:0 24px;background:#161615"><span style="width:360px;flex:0 0 auto;color:#9A9890;font:400 24px/1 'IBM Plex Mono',monospace">‹ › ↻</span><span style="flex:1;height:44px;border-radius:999px;background:#0b0b0c;display:flex;align-items:center;padding:0 24px;font:400 23px/1 'IBM Plex Mono',monospace;color:#ECEAE3;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">{{ m.url }}</span></div>
                     <div style="flex:1;position:relative;background:#000">
-                      <sc-for list="{{ m.tabs }}" as="t" hint-placeholder-count="3"><iframe src="{{ t.src }}" title="{{ t.label }}" allow="fullscreen" style="{{ t.frame }}"></iframe></sc-for>
+                      <sc-if value="{{ m.wait }}" hint-placeholder-val="{{ false }}"><div class="sk" style="position:absolute;inset:0"></div></sc-if>
+                      <sc-for list="{{ m.tabs }}" as="t" hint-placeholder-count="3"><iframe src="{{ t.src }}" title="{{ t.label }}" onLoad="{{ t.loaded }}" allow="fullscreen" style="{{ t.frame }}"></iframe></sc-for>
                     </div>
                   </div>
                 </sc-if>
-                <sc-if value="{{ m.web }}" hint-placeholder-val="{{ false }}"><iframe src="{{ m.src }}" title="{{ m.title }}" allow="fullscreen; pointer-lock" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:#000"></iframe></sc-if>
+                <sc-if value="{{ m.webWait }}" hint-placeholder-val="{{ false }}"><div class="sk" style="position:absolute;inset:0"></div></sc-if>
+                <sc-if value="{{ m.web }}" hint-placeholder-val="{{ false }}"><iframe src="{{ m.src }}" title="{{ m.title }}" onLoad="{{ m.loaded }}" allow="fullscreen; pointer-lock" style="{{ m.fr }}"></iframe></sc-if>
                 <sc-if value="{{ m.plate }}" hint-placeholder-val="{{ false }}">
                   <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
                     <span style="font:300 110px/1.05 Fraunces,Georgia,serif;letter-spacing:-.03em">{{ m.title }}</span>
@@ -130,9 +140,9 @@
 
     <sc-if value="{{ isGate }}" hint-placeholder-val="{{ false }}">
       <div style="{{ holder }}"><div style="{{ inner }}">
-        <figure style="margin:0;width:1468px;flex:0 0 auto">
+        <figure style="{{ fig }}">
           <div style="background:#0b0b0c;border-radius:28px;padding:14px 14px 0;box-shadow:inset 0 0 0 2px #2a2a2c">
-            <div style="position:relative;width:1440px;height:900px;border-radius:8px;overflow:hidden;background:#161615;display:flex;flex-direction:column;justify-content:center;gap:36px;padding:0 220px">
+            <div style="{{ gateScr }}">
               <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
                 <sc-for list="{{ gates }}" as="g" hint-placeholder-count="3">
                   <button type="button" onClick="{{ g.toggle }}" aria-pressed="{{ g.on }}" style="min-height:150px;text-align:left;padding:26px 30px;background:none;border:2px solid #ECEAE3;border-radius:4px;color:#ECEAE3;font:500 28px/1.5 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer">{{ g.n }}<span style="display:block;color:#9A9890">{{ g.state }}</span></button>
@@ -160,7 +170,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900,&quot;height&quot;:620},&quot;kind&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;mon&quot;,&quot;options&quot;:[&quot;phone&quot;,&quot;mon&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;items&quot;:{&quot;editor&quot;:null,&quot;default&quot;:[],&quot;tsType&quot;:&quot;object[]&quot;},&quot;open&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;object|null&quot;},&quot;home&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;()=&gt;void&quot;},&quot;info&quot;:{&quot;editor&quot;:null,&quot;default&quot;:null,&quot;tsType&quot;:&quot;()=&gt;void&quot;}}">
 class Component extends DCLogic {
-  state = { tab: 'maren', note: null, w: 0, h: 0, pw: true, se: true, mo: true, alive: true, uuid: this.newId(), dt: 0, gen: 1 };
+  state = { tab: 'maren', note: null, ld: {}, w: 0, h: 0, pw: true, se: true, mo: true, alive: true, uuid: this.newId(), dt: 0, gen: 1 };
   box = React.createRef();
   newId() { try { return crypto.randomUUID(); } catch (e) { return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, () => ((Math.random() * 16) | 0).toString(16)); } }
   componentDidMount() {
@@ -174,35 +184,59 @@ class Component extends DCLogic {
     }, 100);
   }
   componentDidUpdate() { if (this.fit) this.fit(); }
-  componentDidUpdate(p) { if (p.note !== this.props.note && this.state.note) this.setState({ note: null }); }
-  componentWillUnmount() { if (this.ro) this.ro.disconnect(); clearInterval(this.timer); (this.tm || []).forEach(clearTimeout); removeEventListener('resize', this.fit); }
+  componentDidUpdate(p) { if (p.note !== this.props.note && this.state.note) this.setState({ note: null });
+    // a newly opened build shows its skeleton until its frame loads (or 9 s pass, so a frame that never reports cannot hide the build)
+    if (((p.open || {}).id) !== ((this.props.open || {}).id)) { this.setState({ ld: {} }); clearTimeout(this.ldT); this.ldT = setTimeout(() => this.setState({ ld: { all: 1 } }), 9000); } }
+  // home-screen wallpaper: wind-swept dune ridges, each with ripple lines fading down its lee side. Drawn once, in the page's own greys.
+  wall() {
+    if (this._wall) return this._wall;
+    let d = '';
+    [[150, 62, .17], [318, -78, .15], [486, 70, .17], [650, -60, .13], [800, 48, .11]].forEach(([y, a, o], r) => {
+      const c = j => `M-20 ${y + a * .5 + j * 7} C ${96 + j * 5} ${y - a + j * (9 + r)} ${250 - j * 9} ${y + a * 1.15 + j * (12 - r)} 422 ${y - a * .55 + j * 6}`;
+      d += `<path d="${c(0)} L422 ${y + 190} L-20 ${y + 190}Z" fill="url(#s)"/>`;
+      for (let j = 0; j < 10; j++) d += `<path d="${c(j)}" fill="none" stroke="#ECEAE3" stroke-opacity="${(o * (1 - j / 10) ** 2).toFixed(3)}" stroke-width="${j ? 1 : 1.5}"/>`;
+    });
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 874" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".42"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b1a18"/><stop offset="1" stop-color="#0d0d0d"/></linearGradient></defs><rect width="402" height="874" fill="url(#b)"/>${d}</svg>`;
+    return (this._wall = 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")');
+  }
+  componentWillUnmount() { clearTimeout(this.ldT); if (this.ro) this.ro.disconnect(); clearInterval(this.timer); (this.tm || []).forEach(clearTimeout); removeEventListener('resize', this.fit); }
   renderVals() {
     const s = this.state, pr = this.props, phone = pr.kind === 'phone', o = pr.open || null, id = o && o.id, L = true;
+    // phones get a taller, narrower monitor (1000 x 1000 instead of 1440 x 900) so the preview is larger and shows more
+    const tall = !phone && innerWidth > 0 && innerWidth <= 760, SW = tall ? 1000 : 1440, SH = tall ? 1000 : 900;
+    const ok = src => !!(s.ld.all || s.ld[src]), loaded = src => () => this.setState(st => ({ ld: { ...st.ld, [src]: 1 } }));
+    const fr = src => ({ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0, background: '#000', opacity: ok(src) ? 1 : 0, transition: 'opacity .3s' });
+    const SPOT = [[40, 104], [236, 150], [96, 318], [252, 400], [44, 520], [222, 590]];
     const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
     const WEB = { hugo: 'realms/hugo/index.html', revelation: 'https://revelati6n.com' };
     const notes = pr.notes || [], nCur = s.note === 'list' ? null : notes.find(n => n.id === (s.note || pr.note)) || null; // 'list': "← Notes" pressed while the parent still pins a note
     const noteList = notes.map(n => ({ ...n, sel: (nCur || notes[0] || {}).id === n.id, pick: () => this.setState({ note: n.id }) }));
     const STORES = [['maren', 'https://live-maren.com/', 'MAREN', '#ECEAE3'], ['sly', 'https://www.slysculpted.com/', 'Sly Sculpted', '#9A9890'], ['impact', 'https://impact-threads.com/', 'Impact Threads', '#6B6D73'], ['_', '', '', '#8FA0FF']];
-    const tabs = STORES.filter(t => t[0] !== '_').map(([key, src, label, dot]) => ({ src, label, dot, on: s.tab === key, go: () => this.setState({ tab: key }),
+    const tabs = STORES.filter(t => t[0] !== '_').map(([key, src, label, dot]) => ({ src, label, dot, on: s.tab === key, go: () => this.setState({ tab: key }), loaded: loaded(src), wait: s.tab === key && !ok(src),
       style: { flex: '0 0 auto', height: 54, display: 'flex', alignItems: 'center', gap: 14, padding: '0 28px', background: s.tab === key ? '#161615' : 'none', color: s.tab === key ? '#ECEAE3' : '#9A9890', border: 0, borderRadius: '14px 14px 0 0', cursor: 'pointer', font: '400 24px/1 Inter,system-ui,sans-serif' },
-      frame: { position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0, background: '#000', visibility: s.tab === key ? 'visible' : 'hidden' } }));
-    const scr = (x) => ({ browser: false, tabs: [], url: '', notes: false, noteList: [], cur: {}, items: [], desk: false, web: false, plate: false, src: '', title: '', status: '', label: '', hasLabel: false, ...x });
+      frame: { ...fr(src), visibility: s.tab === key ? 'visible' : 'hidden' } }));
+    const scr = (x) => ({ fig: { margin: 0, width: SW + 28, flex: '0 0 auto' }, scr: { position: 'relative', width: SW, height: SH, borderRadius: 8, overflow: 'hidden', background: '#161615' }, wait: false, webWait: false, fr: {}, loaded: null, browser: false, tabs: [], url: '', notes: false, noteList: [], cur: {}, items: [], desk: false, web: false, plate: false, src: '', title: '', status: '', label: '', hasLabel: false, ...x });
     let screens = [], gate = false;
     if (!phone) {
       if (!o) screens = [scr({ desk: true, items: pr.items || [] })];
-      else if (id === 'stores') screens = [scr({ browser: true, tabs, url: (STORES.find(t => t[0] === s.tab) || STORES[0])[1] })];
+      else if (id === 'stores') screens = [scr({ browser: true, tabs, wait: tabs.some(t => t.wait), url: (STORES.find(t => t[0] === s.tab) || STORES[0])[1] })];
       else if (id === 'notes') screens = [scr({ notes: true, noteList, cur: nCur || notes[0] || {} })];
-      else if (WEB[id]) screens = [scr({ web: true, src: WEB[id], title: o.name })];
+      else if (WEB[id]) screens = [scr({ web: true, src: WEB[id], title: o.name, webWait: !ok(WEB[id]), fr: fr(WEB[id]), loaded: loaded(WEB[id]) })];
       else if (id === 'frame') gate = true;
       else screens = [scr({ plate: true, title: o.name, status: o.status })];
     }
     const W = s.w || 1, H = s.h || 1, n = screens.length;
-    const fits = phone ? [[402, 874]] : n > 1 ? [[3 * 1468 + 160, 1090], [2 * 1468 + 80, 2 * 1090 + 80], [1468, 3 * 1090 + 160]] : [[1468, 980]];
+    const fits = phone ? [[402, 874]] : n > 1 ? [[3 * 1468 + 160, 1090], [2 * 1468 + 80, 2 * 1090 + 80], [1468, 3 * 1090 + 160]] : [[SW + 28, SH + 80]];
     let LW = fits[0][0], LH = fits[0][1], k = 0;
     for (const [fa, fb] of fits) { const q = Math.min(1, W / fa, H / fb); if (q > k) { k = q; LW = fa; LH = fb; } }
     const open = s.pw && s.se && s.mo;
     return {
       box: this.box, isPhone: phone, isMon: !phone && !gate, isGate: gate, screens, items: pr.items || [],
+      fig: { margin: 0, width: SW + 28, flex: '0 0 auto' }, gateScr: { position: 'relative', width: SW, height: SH, borderRadius: 8, overflow: 'hidden', background: '#161615', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 36, padding: tall ? '0 60px' : '0 220px' },
+      wall: { position: 'absolute', inset: 0, background: '#0b0b0c ' + this.wall() + ' center / cover no-repeat' },
+      homeItems: (pr.items || []).map((it, i) => ({ ...it, dock: it.name + ' (dock)', st: { position: 'absolute', left: (SPOT[i] || SPOT[0])[0], top: (SPOT[i] || SPOT[0])[1], display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, padding: 0, background: 'none', border: 0, cursor: 'pointer', color: '#fff' } })),
+      pWait: phone && !!o && !!APP[id] && L && !ok(APP[id]), pLoaded: loaded(APP[id] || ''),
+      pFr: { position: 'absolute', left: 0, right: 0, top: 54, bottom: 0, width: '100%', height: 'calc(100% - 54px)', border: 0, background: '#000', opacity: ok(APP[id] || '') ? 1 : 0, transition: 'opacity .3s' },
       holder: { width: LW * k, height: LH * k, position: 'relative', flex: '0 0 auto' },
       inner: { position: 'absolute', left: 0, top: 0, width: LW, height: LH, transform: 'scale(' + k + ')', transformOrigin: '0 0', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignContent: 'flex-start', gap: 80 },
       pHome: phone && !o, pLive: phone && !!o && !!APP[id] && L, pSrc: (L && APP[id]) || '', pSlot: phone && !!o && !!APP[id] && !L, pPlate: phone && !!o && !APP[id] && id !== 'notes',

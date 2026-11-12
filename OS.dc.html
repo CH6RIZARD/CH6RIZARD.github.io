@@ -23,21 +23,34 @@ a:hover{color:#8FA0FF;border-color:#8FA0FF}
 button{font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit}
 h1,h2,h3,p{margin:0}
 ::-webkit-scrollbar{width:0;height:0}
+html{touch-action:manipulation}
+/* skeleton loaders: every stand-in keeps the shape of what it stands in for and shimmers in the page's own greys */
+@keyframes sk{to{background-position:-200% 0}}
+.sk,.sc-placeholder,[data-sk] .sc-placeholder[title=OSDevice]::before{background:linear-gradient(100deg,#1b1b19 38%,#282826 50%,#1b1b19 62%) 0 0/200% 100% #1b1b19!important;animation:sk 1.7s linear infinite;border:0!important}
+.sc-placeholder{border-radius:14px!important}
+[data-sk=phone] .sc-placeholder:not([title=OSDevice]){border-radius:48px!important}
+[data-sk] .sc-placeholder[title=OSDevice]{background:none!important;animation:none;border-radius:0!important;display:grid;place-items:center;container-type:size}
+[data-sk] .sc-placeholder[title=OSDevice]::before{content:"";margin-bottom:38px}
+[data-sk=phone] .sc-placeholder[title=OSDevice]::before{width:min(100cqw,calc((100cqh - 38px)*402/874));aspect-ratio:402/874;border-radius:12%/5.5%}
+[data-sk=mon] .sc-placeholder[title=OSDevice]::before{width:min(100cqw,calc((100cqh - 38px)*1468/980));aspect-ratio:1468/980;border-radius:10px}
+@media (max-width:760px){[data-sk=mon] .sc-placeholder[title=OSDevice]::before{width:min(100cqw,calc((100cqh - 38px)*1028/1080));aspect-ratio:1028/1080}}
+@keyframes skin{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.sk,.sc-placeholder,[data-sk] .sc-placeholder[title=OSDevice]::before{animation:none}}
 </style>
 </helmet>
 <div style="height:100%;display:flex;flex-direction:column;overflow:hidden;position:relative;font:400 15px/1.5 Inter,system-ui,sans-serif">
 
   <sc-if value="{{ isDesk }}" hint-placeholder-val="{{ true }}">
     <div data-screen-label="Devices" ref="{{ col }}" style="{{ grid }}">
-      <div ref="{{ phRef }}" onPointerDown="{{ actPh }}" onFocus="{{ actPh }}" style="{{ phBox }}"><div style="flex:1;min-height:0"><dc-import name="OSDevice" kind="phone" items="{{ phItems }}" notes="{{ notes }}" open="{{ phOpen }}" home="{{ phHome }}" note="{{ moreId }}" hint-size="100%,100%" style="width:100%;height:100%"></dc-import></div><div style="{{ phFoot }}">
+      <div ref="{{ phRef }}" onPointerDown="{{ actPh }}" onFocus="{{ actPh }}" onClick="{{ tapPh }}" style="{{ phBox }}"><div data-sk="phone" style="flex:1;min-height:0"><dc-import name="OSDevice" kind="phone" items="{{ phItems }}" notes="{{ notes }}" open="{{ phOpen }}" home="{{ phHome }}" note="{{ moreId }}" hint-size="100%,100%" style="width:100%;height:100%"></dc-import></div><div style="{{ phFoot }}">
 
   <sc-if value="{{ phHas }}" hint-placeholder-val="{{ false }}">
-    <span style="flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:400 17px/1 Fraunces,Georgia,serif">{{ phCur.name }}</span>
+    <span style="{{ phName }}">{{ phCur.name }}</span>
     <sc-if value="{{ phCur.hasDetails }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ phCur.spec }}" style="flex:0 0 auto;height:28px;padding:0 12px;background:none;border:1px solid #3A3936;border-radius:999px;cursor:pointer;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase" style-hover="border-color:#8FA0FF;color:#8FA0FF">Details</button></sc-if>
     <sc-if value="{{ phCur.hasHref }}" hint-placeholder-val="{{ false }}"><a href="{{ phCur.href }}" target="_blank" rel="noopener" style="flex:0 0 auto;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase">Open</a></sc-if>
   </sc-if>
 </div></div>
-      <div ref="{{ moRef }}" onPointerDown="{{ actMo }}" onFocus="{{ actMo }}" style="{{ moBox }}"><div style="flex:1;min-height:0;position:relative"><dc-import name="OSDevice" kind="mon" items="{{ moItems }}" notes="{{ notes }}" open="{{ moOpen }}" home="{{ moHome }}" note="{{ moreId }}" hint-size="100%,100%" style="width:100%;height:100%"></dc-import></div><div style="{{ moFoot }}">
+      <div ref="{{ moRef }}" onPointerDown="{{ actMo }}" onFocus="{{ actMo }}" onClick="{{ tapMo }}" style="{{ moBox }}"><div data-sk="mon" style="flex:1;min-height:0;position:relative"><dc-import name="OSDevice" kind="mon" items="{{ moItems }}" notes="{{ notes }}" open="{{ moOpen }}" home="{{ moHome }}" note="{{ moreId }}" hint-size="100%,100%" style="width:100%;height:100%"></dc-import></div><div style="{{ moFoot }}">
   
   <sc-if value="{{ moHas }}" hint-placeholder-val="{{ false }}">
     <span style="flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:400 17px/1 Fraunces,Georgia,serif">{{ moCur.name }}</span>
@@ -52,7 +65,6 @@ h1,h2,h3,p{margin:0}
         <sc-if value="{{ canWide }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ toggleMoWide }}" aria-pressed="{{ moWide }}" style="justify-self:end;height:32px;padding:0 14px;background:none;border:1px solid #3A3936;border-radius:999px;cursor:pointer;color:#9A9890;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap" style-hover="border-color:#8FA0FF;color:#8FA0FF">{{ moWideLabel }}</button></sc-if>
       </div>
       <div ref="{{ moreRef }}" style="{{ moreBox }}">
-        <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:center;padding:6px 0 2px"><button type="button" onClick="{{ backToPhone }}" style="height:34px;padding:0 16px;background:none;border:1px solid #3A3936;border-radius:999px;cursor:pointer;color:#ECEAE3;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase" style-hover="border-color:#8FA0FF;color:#8FA0FF">← Back</button></div></sc-if>
         <sc-if value="{{ moreBackNarrow }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:center;padding:6px 0 2px"><button type="button" onClick="{{ moreBack }}" style="height:34px;padding:0 16px;background:none;border:1px solid #3A3936;border-radius:999px;cursor:pointer;color:#ECEAE3;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase" style-hover="border-color:#8FA0FF;color:#8FA0FF">← Back</button></div></sc-if>
         <sc-if value="{{ isNarrow }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ toggleMore }}" aria-expanded="{{ moreOpen }}" style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 4px;background:none;border:0;cursor:pointer;color:#9A9890;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap" style-hover="color:#ECEAE3"><span style="{{ chev }}">›</span>Non-mobile / web builds</button></sc-if>
         <sc-if value="{{ moreOpen }}" hint-placeholder-val="{{ false }}">
@@ -62,10 +74,18 @@ h1,h2,h3,p{margin:0}
             </sc-for>
           </div>
         </sc-if>
+        <sc-if value="{{ moreDetail }}" hint-placeholder-val="{{ false }}">
+          <div role="region" aria-label="{{ moreCur.name }}" style="text-align:left;padding:16px 4px 18px;border-top:1px solid #262624;animation:skin .35s both">
+            <span style="font:400 11px/1.4 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#9A9890">{{ moreCur.status }} · {{ moreCur.kind }}</span>
+            <h2 style="margin-top:6px;font:300 28px/1.1 Fraunces,Georgia,serif;letter-spacing:-.02em">{{ moreCur.name }}</h2>
+            <p style="margin:12px 0 14px;font-size:16px;line-height:1.6;text-wrap:pretty">{{ moreCur.about }}</p>
+            <div style="display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid #262624;font-size:14px;line-height:1.5"><b style="font:400 11px/1.6 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#9A9890">Stack</b><span>{{ moreCur.stack }}</span></div>
+          </div>
+        </sc-if>
       </div>
-<sc-if value="{{ showExpandFlow }}" hint-placeholder-val="{{ false }}"><button ref="{{ expRef }}" type="button" onClick="{{ revealMore }}" style="{{ expFlowStyle }}" style-hover="color:#8FA0FF">Expand monitor <span style="display:inline-block;transform:rotate(90deg)">›</span></button></sc-if>
+<sc-if value="{{ showExpandFlow }}" hint-placeholder-val="{{ false }}"><button ref="{{ expRef }}" type="button" onClick="{{ flowGo }}" style="{{ expFlowStyle }}" style-hover="color:#8FA0FF"><sc-if value="{{ moOn }}" hint-placeholder-val="{{ false }}">← Back</sc-if><sc-if value="{{ moOff }}" hint-placeholder-val="{{ true }}">Expand monitor <span style="display:inline-block;transform:rotate(90deg)">›</span></sc-if></button></sc-if>
       <sc-if value="{{ drawerInline }}" hint-placeholder-val="{{ false }}">
-        <div role="region" aria-label="{{ focus.name }}" style="{{ inlineBox }}">
+        <div ref="{{ inRef }}" role="region" aria-label="{{ focus.name }}" style="{{ inlineBox }}">
           <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px"><h2 style="font:300 26px/1.1 Fraunces,Georgia,serif;letter-spacing:-.02em">{{ focus.name }}</h2><button type="button" onClick="{{ closeDrawer }}" style="height:32px;padding:0;background:none;border:0;cursor:pointer;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#9A9890" style-hover="color:#8FA0FF">Close</button></div>
           <p style="margin:12px 0 14px;font-size:15px;line-height:1.6;text-wrap:pretty">{{ focus.about }}</p>
           <sc-for list="{{ focus.rows }}" as="r" hint-placeholder-count="4">
@@ -211,8 +231,38 @@ class Component extends DCLogic {
       if (d) g.scrollBy({ top: d, behavior: 'smooth' });
     });
   }
-  expRef = React.createRef();
+  expRef = React.createRef(); inRef = React.createRef();
+  // ---- phones: both frames are tied to the scroll position ----
+  e = 0; eTo = 0; lastS = 0;
+  rm() { return matchMedia('(prefers-reduced-motion:reduce)').matches; }
+  // rest: the phone leaves room for the list and a slice of the monitor. full: the whole phone and its title row fit between the nav and the "Expand monitor" strip. D: scroll distance that takes it back to rest.
+  dims() { const H = innerHeight, dev = Math.round((innerWidth - 12) * 874 / 402), rest = Math.min(H - 150, dev + 44) + 28, full = Math.max(rest, Math.min(H - 54, dev + 66)); return { rest, full, D: Math.max(80, 1.5 * (full - rest)) }; }
+  top() { const g = this.grid(); return g ? g.scrollTop : 0; }
+  // tapped, the phone grows from rest to full (e eases 0 -> 1); scrolling away hands the growth back pixel by pixel
+  phH() { const d = this.dims(); return Math.round(d.rest + (d.full - d.rest) * this.e * (1 - Math.min(1, this.top() / d.D))); }
+  phW(h) { return Math.round((h - 66) * 402 / 874); }
+  // scroll offset that puts el under the nav once the phone is back at rest (its growth pushes everything below it down)
+  restTop(el) { const ph = this.phRef.current; return el.offsetTop - (ph && !this.state.more ? ph.offsetHeight - this.dims().rest : 0) - 2; }
+  // the monitor's spot: the list heading above it when both fit on screen, otherwise the monitor alone
+  moTop() { const g = this.grid(), more = this.moreRef.current, mo = this.moRef.current; if (!g || !more || !mo || this.state.more) return 0;
+    const t = this.restTop(more.offsetHeight + mo.offsetHeight + 16 <= g.clientHeight ? more : mo), ph = this.phRef.current;
+    return Math.max(1, Math.min(t, g.scrollHeight - g.clientHeight - (ph ? ph.offsetHeight - this.dims().rest : 0))); }
+  moM() { const t = this.moTop(); return t ? Math.min(1, this.top() / t) : 0; } // 0 at the top, 1 when the monitor is in its spot
+  fx = () => { // written straight to the two boxes so a scroll frame costs no re-render; renderVals computes the same values
+    const g = this.grid(), ph = this.phRef.current, mo = this.moRef.current; if (!g || !ph || !mo || !this.narrow() || this.state.more) return;
+    const s = g.scrollTop; if (this.e && s > this.lastS && s >= this.dims().D) this.e = this.eTo = 0; // scrolled past the phone: it stays at rest
+    this.lastS = s;
+    const h = this.phH(); ph.style.height = h + 'px'; ph.style.maxWidth = this.phW(h) + 'px';
+    const m = this.moM(); mo.style.transform = 'scale(' + (.9 + .1 * m) + ')'; mo.style.opacity = .5 + .5 * m;
+    const act = m > .5 ? 'mo' : 'ph'; if (act !== this.state.act) this.setState({ act });
+  };
+  arm(to) { cancelAnimationFrame(this.raf); const from = this.e, t0 = performance.now(); this.eTo = to; // timed, not per-frame, so a slow frame cannot stretch it
+    const step = () => { if (this.eTo !== to) return; const k = this.rm() ? 1 : Math.min(1, (performance.now() - t0) / 320); this.e = from + (to - from) * (1 - (1 - k) ** 3); this.fx(); if (k < 1) this.raf = requestAnimationFrame(step); };
+    step(); }
+  scrollTo(top) { const g = this.grid(); if (g) g.scrollTo({ top, behavior: this.rm() ? 'auto' : 'smooth' }); }
+  fade() { if (this.rm()) return; this.setState({ fx: true }); clearTimeout(this.fxT); this.fxT = setTimeout(() => this.setState({ fx: false }), 450); } // frames fade and fold instead of snapping
   onAnyScroll = () => {
+    this.fx();
     const g = this.grid(), b = this.expRef.current; if (!g || !b || !this.narrow()) return;
     const gr = g.getBoundingClientRect(), r = b.getBoundingClientRect();
     const locked = r.top >= gr.top && r.bottom <= gr.bottom; // its own spot is on screen: sit there, otherwise pin to the bottom
@@ -225,19 +275,17 @@ class Component extends DCLogic {
   openId(id) {
     if (!this.find(id)) return;
     const dev = this.PH.includes(id) ? 'ph' : 'mo';
-    this.setState({ [dev]: id, focus: id, drawer: false }); this.act(dev);
+    if (this.narrow() && this.state.more) this.fade();
+    this.setState({ [dev]: id, focus: id, drawer: false, more: null }, () => this.act(dev));
   }
   act(dev) {
-    if (this.state.act !== dev) this.setState({ act: dev });
-    if (this.narrow()) this.scrollUp(dev === 'ph' ? null : (this.moreRef.current || this.moRef.current));
+    if (!this.narrow()) { if (this.state.act !== dev) this.setState({ act: dev }); return; }
+    if (this.state.more) return;
+    // phones: the phone grows and comes fully under the nav; the monitor is scrolled to its spot, which is what expands it
+    if (dev === 'ph') this.arm(1);
+    this.scrollTo(dev === 'ph' ? 0 : this.moTop());
   }
-  scrollUp(el) { // phones: bring el (or the top) up under the nav
-    requestAnimationFrame(() => {
-      const col = this.grid(); if (!col) return;
-      const top = el ? Math.min(el.offsetTop - 8, col.scrollHeight - col.clientHeight) : 0;
-      col.scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' });
-    });
-  }
+  scrollUp(el) { requestAnimationFrame(() => this.scrollTo(el ? this.restTop(el) : 0)); } // phones: bring el (or the top) up under the nav
   componentDidMount() { addEventListener('scroll', this.onAnyScroll, true); addEventListener('resize', this.onAnyScroll);
     this.msg = e => { const d = e.data; if (d && d.type === 'chaze-open') this.openId(d.id); };
     this.key = e => { if (e.key === 'Escape') this.setState(s => s.drawer || s.sheet ? { drawer: false, sheet: false } : { focus: null }); };
@@ -246,7 +294,7 @@ class Component extends DCLogic {
     setTimeout(this.rs, 60);
     this.timer = setInterval(() => { const s = this.state; if (s.m !== 'frame' || !s.alive) return; if (s.pw && s.se && s.mo2) this.setState({ dt: s.dt + 0.1 }); else this.setState({ alive: false }); }, 100);
   }
-  componentWillUnmount() { removeEventListener('scroll', this.onAnyScroll, true); removeEventListener('resize', this.onAnyScroll); clearInterval(this.timer); removeEventListener('message', this.msg); removeEventListener('keydown', this.key); removeEventListener('resize', this.rs); }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); clearTimeout(this.fxT); removeEventListener('scroll', this.onAnyScroll, true); removeEventListener('resize', this.onAnyScroll); clearInterval(this.timer); removeEventListener('message', this.msg); removeEventListener('keydown', this.key); removeEventListener('resize', this.rs); }
   renderVals() {
     const s = this.state, mob = this.narrow(), L = true;
     const SHORT = { morgan: 'Morgan', frame: 'Agent Frame' };
@@ -254,38 +302,45 @@ class Component extends DCLogic {
     const WEB = { hugo: 'realms/hugo/index.html', revelation: 'https://revelati6n.com' };
     const dec = (p, dev) => p && ({ ...p, rows: (p.rows || []).map(([k, v]) => ({ k, v })), short: SHORT[p.id] || p.name, status: p.status || '', kind: p.kind || '', isLive: p.status === 'Live',
       hasThumb: !!p.thumb, noThumb: !p.thumb, thumb: p.thumb || '', glyph: p.glyph || '', hasHref: !!p.href, href: p.href || '', line: p.line || '', about: p.about || '',
-      hasDetails: p.id !== 'notes', spec: () => this.setState({ focus: p.id, drawer: true }), pick: () => dev === 'm' ? this.setState({ m: p.id, note: null, sheet: false }) : (this.setState({ [dev]: p.id, focus: p.id, drawer: false }), this.act(dev)),
+      hasDetails: p.id !== 'notes', spec: () => this.setState({ focus: p.id, drawer: true }, () => mob && this.inRef.current && this.scrollUp(this.inRef.current)), pick: () => dev === 'm' ? this.setState({ m: p.id, note: null, sheet: false }) : (this.setState({ [dev]: p.id, focus: p.id, drawer: false }), this.act(dev)),
       pickM: () => this.setState({ note: p.id, sheet: false }) });
     const by = (ids, dev) => ids.map(id => dec(this.find(id), dev)), get = id => id ? dec(this.find(id)) : null;
     const focus = get(s.focus), cur = get(s.m), note = cur && cur.id === 'notes' && s.note ? get(s.note) : null, id = cur && cur.id;
-    const dv = on => ({ display: 'flex', flexDirection: 'column', width: '100%', transform: on ? 'none' : 'scale(.9)', opacity: on ? 1 : .5, transformOrigin: '50% 0', transition: 'transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s' });
-    const moreBackOn = !!s.more && (s.ph === 'notes' || s.mo === 'notes');
+    // phones: a picked web build folds both frames away (gone) and shows its text in the list block instead
+    const gone = mob && !!s.more, pm = mob ? this.moM() : 0, ph = mob ? this.phH() : 0, W = mob ? innerWidth - 12 : 0;
+    const fold = { display: 'flex', flexDirection: 'column', width: '100%', overflow: gone || s.fx ? 'hidden' : 'visible', pointerEvents: gone ? 'none' : 'auto', visibility: gone && !s.fx ? 'hidden' : 'visible' }, foldT = 'height .4s cubic-bezier(.2,.8,.2,1), opacity .35s';
+    const moreBackOn = !!s.more && (mob || s.ph === 'notes' || s.mo === 'notes');
     const home = k => () => this.setState(st => ({ [k]: null, focus: st.focus === st[k] ? null : st.focus, drawer: false }));
     return {
       isDesk: true, isMob: false, showMore: mob,
-      grid: mob ? { flex: 1, minHeight: 0, overflowY: 'auto', display: 'grid', gridTemplateColumns: 'minmax(0,1fr)', gridAutoRows: 'max-content', alignContent: 'start', gap: 10, padding: '0 6px 40vh' }
+      grid: mob ? { flex: 1, minHeight: 0, overflowY: 'auto', overflowAnchor: 'none', display: 'grid', gridTemplateColumns: 'minmax(0,1fr)', gridAutoRows: 'max-content', alignContent: 'start', gap: 10, padding: '14px 6px 40vh' }
         : { flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: s.wide ? 'minmax(0,1fr)' : 'minmax(0,3fr) minmax(0,9fr)', gridTemplateRows: 'calc(100% - 92px) auto auto', gap: '0 24px', padding: '14px 24px 10px', overflowY: 'auto' },
-      canWide: !mob, isNarrow: mob, showExpandMo: mob && s.act !== 'mo' && !s.expLocked, showExpandFlow: mob && s.act !== 'mo', expRef: this.expRef,
-      expFlowStyle: { gridColumn: '1 / -1', order: 3, height: 40, marginTop: 6, background: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, border: 0, cursor: 'pointer', color: '#ECEAE3', font: "500 11px/1 'IBM Plex Mono',monospace", letterSpacing: '.1em', textTransform: 'uppercase', whiteSpace: 'nowrap', visibility: s.expLocked ? 'visible' : 'hidden' }, phWide: s.wide === 'ph', moWide: s.wide === 'mo',
+      canWide: !mob, isNarrow: mob, showExpandMo: mob && !gone && s.act !== 'mo' && !s.expLocked, showExpandFlow: mob && !gone, expRef: this.expRef, inRef: this.inRef, moOn: s.act === 'mo', moOff: s.act !== 'mo', flowGo: () => s.act === 'mo' ? this.scrollTo(0) : this.act('mo'),
+      expFlowStyle: { gridColumn: '1 / -1', order: 3, height: 40, marginTop: s.mo ? 6 : -56, position: 'relative', background: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, border: 0, cursor: 'pointer', color: '#ECEAE3', font: "500 11px/1 'IBM Plex Mono',monospace", letterSpacing: '.1em', textTransform: 'uppercase', whiteSpace: 'nowrap', visibility: s.expLocked ? 'visible' : 'hidden' }, phWide: s.wide === 'ph', moWide: s.wide === 'mo',
       phWideLabel: s.wide === 'ph' ? 'Shrink iOS' : 'Expand iOS', moWideLabel: s.wide === 'mo' ? 'Shrink desktop' : 'Expand desktop',
       togglePhWide: () => this.setState({ wide: s.wide === 'ph' ? null : 'ph' }), toggleMoWide: () => this.setState({ wide: s.wide === 'mo' ? null : 'mo' }),
-      revealMore: () => this.act('mo'), backToPhone: () => this.act('ph'), showBack: mob && s.act === 'mo' && !moreBackOn,
+      revealMore: () => this.act('mo'),
       barStyle: mob ? { display: 'none' } : { gridColumn: '1 / -1', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) auto minmax(0,1fr)', alignItems: 'center', gap: 12, padding: '10px 4px 0' },
-      // phones: the phone never scales (only the monitor expands) and its footer keeps its 28px whether or not an app is open, so the frame stays the same size
-      phBox: mob ? { ...dv(true), height: Math.min(innerHeight - 150, Math.round((innerWidth - 12) * 874 / 402) + 44) + 28, maxWidth: Math.round((innerHeight - 194) * 402 / 874), margin: '0 auto' } : { width: '100%', height: '100%', minWidth: 0, display: s.wide === 'mo' ? 'none' : 'flex', flexDirection: 'column', gridColumn: s.wide === 'ph' ? '1 / -1' : 'auto', maxWidth: s.wide === 'ph' ? 560 : 'none', justifySelf: 'center' },
-      moBox: mob ? { ...dv(s.act === 'mo'), order: 2, marginTop: 0, height: Math.round((innerWidth - 12) * 980 / 1468) + 92, minHeight: 300 } : { width: '100%', height: '100%', minWidth: 0, display: s.wide === 'ph' ? 'none' : 'flex', flexDirection: 'column' },
-      phFoot: { flex: mob ? '0 0 28px' : '0 0 auto', height: mob ? 28 : 'auto', padding: '0 4px', display: 'flex', flexWrap: 'nowrap', alignItems: 'center', gap: '6px 12px', minHeight: 0 },
-      moFoot: mob ? { flex: '0 0 auto', padding: '0 4px', display: 'flex', flexWrap: 'nowrap', alignItems: 'center', gap: '6px 12px', minHeight: 0 } : { flex: '0 0 36px', height: 36, overflow: 'hidden', padding: '0 4px', display: 'flex', flexWrap: 'nowrap', alignItems: 'center', gap: '6px 12px' },
-      col: this.col, phRef: this.phRef, moRef: this.moRef, actPh: () => this.act('ph'), actMo: () => this.act('mo'), notes: by(this.NOTES),
+      // phones: the phone's height follows fx() (tap grows it, scroll gives it back); its footer keeps its 28px whether or not an app is open
+      phBox: mob ? { ...fold, height: gone ? 0 : ph, maxWidth: this.phW(ph), margin: '0 auto', opacity: gone ? 0 : 1, transition: s.fx ? foldT : 'none' } : { width: '100%', height: '100%', minWidth: 0, display: s.wide === 'mo' ? 'none' : 'flex', flexDirection: 'column', gridColumn: s.wide === 'ph' ? '1 / -1' : 'auto', maxWidth: s.wide === 'ph' ? 560 : 'none', justifySelf: 'center' },
+      moBox: mob ? { ...fold, order: 2, height: gone ? 0 : Math.round(W * 1080 / 1028) + 68, opacity: gone ? 0 : .5 + .5 * pm, transform: 'scale(' + (.9 + .1 * pm) + ')', transformOrigin: '50% 0', transition: s.fx ? foldT : 'transform .12s linear, opacity .12s linear' } : { width: '100%', height: '100%', minWidth: 0, display: s.wide === 'ph' ? 'none' : 'flex', flexDirection: 'column' },
+      // phones: the footer spans the page, not the narrow phone, so the title is never cut to "T..."
+      phFoot: mob ? { flex: '0 0 28px', height: 28, width: W, marginLeft: 'calc(50% - ' + W / 2 + 'px)', padding: '0 4px', display: 'flex', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'center', gap: 12, minHeight: 0 } : { flex: '0 0 auto', height: 'auto', padding: '0 4px', display: 'flex', flexWrap: 'nowrap', alignItems: 'center', gap: '6px 12px', minHeight: 0 },
+      phName: { flex: mob ? '0 1 auto' : '1 1 auto', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', font: '400 17px/1 Fraunces,Georgia,serif' },
+      moFoot: mob ? { flex: '0 0 30px', height: 30, padding: '0 4px', display: 'flex', flexWrap: 'nowrap', alignItems: 'center', gap: '6px 12px', minHeight: 0 } : { flex: '0 0 36px', height: 36, overflow: 'hidden', padding: '0 4px', display: 'flex', flexWrap: 'nowrap', alignItems: 'center', gap: '6px 12px' },
+      col: this.col, phRef: this.phRef, moRef: this.moRef, actPh: mob ? null : () => this.act('ph'), actMo: mob ? null : () => this.act('mo'),
+      // phones: a tap (never the start of a scroll) on a frame brings it up; its own buttons do their own thing
+      tapPh: mob ? ev => ev.target.closest('button,a') || this.act('ph') : null, tapMo: mob ? ev => ev.target.closest('button,a') || this.act('mo') : null, notes: by(this.NOTES),
       phItems: by(mob ? this.PH : [...this.PH, 'notes'], 'ph'), moItems: by(mob ? this.MO : [...this.MO, 'notes'], 'mo'),
-      moreBox: mob ? { gridColumn: '1 / -1', order: 1, padding: '0 8px', margin: '-8px 0 -10px', textAlign: 'center' } : { gridColumn: '1 / -1', alignSelf: 'start', padding: s.moreOpen ? '10px 0 0' : 0, margin: 0, textAlign: 'center' },
+      moreBox: mob ? { gridColumn: '1 / -1', order: 1, padding: '0 8px', margin: (gone ? 0 : s.ph ? -8 : -62) + 'px 0 -10px', position: 'relative', textAlign: 'center', transition: this.rm() ? 'none' : 'margin .2s' } : { gridColumn: '1 / -1', alignSelf: 'start', padding: s.moreOpen ? '10px 0 0' : 0, margin: 0, textAlign: 'center' },
       // phones: opening scrolls the block up under the nav so the whole list is on screen; desktop keeps the nudge
-      toggleMore: () => { const open = !s.moreOpen; this.setState({ moreOpen: open, more: null }, () => open && mob ? this.scrollUp(this.moreRef.current) : this.reveal(this.moreRef.current, 8)); }, moreRef: this.moreRef, chev: { display: 'inline-block', transition: 'transform .2s', transform: s.moreOpen ? 'rotate(90deg)' : 'none' },
-      moreBackOn: moreBackOn && !mob, moreBackNarrow: moreBackOn && mob,
-      moreBack: () => this.setState(st => ({ more: null, moreOpen: true, ph: (st.prev || {}).ph || null, mo: (st.prev || {}).mo || null, prev: null })),
-      // picking a build puts its detail on both frames and collapses the list; Back restores what the frames showed and reopens the list
+      toggleMore: () => { const open = !s.moreOpen; if (gone) this.fade(); this.setState({ moreOpen: open, more: null }, () => open && mob ? this.scrollUp(this.moreRef.current) : this.reveal(this.moreRef.current, 8)); }, moreRef: this.moreRef, chev: { display: 'inline-block', transition: 'transform .2s', transform: s.moreOpen ? 'rotate(90deg)' : 'none' },
+      moreBackOn: moreBackOn && !mob, moreBackNarrow: gone, moreDetail: gone,
+      moreBack: () => mob ? (this.fade(), this.setState({ more: null })) : this.setState(st => ({ more: null, moreOpen: true, ph: (st.prev || {}).ph || null, mo: (st.prev || {}).mo || null, prev: null })),
+      // desktop: picking a build puts its detail on both frames and collapses the list; Back restores what the frames showed and reopens the list.
+      // phones: the frames fade out and the build's text opens under the list; Back, or opening a frame project, fades them back in
       more: by(this.NOTES).map(n => ({ ...n, style: { height: 30, padding: '0 12px', background: s.more === n.id ? '#262624' : 'none', border: '1px solid ' + (s.more === n.id ? '#3A3936' : '#262624'), borderRadius: 999, color: s.more === n.id ? '#ECEAE3' : '#9A9890', cursor: 'pointer', font: '400 13px/1 Inter,system-ui,sans-serif', whiteSpace: 'nowrap' },
-        go: () => { this.setState(st => ({ more: n.id, moreOpen: false, ph: 'notes', mo: 'notes', prev: st.more ? st.prev : { ph: st.ph, mo: st.mo } })); this.act('ph'); } })), moreOpen: !!s.moreOpen, moreCur: get(s.more) || {}, moreId: s.more || '',
+        go: () => { if (mob) { if (!s.more) this.fade(); this.setState({ more: n.id, moreOpen: true }); return this.scrollTo(0); } this.setState(st => ({ more: n.id, moreOpen: false, ph: 'notes', mo: 'notes', prev: st.more ? st.prev : { ph: st.ph, mo: st.mo } })); this.act('ph'); } })), moreOpen: !!s.moreOpen, moreCur: get(s.more) || {}, moreId: s.more || '',
       phOpen: get(s.ph), moOpen: get(s.mo), phHome: home('ph'), moHome: home('mo'),
       hasFocus: !!focus, focus: focus || {}, drawerAside: !!s.drawer && !!focus && !mob, drawerInline: !!s.drawer && !!focus && mob,
       inlineBox: { gridColumn: '1 / -1', order: focus && this.PH.includes(focus.id) ? 0 : 3, padding: '14px 12px 18px', borderTop: '1px solid #262624', borderBottom: '1px solid #262624' }, hasDetails: !!focus && focus.id !== 'notes',

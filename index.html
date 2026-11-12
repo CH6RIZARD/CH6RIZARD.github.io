@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<script>/* iOS zooms the whole page in when a field rendered under 16px gets focus (the embedded apps sit scaled down inside their frames) and never zooms back out. Capping the scale stops that; pinch zoom still works on iOS. */
+if (/iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) document.querySelector('meta[name=viewport]').content += ',maximum-scale=1';</script>
 <meta name="theme-color" content="#F4F3EE" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#161615" media="(prefers-color-scheme: dark)">
 <title>Chiagozie Oliver · Engineer</title>
@@ -237,7 +239,15 @@ footer{padding:64px 0 120px;border-top:1px solid var(--rule);font-size:15px}
 footer h2{font-size:clamp(28px,3.4vw,40px);margin:8px 0 20px}
 footer .row{display:flex;flex-wrap:wrap;gap:12px 32px;margin:16px 0 40px}
 footer .colophon{color:var(--muted);font-size:13px;max-width:60ch}
-#theme{background:none;border:1px solid var(--line);color:var(--muted);font:11px var(--mono);text-transform:uppercase;letter-spacing:.06em;padding:5px 10px;cursor:pointer;border-radius:2px}
+#theme{display:inline-flex;align-items:center;gap:7px;background:none;border:1px solid var(--line);color:var(--muted);font:11px var(--mono);text-transform:uppercase;letter-spacing:.06em;padding:5px 10px;cursor:pointer;border-radius:2px}
+#theme svg{width:13px;height:13px;flex:0 0 auto}
+html{touch-action:manipulation}
+/* loading stages: a shimmer in the stage's own shape and the page's own greys, until the build's frame has loaded */
+@keyframes sk{to{background-position:-200% 0}}
+.stage:not(.on):not(.unavailable),.stage.wait{background:linear-gradient(100deg,var(--rule) 38%,color-mix(in srgb,var(--line) 55%,var(--rule)) 50%,var(--rule) 62%) 0 0/200% 100% var(--rule);animation:sk 1.7s linear infinite}
+.stage iframe{transition:opacity .3s}
+.stage.wait iframe{opacity:0}
+@media (prefers-reduced-motion:reduce){.stage{animation:none!important}}
 #theme:hover{border-color:var(--accent);color:var(--accent)}
 #scion-hud,#scion-ask{display:none!important}
 
@@ -701,7 +711,7 @@ body.simple>section,body.simple>footer,body.simple>.mindex{display:none!importan
     <a class="btn primary" href="mailto:chiag6zie@gmail.com"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>chiag6zie@gmail.com</a>
     <a class="btn" href="https://github.com/CH6RIZARD"><svg viewBox="0 0 24 24"><path d="M9 19c-4 1.5-4-2-6-2.5M15 21v-3.5a3 3 0 0 0-.8-2.3c2.7-.3 5.5-1.3 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.7 11.7 0 0 0-6.2 0C6.3 2.5 5.3 2.8 5.3 2.8a4.3 4.3 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.2c0 4.7 2.8 5.7 5.5 6a3 3 0 0 0-.8 2.3V21"/></svg>GitHub</a>
     <a class="btn" href="https://www.linkedin.com/in/chiagozie-oliver-9b2a73406/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>LinkedIn</a>
-    <button id="theme" type="button" aria-label="Toggle dark mode">Theme</button>
+    <button id="theme" type="button" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>Theme</button>
   </div>
   <p class="colophon">Hand-written HTML, no framework, no tracking. Every stage above is the real build, loaded only when you enter it.</p>
 </div></footer>
@@ -859,7 +869,7 @@ fetch('dove.glb', { method: 'HEAD' }).then(r => bootAgents(r.ok ? '' : '.wasm'))
   const set = on => {
     document.body.classList.toggle('simple', on); os.hidden = !on; b.setAttribute('aria-pressed', on);
     b.setAttribute('aria-label', on ? 'Read less view on. Switch to scroll view' : 'Scroll view on. Switch to read less view');
-    if (on && !f) { f = document.createElement('iframe'); f.src = 'OS.dc.html?v=20261111o'; f.title = 'Projects'; f.allow = 'fullscreen; pointer-lock; autoplay; clipboard-write'; os.append(f); }
+    if (on && !f) { f = document.createElement('iframe'); f.src = 'OS.dc.html?v=20261111p'; f.title = 'Projects'; f.allow = 'fullscreen; pointer-lock; autoplay; clipboard-write'; os.append(f); }
     if (on) scrollTo(0, 0);
     try { localStorage.setItem('chaze.mode', on ? 'simple' : 'scroll'); } catch {}
   };
