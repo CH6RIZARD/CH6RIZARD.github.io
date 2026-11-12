@@ -74,28 +74,35 @@ data = dict(public=PUBLIC, stats=stats, needs=needs, kpi=kpi, jobs=[{k: j.get(k,
 
 TEMPLATE = r'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="60">
 <title>Role radar</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0d0f13;--card:#151820;--line:#252a35;--text:#e7e9ee;--mute:#8d93a1;--blue:#6bb6ff;--green:#5fd08c;--amber:#f0b95a;--red:#ef6f65;--violet:#a79bff}
-@media (prefers-color-scheme:light){:root{--bg:#f4f5f8;--card:#fff;--line:#dde0e7;--text:#14161b;--mute:#5d6370;--blue:#0a66c2;--green:#168a4a;--amber:#a96b00;--red:#c4372c;--violet:#5b4bd6}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,Segoe UI,Roboto,sans-serif;padding:20px 16px 48px}
-main{max-width:1180px;margin:0 auto}h1{font-size:20px;margin:0}.sub{color:var(--mute);margin:2px 0 16px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
-.k{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}.k b{display:block;font-size:26px;line-height:1.1}.k span{color:var(--mute);font-size:12px}
-.row{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px}@media(max-width:820px){.row{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;overflow:auto}
-h2{font-size:14px;margin:0 0 10px;color:var(--mute);font-weight:600;letter-spacing:.02em}
-.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--line);margin:6px 0 10px}.bar i{display:block}
-.leg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mute)}.leg u{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;text-decoration:none}
-table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--mute);font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap}
-td a{color:var(--blue);text-decoration:none}td a:hover{text-decoration:underline}
-.chip{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;border:1px solid currentColor;white-space:nowrap}
-.applied,.sent{color:var(--green)}.queued{color:var(--blue)}.skipped,.blocked,.none{color:var(--amber)}.elite{color:var(--violet)}
-.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}input,select{background:transparent;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font:inherit}select option{color:#000}
-.why{color:var(--mute);font-size:12px;max-width:260px}.reasons li{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid var(--line);font-size:13px}ul{list-style:none;margin:0;padding:0}
-.new{color:var(--green);font-size:11px;margin-left:6px}
+/* Paper Ledger (Claude Design direction B): cream page, ink text, serif headings, hairline rules instead of cards. */
+:root{--bg:#EFE3C8;--card:#F7F0DF;--line:#C9BBA3;--text:#1B1620;--mute:#5A5060;--blue:#6F4A7B;--green:#2E7D4F;--amber:#9A5B00;--red:#A3332E;--violet:#6F4A7B;--off:#7A6F7D}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 'Source Sans 3',system-ui,sans-serif;padding:24px 20px 48px}
+main{max-width:860px;margin:0 auto}h1{font-family:Newsreader,serif;font-size:34px;font-weight:500;line-height:1.1;margin:0}
+.sub{color:var(--mute);font-size:15px;margin:2px 0 0;padding-bottom:12px;border-bottom:2px solid var(--text);margin-bottom:20px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px 20px;margin-bottom:20px}
+.k{border-top:2px solid var(--text);padding:6px 0 0}.k b{display:block;font-family:Newsreader,serif;font-weight:400;font-size:32px;line-height:1.1}.k span{color:var(--mute);font-size:14px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0 32px}
+.card{border-top:1px solid var(--line);padding:24px 0;overflow:auto}
+h2{font-family:Newsreader,serif;font-size:24px;font-weight:500;margin:0 0 12px;color:var(--text);text-transform:lowercase}h2::first-letter{text-transform:uppercase}
+.bar{display:flex;height:16px;gap:2px;margin:6px 0 10px}.bar i{display:block;min-width:4px}
+.leg{display:flex;gap:6px 20px;flex-wrap:wrap;font-size:15px;color:var(--text)}.leg u{display:inline-block;width:10px;height:10px;margin-right:6px;text-decoration:none}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{text-align:left;padding:10px 8px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+td a{color:var(--text);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}td a:hover{color:var(--blue)}
+.chip{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;border:1px solid currentColor;white-space:nowrap}
+.applied,.sent{color:var(--green)}.queued{color:var(--blue)}.skipped,.none{color:var(--off)}.blocked{color:var(--red)}.elite{color:var(--violet)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+input,select{min-height:44px;background:var(--card);color:var(--text);border:1px solid var(--text);border-radius:4px;padding:0 14px;font:inherit}input{flex:1 1 220px}select option{color:#000}
+.why{color:var(--mute);font-size:14px;max-width:260px}.reasons li{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}ul{list-style:none;margin:0;padding:0}
+.new{color:var(--green);font-size:13px;font-weight:600;margin-left:6px}
+a{color:var(--blue)}a:hover{color:var(--text)}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+td:first-child,td:last-child{white-space:nowrap}.sub+.card,.sub+div>.card:first-child{border-top:0;padding-top:4px}
+#viewtog{width:fit-content;max-width:100%;flex-wrap:wrap;border:1px solid var(--text);border-radius:999px;padding:3px;background:var(--card);gap:4px!important;margin-bottom:16px!important}
 </style></head><body><main>
 <div id="viewtog" style="display:none;gap:6px;margin-bottom:10px"><button type="button" id="vJobs" class="tg on">Role radar</button><button type="button" id="vApp" class="tg">Job applications</button><button type="button" id="vVc" class="tg">EZER VC raise</button></div>
-<style>.tg{background:transparent;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font:inherit;cursor:pointer;margin-right:6px}.tg.on{background:var(--blue);color:#06121f;border-color:var(--blue)}</style>
+<style>.tg{background:transparent;color:var(--text);border:0;border-radius:999px;min-height:40px;padding:0 18px;font:inherit;font-weight:600;font-size:15px;cursor:pointer;white-space:nowrap}.tg.on{background:var(--text);color:var(--bg)}</style>
 <div id="appview" style="display:none"><h1>Job applications</h1><div class="sub" id="appsub"></div><div class="kpis" id="appkpis"></div><div class="sub">Counts only. Updated automatically from the owner's PC.</div></div>
 <div id="vcview" style="display:none"><h1>EZER VC raise</h1><div class="sub" id="vcsub"></div><div class="kpis" id="vckpis"></div><div class="card"><h2>DMS TODAY BY PLATFORM AND STATUS</h2><div style="overflow:auto"><table id="vcdms"></table></div></div><div class="sub" style="margin-top:8px">Counts only. No names, firms, emails or handles are shown.</div></div>
 <div id="jobsview"><h1 id="ttl">Job hunt dashboard</h1><div class="sub" id="built"></div>
