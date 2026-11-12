@@ -48,21 +48,25 @@ h1,h2,h3,p{margin:0}
 </div></div>
       <div style="{{ barStyle }}">
         <sc-if value="{{ canWide }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ togglePhWide }}" aria-pressed="{{ phWide }}" style="justify-self:start;height:32px;padding:0 14px;background:none;border:1px solid #3A3936;border-radius:999px;cursor:pointer;color:#9A9890;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap" style-hover="border-color:#8FA0FF;color:#8FA0FF">{{ phWideLabel }}</button></sc-if>
-        <button type="button" onClick="{{ toggleMore }}" aria-expanded="{{ moreOpen }}" style="justify-self:center;display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 4px;background:none;border:0;cursor:pointer;color:#9A9890;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap" style-hover="color:#ECEAE3"><span style="{{ chev }}">›</span>Non-mobile / web builds</button>
+        <div style="justify-self:center;display:flex;align-items:center;gap:12px"><sc-if value="{{ moreBackOn }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ moreBack }}" style="height:32px;padding:0 14px;background:none;border:1px solid #3A3936;border-radius:999px;cursor:pointer;color:#ECEAE3;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap" style-hover="border-color:#8FA0FF;color:#8FA0FF">← Back</button></sc-if><button type="button" onClick="{{ toggleMore }}" aria-expanded="{{ moreOpen }}" style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 4px;background:none;border:0;cursor:pointer;color:#9A9890;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap" style-hover="color:#ECEAE3"><span style="{{ chev }}">›</span>Non-mobile / web builds</button></div>
         <sc-if value="{{ canWide }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ toggleMoWide }}" aria-pressed="{{ moWide }}" style="justify-self:end;height:32px;padding:0 14px;background:none;border:1px solid #3A3936;border-radius:999px;cursor:pointer;color:#9A9890;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap" style-hover="border-color:#8FA0FF;color:#8FA0FF">{{ moWideLabel }}</button></sc-if>
       </div>
       <div ref="{{ moreRef }}" style="{{ moreBox }}">
         <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:center;padding:6px 0 2px"><button type="button" onClick="{{ backToPhone }}" style="height:34px;padding:0 16px;background:none;border:1px solid #3A3936;border-radius:999px;cursor:pointer;color:#ECEAE3;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase" style-hover="border-color:#8FA0FF;color:#8FA0FF">← Back</button></div></sc-if>
+        <sc-if value="{{ moreBackNarrow }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:center;padding:6px 0 2px"><button type="button" onClick="{{ moreBack }}" style="height:34px;padding:0 16px;background:none;border:1px solid #3A3936;border-radius:999px;cursor:pointer;color:#ECEAE3;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase" style-hover="border-color:#8FA0FF;color:#8FA0FF">← Back</button></div></sc-if>
         <sc-if value="{{ isNarrow }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ toggleMore }}" aria-expanded="{{ moreOpen }}" style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 4px;background:none;border:0;cursor:pointer;color:#9A9890;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap" style-hover="color:#ECEAE3"><span style="{{ chev }}">›</span>Non-mobile / web builds</button></sc-if>
         <sc-if value="{{ moreOpen }}" hint-placeholder-val="{{ false }}">
-          <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:2px 0 10px">
-            <sc-for list="{{ more }}" as="n" hint-placeholder-count="6">
-              <button type="button" onClick="{{ n.go }}" aria-expanded="{{ n.on }}" style="{{ n.style }}" style-hover="border-color:#8FA0FF;color:#ECEAE3">{{ n.name }}<span style="margin-left:8px;color:#9A9890;font:400 10px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase">{{ n.status }}</span></button>
-            </sc-for>
+          <div role="{{ moreRole }}" aria-label="Non-mobile / web builds" style="{{ moreWrap }}">
+            <sc-if value="{{ isNarrow }}" hint-placeholder-val="{{ false }}"><button type="button" aria-label="Close" onClick="{{ toggleMore }}" style="position:absolute;inset:0;border:0;background:none;cursor:pointer"></button></sc-if>
+            <div style="{{ moreList }}">
+              <sc-if value="{{ isNarrow }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span style="color:#9A9890;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase">Non-mobile / web builds</span><button type="button" aria-label="Close" onClick="{{ toggleMore }}" style="width:44px;height:44px;margin-right:-12px;padding:0;background:none;border:0;cursor:pointer;color:#ECEAE3;font:400 22px/1 Inter,system-ui,sans-serif">×</button></div></sc-if>
+              <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:2px 0 10px">
+                <sc-for list="{{ more }}" as="n" hint-placeholder-count="6">
+                  <button type="button" onClick="{{ n.go }}" style="{{ n.style }}" style-hover="border-color:#8FA0FF;color:#ECEAE3">{{ n.name }}<span style="margin-left:8px;color:#9A9890;font:400 10px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase">{{ n.status }}</span></button>
+                </sc-for>
+              </div>
+            </div>
           </div>
-          <sc-if value="{{ moreCurOn }}" hint-placeholder-val="{{ false }}">
-            <div style="padding:0 0 12px;max-width:72ch;margin:0 auto;text-align:left"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 24px;margin-top:4px"><sc-for list="{{ moreCur.rows }}" as="r" hint-placeholder-count="3"><div style="padding:9px 0;border-top:1px solid #262624"><b style="display:block;font:400 10px/1.6 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#9A9890">{{ r.k }}</b><span style="font:400 13px/1.5 Inter,system-ui,sans-serif">{{ r.v }}</span></div></sc-for></div></div>
-          </sc-if>
         </sc-if>
       </div>
 <sc-if value="{{ showExpandFlow }}" hint-placeholder-val="{{ false }}"><button ref="{{ expRef }}" type="button" onClick="{{ revealMore }}" style="{{ expFlowStyle }}" style-hover="color:#8FA0FF">Expand monitor <span style="display:inline-block;transform:rotate(90deg)">›</span></button></sc-if>
@@ -85,19 +89,6 @@ h1,h2,h3,p{margin:0}
           <div style="display:grid;grid-template-columns:100px minmax(0,1fr);gap:14px;padding:11px 0;border-top:1px solid #262624;font-size:14px;line-height:1.5"><b style="font:400 11px/1.6 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#9A9890">{{ r.k }}</b><span>{{ r.v }}</span></div>
         </sc-for>
       </aside>
-    </sc-if>
-    <sc-if value="{{ moreSheet }}" hint-placeholder-val="{{ false }}">
-      <div role="dialog" aria-modal="true" aria-label="{{ moreCur.name }}" style="position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(0,0,0,.55)">
-        <button type="button" aria-label="Close" onClick="{{ closeMore }}" style="flex:1 0 3vh;border:0;background:none;cursor:pointer"></button>
-        <div style="position:relative;max-height:85%;overflow-y:auto;overscroll-behavior:contain;background:#161615;border-radius:22px 22px 0 0;border-top:1px solid #3A3936;padding:8px 20px 28px">
-          <span style="position:absolute;left:50%;top:6px;transform:translateX(-50%);width:40px;height:5px;border-radius:3px;background:#3A3936"></span>
-          <div style="display:flex;justify-content:flex-end"><button type="button" aria-label="Close" onClick="{{ closeMore }}" style="width:44px;height:44px;margin-right:-12px;padding:0;background:none;border:0;cursor:pointer;color:#ECEAE3;font:400 22px/1 Inter,system-ui,sans-serif">×</button></div>
-          <span style="font:400 10.5px/1.4 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#9A9890">{{ moreCur.status }} · {{ moreCur.kind }}</span>
-          <h2 style="font:300 30px/1.1 Fraunces,Georgia,serif;letter-spacing:-.02em;margin-top:6px">{{ moreCur.name }}</h2>
-          <p style="margin:14px 0 16px;font-size:15px;line-height:1.6;text-wrap:pretty">{{ moreCur.about }}</p>
-          <div style="padding:10px 0;border-top:1px solid #262624;font-size:14px;line-height:1.5"><b style="display:block;font:400 10.5px/1.6 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#9A9890">Stack</b>{{ moreCur.stack }}</div>
-        </div>
-      </div>
     </sc-if>
   </sc-if>
 
@@ -254,7 +245,7 @@ class Component extends DCLogic {
   }
   componentDidMount() { addEventListener('scroll', this.onAnyScroll, true); addEventListener('resize', this.onAnyScroll);
     this.msg = e => { const d = e.data; if (d && d.type === 'chaze-open') this.openId(d.id); };
-    this.key = e => { if (e.key === 'Escape') this.setState(s => s.drawer || s.sheet ? { drawer: false, sheet: false } : { focus: null }); };
+    this.key = e => { if (e.key === 'Escape') this.setState(s => s.drawer || s.sheet ? { drawer: false, sheet: false } : s.moreOpen && this.narrow() ? { moreOpen: false } : { focus: null }); };
     this.rs = () => this.forceUpdate();
     addEventListener('message', this.msg); addEventListener('keydown', this.key); addEventListener('resize', this.rs);
     setTimeout(this.rs, 60);
@@ -273,6 +264,7 @@ class Component extends DCLogic {
     const by = (ids, dev) => ids.map(id => dec(this.find(id), dev)), get = id => id ? dec(this.find(id)) : null;
     const focus = get(s.focus), cur = get(s.m), note = cur && cur.id === 'notes' && s.note ? get(s.note) : null, id = cur && cur.id;
     const dv = on => ({ display: 'flex', flexDirection: 'column', width: '100%', transform: on ? 'none' : 'scale(.9)', opacity: on ? 1 : .5, transformOrigin: '50% 0', transition: 'transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s' });
+    const moreBackOn = !!s.more && (s.ph === 'notes' || s.mo === 'notes');
     const home = k => () => this.setState(st => ({ [k]: null, focus: st.focus === st[k] ? null : st.focus, drawer: false }));
     return {
       isDesk: true, isMob: false, showMore: mob,
@@ -282,7 +274,7 @@ class Component extends DCLogic {
       expFlowStyle: { gridColumn: '1 / -1', order: 3, height: 40, marginTop: 6, background: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, border: 0, cursor: 'pointer', color: '#ECEAE3', font: "500 11px/1 'IBM Plex Mono',monospace", letterSpacing: '.1em', textTransform: 'uppercase', whiteSpace: 'nowrap', visibility: s.expLocked ? 'visible' : 'hidden' }, phWide: s.wide === 'ph', moWide: s.wide === 'mo',
       phWideLabel: s.wide === 'ph' ? 'Shrink iOS' : 'Expand iOS', moWideLabel: s.wide === 'mo' ? 'Shrink desktop' : 'Expand desktop',
       togglePhWide: () => this.setState({ wide: s.wide === 'ph' ? null : 'ph' }), toggleMoWide: () => this.setState({ wide: s.wide === 'mo' ? null : 'mo' }),
-      revealMore: () => this.act('mo'), backToPhone: () => this.act('ph'), showBack: mob && s.act === 'mo',
+      revealMore: () => this.act('mo'), backToPhone: () => this.act('ph'), showBack: mob && s.act === 'mo' && !moreBackOn,
       barStyle: mob ? { display: 'none' } : { gridColumn: '1 / -1', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) auto minmax(0,1fr)', alignItems: 'center', gap: 12, padding: '10px 4px 0' },
       phBox: mob ? { ...dv(s.act === 'ph'), height: Math.min(innerHeight - 150, Math.round((innerWidth - 12) * 874 / 402) + 44), maxWidth: Math.round((innerHeight - 194) * 402 / 874), margin: '0 auto' } : { width: '100%', height: '100%', minWidth: 0, display: s.wide === 'mo' ? 'none' : 'flex', flexDirection: 'column', gridColumn: s.wide === 'ph' ? '1 / -1' : 'auto', maxWidth: s.wide === 'ph' ? 560 : 'none', justifySelf: 'center' },
       moBox: mob ? { ...dv(s.act === 'mo'), order: 2, marginTop: 0, height: Math.round((innerWidth - 12) * 980 / 1468) + 92, minHeight: 300 } : { width: '100%', height: '100%', minWidth: 0, display: s.wide === 'ph' ? 'none' : 'flex', flexDirection: 'column' },
@@ -290,9 +282,15 @@ class Component extends DCLogic {
       col: this.col, phRef: this.phRef, moRef: this.moRef, actPh: () => this.act('ph'), actMo: () => this.act('mo'), notes: by(this.NOTES),
       phItems: by(mob ? this.PH : [...this.PH, 'notes'], 'ph'), moItems: by(mob ? this.MO : [...this.MO, 'notes'], 'mo'),
       moreBox: mob ? { gridColumn: '1 / -1', order: 1, padding: '0 8px', margin: '-8px 0 -10px', textAlign: 'center' } : { gridColumn: '1 / -1', alignSelf: 'start', padding: s.moreOpen ? '10px 0 0' : 0, margin: 0, textAlign: 'center' },
-      toggleMore: () => { this.setState({ moreOpen: !s.moreOpen, more: null }, () => this.reveal(this.moreRef.current, 8)); }, moreRef: this.moreRef, chev: { display: 'inline-block', transition: 'transform .2s', transform: s.moreOpen ? 'rotate(90deg)' : 'none' }, moreCurOn: !!s.more && !mob, moreSheet: !!s.more && mob, closeMore: () => this.setState({ more: null }),
-      more: by(this.NOTES).map(n => ({ ...n, on: s.more === n.id, style: { height: 30, padding: '0 12px', background: s.more === n.id ? '#262624' : 'none', border: '1px solid ' + (s.more === n.id ? '#3A3936' : '#262624'), borderRadius: 999, color: s.more === n.id ? '#ECEAE3' : '#9A9890', cursor: 'pointer', font: '400 13px/1 Inter,system-ui,sans-serif', whiteSpace: 'nowrap' }, go: () => { const off = s.more === n.id; if (mob) return this.setState({ more: off ? null : n.id });   // phones: a bottom sheet, the devices stay as they are
-        this.setState({ more: off ? null : n.id, mo: off ? (s.mo === 'notes' ? null : s.mo) : 'notes', ph: off ? (s.ph === 'notes' ? null : s.ph) : 'notes' }, () => this.reveal(this.moreRef.current, 8)); } })), moreOpen: !!s.moreOpen, moreCur: get(s.more) || {}, moreId: s.more || '',
+      toggleMore: () => { this.setState({ moreOpen: !s.moreOpen, more: null }, () => this.reveal(this.moreRef.current, 8)); }, moreRef: this.moreRef, chev: { display: 'inline-block', transition: 'transform .2s', transform: s.moreOpen ? 'rotate(90deg)' : 'none' }, 
+      // phones: the list is a centred panel over a dimmed backdrop; desktop keeps it inline under the bar
+      moreRole: mob ? 'dialog' : 'group', moreWrap: mob ? { position: 'fixed', inset: 0, zIndex: 20, display: 'grid', placeItems: 'center', padding: 16, background: 'rgba(0,0,0,.55)', textAlign: 'left' } : {},
+      moreList: mob ? { position: 'relative', width: 'min(360px,100%)', maxHeight: '85%', overflowY: 'auto', overscrollBehavior: 'contain', background: '#161615', border: '1px solid #3A3936', borderRadius: 22, padding: '8px 20px 12px' } : {},
+      moreBackOn: moreBackOn && !mob, moreBackNarrow: moreBackOn && mob,
+      moreBack: () => this.setState(st => ({ more: null, moreOpen: true, ph: (st.prev || {}).ph || null, mo: (st.prev || {}).mo || null, prev: null })),
+      // picking a build puts its detail on both frames and collapses the list; Back restores what the frames showed and reopens the list
+      more: by(this.NOTES).map(n => ({ ...n, style: { height: 30, padding: '0 12px', background: s.more === n.id ? '#262624' : 'none', border: '1px solid ' + (s.more === n.id ? '#3A3936' : '#262624'), borderRadius: 999, color: s.more === n.id ? '#ECEAE3' : '#9A9890', cursor: 'pointer', font: '400 13px/1 Inter,system-ui,sans-serif', whiteSpace: 'nowrap' },
+        go: () => { this.setState(st => ({ more: n.id, moreOpen: false, ph: 'notes', mo: 'notes', prev: st.more ? st.prev : { ph: st.ph, mo: st.mo } })); this.act('ph'); } })), moreOpen: !!s.moreOpen, moreCur: get(s.more) || {}, moreId: s.more || '',
       phOpen: get(s.ph), moOpen: get(s.mo), phHome: home('ph'), moHome: home('mo'),
       hasFocus: !!focus, focus: focus || {}, drawerAside: !!s.drawer && !!focus && !mob, drawerInline: !!s.drawer && !!focus && mob,
       inlineBox: { gridColumn: '1 / -1', order: focus && this.PH.includes(focus.id) ? 0 : 3, padding: '14px 12px 18px', borderTop: '1px solid #262624', borderBottom: '1px solid #262624' }, hasDetails: !!focus && focus.id !== 'notes',

@@ -180,7 +180,7 @@ class Component extends DCLogic {
     const s = this.state, pr = this.props, phone = pr.kind === 'phone', o = pr.open || null, id = o && o.id, L = true;
     const LOCALHOST = /^(127\.0\.0\.1|localhost)$/.test(location.hostname), APP = LOCALHOST ? { void: 'http://127.0.0.1:8768/', ezer: 'http://127.0.0.1:8766/', morgan: 'http://127.0.0.1:8767/' } : { void: 'https://void-app-d35c.pages.dev/', ezer: 'https://ezer-demo.daniel4chigs.workers.dev/', morgan: 'https://morgan-demo.daniel4chigs.workers.dev/app/' };
     const WEB = { hugo: 'realms/hugo/index.html', revelation: 'https://revelati6n.com' };
-    const notes = pr.notes || [], nCur = notes.find(n => n.id === (s.note || pr.note)) || null;
+    const notes = pr.notes || [], nCur = s.note === 'list' ? null : notes.find(n => n.id === (s.note || pr.note)) || null; // 'list': "← Notes" pressed while the parent still pins a note
     const noteList = notes.map(n => ({ ...n, sel: (nCur || notes[0] || {}).id === n.id, pick: () => this.setState({ note: n.id }) }));
     const STORES = [['maren', 'https://live-maren.com/', 'MAREN', '#ECEAE3'], ['sly', 'https://www.slysculpted.com/', 'Sly Sculpted', '#9A9890'], ['impact', 'https://impact-threads.com/', 'Impact Threads', '#6B6D73'], ['_', '', '', '#8FA0FF']];
     const tabs = STORES.filter(t => t[0] !== '_').map(([key, src, label, dot]) => ({ src, label, dot, on: s.tab === key, go: () => this.setState({ tab: key }),
@@ -206,7 +206,7 @@ class Component extends DCLogic {
       holder: { width: LW * k, height: LH * k, position: 'relative', flex: '0 0 auto' },
       inner: { position: 'absolute', left: 0, top: 0, width: LW, height: LH, transform: 'scale(' + k + ')', transformOrigin: '0 0', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignContent: 'flex-start', gap: 80 },
       pHome: phone && !o, pLive: phone && !!o && !!APP[id] && L, pSrc: (L && APP[id]) || '', pSlot: phone && !!o && !!APP[id] && !L, pPlate: phone && !!o && !APP[id] && id !== 'notes',
-      pNotes: phone && id === 'notes', pList: !nCur, pNote: !!nCur, noteList, cur: nCur || {}, noteBack: () => this.setState({ note: null }),
+      pNotes: phone && id === 'notes', pList: !nCur, pNote: !!nCur, noteList, cur: nCur || {}, noteBack: () => this.setState({ note: 'list' }),
       slotId: 'shot-' + id, slotText: 'Drop a portrait screenshot of ' + ((o && o.name) || 'the app'), name: (o && o.name) || '', status: (o && o.status) || '',
       barStyle: { flex: '0 0 38px', height: 38, display: !!pr.home || !!pr.info ? 'flex' : 'none', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '4px 0 0' },
       canHome: !!o && !!pr.home, goHome: () => { this.setState({ note: null }); pr.home && pr.home(); }, homeLabel: phone ? '← Home screen' : '← Desktop',
