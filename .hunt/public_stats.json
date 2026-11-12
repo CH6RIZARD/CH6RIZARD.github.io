@@ -1,5 +1,5 @@
 {
- "built": "2026-11-11 20:08",
+ "built": "2026-11-11 20:20",
  "applications": {
   "applied": 81,
   "blocked": 150,
@@ -7,18 +7,18 @@
   "applied_current_resume": 53,
   "applied_old_resume": 28,
   "linkedin_requests_sent": 37,
-  "emails_sent": 0,
+  "emails_sent": 21,
   "roles_in_queue": 92
  },
  "vc": {
-  "updated": "2026-11-11T20:07:11",
+  "updated": "2026-11-11T20:19:12",
   "goal": {
    "emails_today": 250,
    "dms_today": 100,
    "deadline": "2026-11-11T22:00:00-05:00"
   },
-  "emails_today": 577,
-  "emails_total": 1161,
+  "emails_today": 594,
+  "emails_total": 1178,
   "dms_sent_today": 101,
   "dms_by_platform_status": {
    "X/Sent": 35,
