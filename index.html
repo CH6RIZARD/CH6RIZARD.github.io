@@ -400,6 +400,8 @@ body.simple{min-height:100dvh;overflow:hidden;--paper:#161615;--ink:#ECEAE3;--mu
 body.simple>section,body.simple>footer,body.simple>.mindex{display:none!important}
 @media (min-width:761px){body.simple .hudslot{display:block}}
 @media (max-width:760px){.mode span{padding:15px 12px}#os{bottom:92px}}
+/* phones: the bird and Hugo are absolutely placed and cross the right edge; unclipped, that widens the page, mobile browsers zoom the layout out to fit it, and the fixed read-less frames end up off-centre and cut off. html owns the viewport's overflow so body can clip them. */
+@media (max-width:760px){html{overflow-x:hidden}body{overflow-x:clip}}
 
 /* desktop hero: left-aligned, split name (mobile keeps the centred design above) */
 .ibtn .lbl{display:none}
