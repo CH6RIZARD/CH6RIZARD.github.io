@@ -1,34 +1,49 @@
 tier,score,company,title,location,pay,posted,min_years,url,source,first_seen
 0,16,alloy,Technical Partner Operations Analyst,New York City,"$105,000 to $125,000",2026-11-13,3,https://www.alloy.com/about/jobs/detail?gh_jid=8939980002&gh_jid=8939980002,greenhouse,2026-11-13
+0,13,xai,"Software Engineer, Consumer Subscriptions","Palo Alto, CA","$140,000 - $225,000",2026-11-13,2,https://job-boards.greenhouse.io/xai/jobs/5290321007,greenhouse,2026-11-13
+0,12,rocketlab,Flight Software Engineer II,"Long Beach, CA",,2026-11-13,2,https://job-boards.greenhouse.io/rocketlab/jobs/8203914003,greenhouse,2026-11-13
 0,12,airbnb,"Software Engineer, Profile & Community, Web","Remote, USA",,2026-11-13,3,https://careers.airbnb.com/positions/8386065?gh_jid=8386065,greenhouse,2026-11-13
+0,11,twitch,"Software Engineer I, Payments","San Francisco, CA",,2026-11-13,1,https://job-boards.greenhouse.io/twitch/jobs/8943553002,greenhouse,2026-11-13
 0,11,figure,Loan Analyst,Remote,"$50,600 - $75,800",2026-11-13,2,https://job-boards.greenhouse.io/figure/jobs/8934103002,greenhouse,2026-11-13
 0,11,carvana,"Mobile, AL - Car Detailer (FT)","Mobile, Alabama, United States",,2026-11-13,3,https://www.carvana.com/careers/apply?gh_jid=8385832,greenhouse,2026-11-13
 0,10,airbnb,"Software Engineer, Profile & Community, Android","Remote, USA",,2026-11-13,3,https://careers.airbnb.com/positions/8386083?gh_jid=8386083,greenhouse,2026-11-13
+0,10,tailscale,Developer Relations Engineer,Remote (United States),,2026-11-13,0,https://job-boards.greenhouse.io/tailscale/jobs/4754084005,greenhouse,2026-11-13
 0,9,andurilindustries,"Materials Engineer, Design Allowables & Materials Data","Costa Mesa, California, United States",,2026-11-13,2,https://boards.greenhouse.io/andurilindustries/jobs/5292823007?gh_jid=5292823007,greenhouse,2026-11-13
+0,8,ramp,"Software Engineer, Fullstack, Spend Controls","New York, NY (HQ) remote",$172K – $240K • Offers Equity • Offers Bonus,2026-11-13,0,https://jobs.ashbyhq.com/ramp/6e717b06-6613-42ad-a1ee-f852a305fa37,ashby,2026-11-13
 0,7,figureai,Procedures & Quality Associate - Pilot Support Team,"San Jose, CA",,2026-11-13,0,https://job-boards.greenhouse.io/figureai/jobs/4729424006,greenhouse,2026-11-13
 0,7,opengov,Implementation Consultant,US | Illinois | Chicago,$96K – $110K,2026-11-13,2,https://jobs.ashbyhq.com/opengov/bae701be-f5d6-4f14-bc73-38eff1616e80,ashby,2026-11-13
 0,6,andurilindustries,Laser Test Engineer,"Lexington, Massachusetts, United States",,2026-11-13,3,https://boards.greenhouse.io/andurilindustries/jobs/5294615007?gh_jid=5294615007,greenhouse,2026-11-13
 0,6,andurilindustries,Site Reliability Engineer,"Waltham, Massachusetts, United States",,2026-11-13,3,https://boards.greenhouse.io/andurilindustries/jobs/5294371007?gh_jid=5294371007,greenhouse,2026-11-13
+0,6,hearst,"AI Development Editor, Newsroom","Norwalk, CT, United States",,2026-11-13,0,https://job-boards.greenhouse.io/hearst/jobs/4475951009,greenhouse,2026-11-13
 0,5,figureai,Data Collection Quality Support - Pilot Support Team,"San Jose, CA",,2026-11-13,0,https://job-boards.greenhouse.io/figureai/jobs/4729425006,greenhouse,2026-11-13
-0,5,redwoodmaterials,Security Specialist,"McCarran, NV",,2026-11-13,0,https://boards.greenhouse.io/redwoodmaterials/jobs/6201161004?gh_jid=6201161004,greenhouse,2026-11-13
-0,5,axon,Commercial Operations Analyst - Quoting,"Atlanta, Georgia, United States",,2026-11-13,3,https://job-boards.greenhouse.io/axon/jobs/8203580003,greenhouse,2026-11-13
+0,5,axon,Commercial Operations Analyst - Quoting,"Boston, Massachusetts, United States",,2026-11-13,3,https://job-boards.greenhouse.io/axon/jobs/8203581003,greenhouse,2026-11-13
 0,5,axon,Commercial Operations Analyst - Quoting,"San Francisco, California, United States",,2026-11-13,3,https://job-boards.greenhouse.io/axon/jobs/8203578003,greenhouse,2026-11-13
 0,5,axon,Commercial Operations Analyst - Quoting,"Seattle, Washington, United States",,2026-11-13,3,https://job-boards.greenhouse.io/axon/jobs/8203575003,greenhouse,2026-11-13
-0,5,axon,Commercial Operations Analyst - Quoting,New York-Office(27th St),,2026-11-13,3,https://job-boards.greenhouse.io/axon/jobs/8203588003,greenhouse,2026-11-13
 0,5,axon,Commercial Operations Analyst - Quoting,"Scottsdale, Arizona, United States",,2026-11-13,3,https://job-boards.greenhouse.io/axon/jobs/8200366003,greenhouse,2026-11-13
+0,5,axon,Commercial Operations Analyst - Quoting,New York-Office(27th St),,2026-11-13,3,https://job-boards.greenhouse.io/axon/jobs/8203588003,greenhouse,2026-11-13
 0,5,axon,Commercial Operations Analyst - Quoting,"Sterling, Virginia, United States",,2026-11-13,3,https://job-boards.greenhouse.io/axon/jobs/8203587003,greenhouse,2026-11-13
-0,5,axon,Commercial Operations Analyst - Quoting,"Boston, Massachusetts, United States",,2026-11-13,3,https://job-boards.greenhouse.io/axon/jobs/8203581003,greenhouse,2026-11-13
+0,5,axon,Commercial Operations Analyst - Quoting,"Atlanta, Georgia, United States",,2026-11-13,3,https://job-boards.greenhouse.io/axon/jobs/8203580003,greenhouse,2026-11-13
+0,5,redwoodmaterials,Security Specialist,"McCarran, NV",,2026-11-13,0,https://boards.greenhouse.io/redwoodmaterials/jobs/6201161004?gh_jid=6201161004,greenhouse,2026-11-13
+0,4,qualtrics,Enterprise Support Analyst,"Provo, Utah, United States",,2026-11-13,3,https://www.qualtrics.com/careers/us/en/job/8386308?gh_jid=8386308,greenhouse,2026-11-13
+0,3,carvana,Winter Security Associate ,"Manville, NJ",,2026-11-13,2,https://www.carvana.com/careers/apply?gh_jid=8386453,greenhouse,2026-11-13
 0,2,andurilindustries,Metrology Engineer,"Atlanta, Georgia, United States",,2026-11-13,0,https://boards.greenhouse.io/andurilindustries/jobs/5093756007?gh_jid=5093756007,greenhouse,2026-11-13
 0,2,andurilindustries,"Production Scheduler, Intelligence Systems","Ashville, Ohio, United States",,2026-11-13,2,https://boards.greenhouse.io/andurilindustries/jobs/5293939007?gh_jid=5293939007,greenhouse,2026-11-13
-0,0,vast,Compensation Analyst II,"Long Beach, California, United States",,2026-11-13,3,https://boards.greenhouse.io/vast/jobs/4729327006?gh_jid=4729327006,greenhouse,2026-11-13
+0,2,ashby,Product Support Engineer - NAMER,Remote - US remote,$75K – $140K • Offers Equity • Multiple Ranges,2026-11-13,0,https://jobs.ashbyhq.com/Ashby/80c20b00-c3c3-441b-95bd-56eb870e77fb,ashby,2026-11-13
+0,0,vast,Compensation Analyst I,"Long Beach, California, United States",,2026-11-13,1,https://boards.greenhouse.io/vast/jobs/4729327006?gh_jid=4729327006,greenhouse,2026-11-13
 0,14,abnormalsecurity,"Software Engineer I, Data Platforms",Remote - USA,,2026-11-12,1,https://abnormal.ai/careers/jobs/8196352003?gh_jid=8196352003,greenhouse,2026-11-13
 0,12,affirm,"Software Engineer I, Backend (Continuous Delivery)",Remote US,"$130,000 - $180,000",2026-11-12,0,https://job-boards.greenhouse.io/affirm/jobs/8181183003,greenhouse,2026-11-13
 0,5,lucidmotors,"Vehicle Test Engineer II, Vehicle Efficiency Engineering","Newark, CA",,2026-11-12,2,https://lucidmotors.com/careers/search/5277807007?gh_jid=5277807007,greenhouse,2026-11-13
 0,2,xai,Government Cloud Security Engineer,"Austin, TX; New York, NY; Palo Alto, CA; Washington, DC","$100,000 - $198,000",2026-11-12,3,https://job-boards.greenhouse.io/xai/jobs/5294116007,greenhouse,2026-11-13
 0,16,lightmatter,Embedded Software Engineer,"Boston, MA",,2026-11-04,2,https://boards.greenhouse.io/lightmatter/jobs/5467063008?gh_jid=5467063008,greenhouse,2026-11-13
+0,7,whoop,"Systems Engineer II, Endpoint","Boston, MA","$125,000-$175,000",2026-10-20,0,https://jobs.ashbyhq.com/whoop/dc4606a5-b412-4943-acdb-7333b05c8ffe,ashby,2026-11-13
 1,16,perplexity,"Growth GTM Engineer, Revenue Operations",San Francisco remote,$175K – $235K • Offers Equity,2026-11-13,2,https://jobs.ashbyhq.com/Perplexity/e916f0c8-5a31-4bb6-b4e3-7c4a64b95fda,ashby,2026-11-13
 1,12,spacex,OT Systems Engineer ,"Memphis, TN",,2026-11-13,3,https://boards.greenhouse.io/spacex/jobs/8940768002?gh_jid=8940768002,greenhouse,2026-11-13
 1,12,openai,"Technical Operations Analyst, User Safety & Risk Operations",San Francisco remote,$189K – $252K • Offers Equity,2026-11-13,0,https://jobs.ashbyhq.com/openai/7b867d19-f018-4c08-8183-d2358b733ee5,ashby,2026-11-13
+1,10,spacex,High Performance Computing Systems Engineer (HPC),"Hawthorne, CA",,2026-11-13,1,https://boards.greenhouse.io/spacex/jobs/8942392002?gh_jid=8942392002,greenhouse,2026-11-13
+1,7,spacex,Integration Specialist (Starlink Aviation) - 2nd Shift,"Woodinville, WA",,2026-11-13,2,https://boards.greenhouse.io/spacex/jobs/8937225002?gh_jid=8937225002,greenhouse,2026-11-13
+1,2,spacex,Automation Engineer (Starlink Customer Experience)   ,"Redmond, WA",,2026-11-13,1,https://boards.greenhouse.io/spacex/jobs/8940636002?gh_jid=8940636002,greenhouse,2026-11-13
+1,2,relativity,Vehicle Structures Engineer I - 2026 Graduate,"Long Beach, California, United States",,2026-11-13,2,https://boards.greenhouse.io/relativity/jobs/8942936002?gh_jid=8942936002,greenhouse,2026-11-13
+1,17,robinhood,AML Investigator,"Denver, CO; New York, NY; Westlake, TX",,2026-11-12,2,https://boards.greenhouse.io/robinhood/jobs/8259642?t=gh_src=&gh_jid=8259642,greenhouse,2026-11-13
 1,15,spacex,LNG Pipeline Engineer (Starship),"Starbase, TX",,2026-11-12,3,https://boards.greenhouse.io/spacex/jobs/8933294002?gh_jid=8933294002,greenhouse,2026-11-13
 1,8,spacex,Financial Analyst,"Starbase, TX",,2026-11-12,0,https://boards.greenhouse.io/spacex/jobs/8940627002?gh_jid=8940627002,greenhouse,2026-11-13
 1,8,spacex,Test Equipment Technician - 2nd Shift,"McGregor, TX",,2026-11-12,2,https://boards.greenhouse.io/spacex/jobs/8940527002?gh_jid=8940527002,greenhouse,2026-11-13
