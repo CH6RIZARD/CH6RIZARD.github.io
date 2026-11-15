@@ -1,5 +1,5 @@
 // Hugo's backpack: a CC0 rucksack (Quaternius, poly.pizza/m/vF7TuXCPDH) on his back whose front lid is cut free and opens on its
-// hinge onto a real mouth. ?pack=voxel|quaternius-small|tawpshelf swaps in another model (realms/hugo/pack/CREDITS.txt); only the
+// hinge onto a real mouth. ?pack=leather swaps in the leather pack (realms/hugo/pack/CREDITS.txt); only the
 // chosen one is fetched. Every pack file has the same nodes: pack, flap, hinge (extras.open), mouth, hole. He swings it off one shoulder, opens a pocket, pulls the book or the bird's seed bag into his hand, and puts it back.
 // Loaded by hugo3d.js after his first frame; boot() returns the per-frame pose hook it calls before the joint springs.
 import * as THREE from 'three';
@@ -27,7 +27,7 @@ function makeSeedBag() {   // a little burlap sack tied at the neck
 
 export async function boot({ model, B, rest, st, armMix, mix, springK, body, glb }) {
   const BODY = body(); if (!BODY || !B.chest || !B.handR) return null;
-  const pick = new URLSearchParams(location.search).get('pack'), file = ['voxel', 'quaternius-small', 'tawpshelf'].includes(pick) ? pick : 'pack';
+  const pick = new URLSearchParams(location.search).get('pack'), file = pick === 'leather' ? 'leather' : 'pack';
   const url = new URL(`realms/hugo/pack/${file}.meshopt.glb` + (/\.wasm$/.test(glb || '') ? '.wasm' : ''), document.baseURI).href;
   const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(url);
   let scene = model; while (scene.parent) scene = scene.parent;

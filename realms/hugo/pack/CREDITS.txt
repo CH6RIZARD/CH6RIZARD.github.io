@@ -1,19 +1,11 @@
 Hugo's backpacks. Each file is cut the same way (static "pack", hinged "flap", markers "hinge"/"mouth"/"hole"),
-recoloured toward a light matte look, scaled to 1 unit tall and meshopt-compressed. The .wasm copies are the same bytes.
-Default; choose another with ?pack=voxel | quaternius-small | tawpshelf
+scaled to 1 unit tall and meshopt-compressed. The .wasm copies are the same bytes.
 
-pack.meshopt.glb (default, ?pack=quaternius)
+pack.meshopt.glb (default)
   "Backpack" by Quaternius, https://poly.pizza/m/vF7TuXCPDH. License: CC0 1.0.
-  Front lid (tab, buckle, strap over it) hinged; body top under it opened into a mouth.
-voxel.meshopt.glb (?pack=voxel)
-  "Hiking Backpack" by Voxel_dev, https://poly.pizza/m/pVuHdEBRUs. License: CC0 1.0.
-  Right front pocket flap hinged; that pocket's mouth opened.
-quaternius-small.meshopt.glb (?pack=quaternius-small)
-  "Backpack" by Quaternius, https://poly.pizza/m/2g9Jm7kvIU. License: CC0 1.0.
-  Front pocket flap (with its button and strap) hinged; pocket mouth opened.
-tawpshelf.meshopt.glb (?pack=tawpshelf)
-  "Open Backpack" by Emmett "TawpShelf" Baber, https://poly.pizza/m/26m92LMKK4e.
-  License: CC-BY 3.0 (https://creativecommons.org/licenses/by/3.0/). Credit: Emmett "TawpShelf" Baber, via Poly Pizza.
-  Changes: the model is open at the top; a hinged lid slab in its colour was added over the opening.
+  Recoloured to a light matte look; front lid (tab, buckle, strap over it) hinged; body top under it opened into a mouth.
+leather.meshopt.glb (?pack=leather)
+  Backpack by mickeymoose1204, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+  https://sketchfab.com/3d-models/backpack-1bb0c9be995747e9abe0831d94066fc8
 
 Book and seed bag: procedural meshes in backpack.js (no third-party assets).
