@@ -314,6 +314,8 @@ html{touch-action:manipulation}
   .frame svg{max-height:260px}
 }
 @media (min-width:761px){.swipe-hint,.more{display:none}}
+/* Morgan on desktop: render the build in a real 390px iPhone viewport scaled to the screen (at 268px wide it clipped and showed a scrollbar) */
+@media (min-width:761px){#trading .phone .screen iframe{width:390px;height:calc(100% / var(--sk,1));transform:scale(var(--sk,1));transform-origin:0 0}}
 @media (max-width:760px){
   .head,.head>div,.split>*,.top>*{min-width:0}          /* a swipe row must not widen its column */
   .kicker{flex-wrap:wrap;gap:6px 12px}
@@ -805,7 +807,7 @@ document.getElementById('copyEmail').addEventListener('click',e=>{e.preventDefau
   });
 })();
 const LOCAL = /^(127\.0\.0\.1|localhost)$/.test(location.hostname);
-const BUILD = '20261114a';
+const BUILD = '20261115m';
 const EZER_URL = LOCAL ? 'http://127.0.0.1:8766/' : 'https://ezer-demo.daniel4chigs.workers.dev/';
 // Morgan Futures mobile app (Expo web export), served at its own root like EZER.
 const MORGAN_URL = LOCAL ? 'http://127.0.0.1:8767/' : 'https://morgan-demo.daniel4chigs.workers.dev/app/';
