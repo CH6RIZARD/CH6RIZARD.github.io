@@ -1518,7 +1518,8 @@ function stepBody(dt) {
       if (!(st.edgeAt > 0) && !(ALT && (t - (st.edgeT ?? -9) < 4 || (st.goal && st.goal.toView)))) { st.edgeT = t; st.edgeAt = t + 0.3 + Math.random() * 0.3; st.mode = 'idle'; st.idleUntil = st.edgeAt; st.amt = 0; if (inView()) gest = { name: 'peer', t0: t, dur: 1, side: st.dir, amp: 1, f: 1 }; return; }
       st.edgeAt = 0;
       if (ALT && st.goal) { const q = gapHop(f); if (q && q.f === st.goal.f) { st.dropF = q.f; st.mode = 'prep'; st.prep = { f: q.f, dh: 0, until: t + 0.18 + Math.random() * 0.14, climb: false, over: q.x }; st.amt = 0; return; } }
-      if (dropTo(nx, f.y)) { st.mode = 'prep'; st.prep = { f: st.dropF, until: t + 0.12, drop: true, nx }; st.amt = 0; return; }   // a crouch, then a small forward arc onto the ledge he looked at (prep below), not past it (behind a picture in the way)
+      if (dropTo(nx, f.y)) { st.mode = 'prep'; st.prep = { f: st.dropF, until: t + 0.12, drop: true, nx }; st.amt = 0; return; }
+      if (ALT && st.goal) { const q = gapHop(f); if (q) { st.dropF = q.f; st.mode = 'prep'; st.prep = { f: q.f, dh: 0, until: t + 0.18 + Math.random() * 0.14, climb: false, over: q.x }; st.amt = 0; return; } }   // ALT: no drop from this end, but the next ledge across the gap: a stepping stone on the way (the phone top's end to the Tech rule)   // a crouch, then a small forward arc onto the ledge he looked at (prep below), not past it (behind a picture in the way)
       if (st.goal && st.goal.toView && st.away >= 4 && lost()) return;   // left off camera with no ledge he can step down to: the lost case
       if (st.goal) giveUp('no way down');   // nothing to step down to: that place is not reachable from here (no pacing to the edge and back)
       st.dir = -st.dir; st.mode = 'idle'; st.idleUntil = t + 0.8 + Math.random() * 1.5; return;
