@@ -1264,7 +1264,6 @@ function behEnd(ok) { const B = st.beh; if (!B) return; st.beh = null; st.spdK =
 const tryRun = fn => { try { return fn(); } catch (e) { if (!tryRun.warned) { tryRun.warned = 1; console.warn('hugo behaviour failed', st.beh && st.beh.id, e); } return false; } };   // one bad move never stalls the frame
 function behFree() { return !st.goal && !(st.route && st.route.length) && !st.air && !['prep', 'climb', 'lane', 'crawl'].includes(st.mode) && !(st.mode === 'walk' && st.amt >= 0.05); }
 function autonomy(f) {
-  if (st.sitAfter && !(ENV.__pack && ENV.__pack.rope && ENV.__pack.rope.ph)) { st.sitAfter = false; if (st.floor && !st.air && st.mode !== 'climb' && sitRoom(st.x, st.floor.y)) { st.mode = 'sit'; st.idleUntil = t + 5 + Math.random() * 6; return; } }   // born onto his name: seated as before, once the rope is in the pack
   const M = ENV.MORTAL; if (!M || !M.next || !M.alive(WHO) || st.relOrder || st.food || st.held || st.dead || st.enter || (ENV.__pack && ENV.__pack.rope && ENV.__pack.rope.ph)) return;
   if (f && f.screen) { st.edgeSince ??= t; } else st.edgeSince = null;
   // Off camera for a moment while the visitor is not scrolling: back into view (a reflex, not a choice); AI otherwise sleeps off camera
@@ -1432,7 +1431,7 @@ function stepBody(dt) {
       if (C.rope && C.ft !== t) { C.ft = t; C.fs = C.wait ? 0 : 0.05; }   // rope: 50 ms of lowering per rendered frame at most (a frame's substeps share it), so a stalled frame never jumps him
       const k = C.rope ? (C.k += Math.max(0, Math.min(dt, C.fs)), C.fs -= Math.min(dt, C.fs), C.k) : t - C.t0, dur = Math.max(0.6, Math.abs(C.yTo - C.y0) / 110); C.ph = 'hang'; C.u = Math.max(0, Math.min(1, k / dur));
       st.y = C.y0 + (C.yTo - C.y0) * C.u; st.x = C.x0 + (C.rope ? Math.sin(k * 2.2) * 3 * (1 - C.u) : Math.sin(k * 6) * 1.5);
-      if (C.u >= 1 && C.rope) { st.floor = C.f; st.x = C.x0; st.y = C.yTo; st.mode = 'walk'; st.land = 0.25; st.climb = null; ENV.__pack.rope.landed(); if (C.born) { st.sitAfter = C.born.sit; ENV.MORTAL?.signal?.(WHO, 'ENTERED', { x: st.x, y: st.y, sit: C.born.sit }); } return; }   // feet on the ledge: tug, coil, into the pack (rope.js), then autonomy again
+      if (C.u >= 1 && C.rope) { st.floor = C.f; st.x = C.x0; st.y = C.yTo; st.mode = 'walk'; st.land = 0.25; st.climb = null; ENV.__pack.rope.landed(); if (C.born) { if (C.born.sit && sitRoom(st.x, C.f.y)) { st.mode = 'sit'; st.idleUntil = t + 5 + Math.random() * 6; } ENV.MORTAL?.signal?.(WHO, 'ENTERED', { x: st.x, y: st.y, sit: st.mode === 'sit' }); } return; }   // onto his name he sits as he lands (standing there his head is in the nav, and he stepped off mid-stow)   // feet on the ledge: tug, coil, into the pack (rope.js), then autonomy again
       if (C.u >= 1) { st.climb = null; st.mode = 'walk'; st.air = true; st.hop = false; st.vx = C.up ? Math.sign((C.f.x1 + C.f.x2) / 2 - st.x) * (HALF_W * 2 + 6) / Math.sqrt(2 * CFG.size * 0.9 / G) : 0; st.vy = 0; st.dropF = C.f; }   // the last body height: a drop he lands from
       return;
     }
@@ -1589,7 +1588,8 @@ function stepBody(dt) {
   } else if (st.mode === 'idle') { if (!st.goal && st.amt < 0.05 && (ALT ? !clear(st.x, f.y, CFG.size + 4) : !st.held && !standInk(f, st.x))) { const x = ALT ? idleSpot(f) : inkSpot(f);   // Hugo on letters: on to where both soles have ink under them
      if (x != null) { if (Math.abs(x - st.x) < 9) st.x += Math.sign(x - st.x) * Math.min(Math.abs(x - st.x), 40 * dt); else { gest = null; goTo(f, x, { auto: 1 }); return; } } }   // stopped in front of a label or the title: he walks on to where he covers nothing
     settle(f, dt); if (t > st.idleUntil && st.goal) { st.mode = 'walk'; restyle(); } }
-  else if (st.mode === 'sit') { settle(f, dt); if (!ALT && f.runs && !seatInk(st.x, f.y)) { st.mode = 'idle'; st.idleUntil = t + 1; }   // the letters moved under his seat (the web font landed): up, and on to honest ink
+  else if (st.mode === 'sit') { settle(f, dt); if (!ALT && f.runs && !seatInk(st.x, f.y)) { let bx = null; for (let d = 6; d <= 120 && bx == null; d += 6) for (const x of [st.x - d, st.x + d]) if (x >= f.x1 + HALF_W * 0.6 && x <= f.x2 - HALF_W * 0.6 && sitRoom(x, f.y)) { bx = x; break; }
+      if (bx != null) st.x += Math.max(-90 * dt, Math.min(90 * dt, bx - st.x)); else { st.mode = 'idle'; st.idleUntil = t + 1; } }   // he scoots along to the nearest ink still seated (standing up under the nav he stepped off and dropped); none near: up   // the letters moved under his seat (the web font landed): up, and on to honest ink
     st.swingV += (-st.swing * 9 - st.swingV * 1.6) * dt; st.swing += st.swingV * dt;
     if (!st.dead && Math.sin(t * 1.3) * Math.sin(t * 0.37) > 0.995) st.swingV += 2;   // now and then a kick of the legs (a slow beat, not dice)
     if (t > st.idleUntil && st.goal) st.mode = 'walk';   // he gets up when there is somewhere to go
