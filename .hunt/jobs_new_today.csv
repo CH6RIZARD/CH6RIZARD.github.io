@@ -1,11 +1,15 @@
 tier,score,company,title,location,pay,posted,min_years,url,source,first_seen
 0,13,gravie,Software Engineer - AI Native,Remote remote,$106K – $141K,2026-11-18,3,https://jobs.ashbyhq.com/gravie/671c4ede-6cfc-43d5-83bd-12865623e0bf,ashby,2026-11-18
+0,8,tripactions,WFM Real Time Traffic Analyst,"Delhi, IN",,2026-11-18,2,https://navan.com/careers/openings?gh_jid=8177257,greenhouse,2026-11-18
 0,8,benchling,Data Engineer,"San Francisco, CA remote",$154K – $208K • Offers Equity,2026-11-18,3,https://jobs.ashbyhq.com/benchling/c97e5668-29ee-4810-b7cc-35331ac123f5,ashby,2026-11-18
+0,0,abacum,Forward Deployed Engineer - BCN,Barcelona remote,,2026-11-18,3,https://jobs.ashbyhq.com/abacum/a3f2d2d4-f143-42da-8e69-eb31c2fcf1c9,ashby,2026-11-18
+0,0,abacum,Forward Deployed Engineer,Buenos Aires remote,,2026-11-18,3,https://jobs.ashbyhq.com/abacum/5b412265-c320-44c9-9783-1f82e23d860b,ashby,2026-11-18
 0,20,twitch,"Software Engineer I, Commerce","Seattle, WA",,2026-11-17,0,https://job-boards.greenhouse.io/twitch/jobs/8949388002,greenhouse,2026-11-18
 0,19,airbnb,"Software Engineer, DevAI ",United States,,2026-11-17,2,https://careers.airbnb.com/positions/8397762?gh_jid=8397762,greenhouse,2026-11-18
 0,15,clever,"Software Engineer, Admin Dashboard ","San Francisco, CA, OR Anywhere in the Continental U.S.","$115,000-$135,000",2026-11-17,2,https://www.clever.com/about/careers?gh_jid=8392881,greenhouse,2026-11-18
-0,11,blacksky,Sr Mission Planning Engineer,"Seattle, WA ; Herndon, VA ; Remote-US",,2026-11-17,0,https://boards.greenhouse.io/blacksky/jobs/8930117002?gh_jid=8930117002,greenhouse,2026-11-18
+0,15,kayak,"JAVA Software Engineer, Flights",Kaunas Office remote,,2026-11-17,2,https://jobs.ashbyhq.com/kayak/8ee20bcc-9bce-4392-99da-ebe82ccf0a83,ashby,2026-11-18
 0,11,lucidmotors,"Mobile Service Technician - McLean, VA","McLean, VA",,2026-11-17,3,https://lucidmotors.com/careers/search/5298973007?gh_jid=5298973007,greenhouse,2026-11-18
+0,11,blacksky,Sr Mission Planning Engineer,"Seattle, WA ; Herndon, VA ; Remote-US",,2026-11-17,0,https://boards.greenhouse.io/blacksky/jobs/8930117002?gh_jid=8930117002,greenhouse,2026-11-18
 0,7,vultr,Privacy Analyst,Remote - United States remote,"$80,000-$90,000",2026-11-17,2,https://jobs.ashbyhq.com/Vultr/deb55c44-15c2-4257-890e-dd43f4ac0001,ashby,2026-11-18
 0,2,andurilindustries,"Supplier Quality Engineer, Maritime Production","Santa Ana, California, United States",,2026-11-17,0,https://boards.greenhouse.io/andurilindustries/jobs/5299104007?gh_jid=5299104007,greenhouse,2026-11-18
 1,13,openai,"Full Stack Software Engineer, Dots for Companies",San Francisco remote,$347K – $385K • Offers Equity,2026-11-17,0,https://jobs.ashbyhq.com/openai/7447dd43-9bf5-445f-bb8c-ba57756c8d04,ashby,2026-11-18
@@ -13,6 +17,8 @@ tier,score,company,title,location,pay,posted,min_years,url,source,first_seen
 1,12,spacex,Software Engineer (Starship),"Bastrop, TX",,2026-11-17,1,https://boards.greenhouse.io/spacex/jobs/8949363002?gh_jid=8949363002,greenhouse,2026-11-18
 1,11,anthropic,"Developer Relations, Platform","San Francisco, CA | New York City, NY",,2026-11-17,0,https://job-boards.greenhouse.io/anthropic/jobs/5206870008,greenhouse,2026-11-18
 1,10,spacex,IT Network Infrastructure Specialist,"Cape Canaveral, FL",,2026-11-17,3,https://boards.greenhouse.io/spacex/jobs/8948810002?gh_jid=8948810002,greenhouse,2026-11-18
+1,8,spacex,Build Specialist (Booster Structures Engineering),"Starbase, TX",,2026-11-17,1,https://boards.greenhouse.io/spacex/jobs/8949413002?gh_jid=8949413002,greenhouse,2026-11-18
+1,8,spacex,"Supervisor, IT Data Center ","Starbase, TX",,2026-11-17,0,https://boards.greenhouse.io/spacex/jobs/8949430002?gh_jid=8949430002,greenhouse,2026-11-18
 1,7,spacex,"Business Operations Analyst, Aviation (Starlink)","Woodinville, WA",,2026-11-17,1,https://boards.greenhouse.io/spacex/jobs/8948347002?gh_jid=8948347002,greenhouse,2026-11-18
 1,6,relativity,Software Engineer I (Factory Platform),"Long Beach, California, United States",,2026-11-17,1,https://boards.greenhouse.io/relativity/jobs/8949325002?gh_jid=8949325002,greenhouse,2026-11-18
 1,5,spacex,IT Network Infrastructure Technician,"Starbase, TX",,2026-11-17,2,https://boards.greenhouse.io/spacex/jobs/8948983002?gh_jid=8948983002,greenhouse,2026-11-18
