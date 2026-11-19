@@ -1,19 +1,37 @@
 tier,score,company,title,location,pay,posted,min_years,url,source,first_seen
+0,15,albedo,Flight Software Engineer,"Broomfield, CO","$116,000 - $135,000",2026-11-19,0,https://job-boards.greenhouse.io/albedo/jobs/4514680009,greenhouse,2026-11-19
 0,14,goodleap,"Software Engineer, AI Transformation","Austin, TX remote",,2026-11-19,3,https://jobs.lever.co/goodleap/65bb56a4-7e99-4e59-847d-b4b9240bbc4e,lever,2026-11-19
+0,11,carvana,Quality Associate,"Akron, NY",,2026-11-19,0,https://www.carvana.com/careers/apply?gh_jid=8402785,greenhouse,2026-11-19
+0,11,floqast,"Software Engineer, Core AI/ML","San Jose, California hybrid",,2026-11-19,1,https://jobs.lever.co/floqast/b24a4667-d624-479c-ac29-222470d08454,lever,2026-11-19
+0,11,baseten,Software Engineer - Inference Product,San Francisco remote,$200K – $400K • Offers Equity,2026-11-19,3,https://jobs.ashbyhq.com/baseten/fddec35f-9dbc-4344-b1df-b8ff6e05472a,ashby,2026-11-19
 0,10,commure,Forward Deployed Engineer,"Mountain View, CA remote",$130K – $190K • Offers Equity,2026-11-19,1,https://jobs.ashbyhq.com/Commure/faeeff7f-b1f9-4db2-93ff-99da570f85b0,ashby,2026-11-19
+0,9,vannevarlabs,Information Systems Security Officer,"Remote; Washington, District of Columbia, United States","$120,000 - $160,000",2026-11-19,2,https://job-boards.greenhouse.io/vannevarlabs/jobs/5302160007,greenhouse,2026-11-19
+0,9,vast,Satellite Engineer,"Long Beach, California, United States",,2026-11-19,0,https://boards.greenhouse.io/vast/jobs/4730686006?gh_jid=4730686006,greenhouse,2026-11-19
 0,9,siteminder,Collections Analyst,Manila remote,,2026-11-19,0,https://jobs.ashbyhq.com/SiteMinder/82f7cf75-4ed4-4269-8089-296591e04f3b,ashby,2026-11-19
 0,9,siteminder,Customer Solutions Analyst,Manila remote,,2026-11-19,0,https://jobs.ashbyhq.com/SiteMinder/13185a9c-fb4d-4577-aa3d-13a300c62222,ashby,2026-11-19
+0,7,formlabs,Embedded Software Engineer - Entry Level,"Boston, MA",,2026-11-19,0,https://careers.formlabs.com/job/8402093/apply/?gh_jid=8402093,greenhouse,2026-11-19
+0,7,notion,"Software Engineer, Collections Infra","San Francisco, California remote","$150,000 - $168,000",2026-11-19,0,https://jobs.ashbyhq.com/notion/0fb1f7e2-ffe4-433c-a27d-62fa7f1d880f,ashby,2026-11-19
+0,6,andurilindustries,Laser Test Engineer,"Lexington, Massachusetts, United States",,2026-11-19,3,https://boards.greenhouse.io/andurilindustries/jobs/5301996007?gh_jid=5301996007,greenhouse,2026-11-19
+0,6,sproutsocial,GTM AI Engineer ,Remote US,"$135,200 – $169,000",2026-11-19,3,https://sproutsocial.com/careers/open-positions/8400299/?gh_jid=8400299,greenhouse,2026-11-19
+0,5,whoop,GRC Analyst II,"Boston, MA","$100,000 - $140,000",2026-11-19,3,https://jobs.ashbyhq.com/whoop/19968ce0-a8fc-4f2b-b3b3-1c929fbd1461,ashby,2026-11-19
 0,13,xai,Content Compliance Analyst,"Austin, TX","$80,000 - $110,000",2026-11-18,3,https://job-boards.greenhouse.io/xai/jobs/5299078007,greenhouse,2026-11-19
-0,12,paystand,Junior Fullstack Engineer,"Santa Cruz, California, United States","$110,000 to $130,000",2026-11-18,2,https://paystand.com/job-listing/?gh_jid=8208550003,greenhouse,2026-11-19
 0,12,ramp,"Research Engineer, Agentic Systems",Remote (US) remote,$204.4K – $352K • Offers Equity,2026-11-18,0,https://jobs.ashbyhq.com/ramp/f90d32c1-7c10-4161-8913-075e1b423697,ashby,2026-11-19
 0,10,rocketlab,Spacecraft GNC Engineer II ,"Littleton, CO",,2026-11-18,2,https://job-boards.greenhouse.io/rocketlab/jobs/8208937003,greenhouse,2026-11-19
 0,10,carvana,Security Guard - ADESA Little Rock,"Little Rock, AR",,2026-11-18,2,https://www.carvana.com/careers/apply?gh_jid=8401179,greenhouse,2026-11-19
 0,9,tanium,Security Engineer,"Remote, US","$154,000 to $236,000",2026-11-18,3,https://job-boards.greenhouse.io/tanium/jobs/8335066,greenhouse,2026-11-19
-0,7,checkr,Customer Success Implementation Specialist,"San Francisco, California, United States",,2026-11-18,2,https://job-boards.greenhouse.io/checkr/jobs/8399435,greenhouse,2026-11-19
 0,7,axon,Business Analyst I,"Boston, Massachusetts, United States; Scottsdale, Arizona, United States; Seattle, Washington, United States",,2026-11-18,0,https://job-boards.greenhouse.io/axon/jobs/8043977003,greenhouse,2026-11-19
+0,7,checkr,Customer Success Implementation Specialist,"Denver, Colorado, United States; San Francisco, California, United States",,2026-11-18,2,https://job-boards.greenhouse.io/checkr/jobs/8399435,greenhouse,2026-11-19
 0,5,upstart,"Fraud Analyst, Secured Lending",United States | Remote,,2026-11-18,3,https://careers.upstart.com/jobs?gh_jid=8401278,greenhouse,2026-11-19
 0,4,floqast,"Software Engineer, Data","San Jose, California hybrid",,2026-11-18,3,https://jobs.lever.co/floqast/da7d871f-57c8-43e0-a974-030a9fc4cf8e,lever,2026-11-19
 0,0,samsara,Implementation Consultant,Remote - CA; Remote - Chicago; Remote - Seattle; Remote - TX,,2026-11-18,3,https://www.samsara.com/company/careers/roles/8367418?gh_jid=8367418,greenhouse,2026-11-19
+0,10,eightsleep,New Grad - Engineering,New York City,,2026-11-17,0,https://jobs.ashbyhq.com/eightsleep/4bb1a9f1-bbad-4729-bccb-7a17f5601a79,ashby,2026-11-19
+0,6,spotify,Backend Engineer - Data Infrastructure,"New York, NY remote",,2026-11-05,3,https://jobs.lever.co/spotify/ced2c220-6b5c-4e74-8e06-37d50985097c,lever,2026-11-19
+0,12,rocketlab,Avionics Test Engineer I,"Long Beach, CA",,2026-10-28,0,https://job-boards.greenhouse.io/rocketlab/jobs/8055497003,greenhouse,2026-11-19
+0,12,rocketlab,Avionics Test Engineer II,"Long Beach, CA",,2026-10-28,2,https://job-boards.greenhouse.io/rocketlab/jobs/8055561003,greenhouse,2026-11-19
+1,9,imc,Trading Analyst,"New York, United States",,2026-11-19,2,https://job-boards.eu.greenhouse.io/imc/jobs/5042009101,greenhouse,2026-11-19
+1,8,spacex,Integration & Test Engineer (Bus & Payload Sub-Assemblies),"Redmond, WA",,2026-11-19,1,https://boards.greenhouse.io/spacex/jobs/8950289002?gh_jid=8950289002,greenhouse,2026-11-19
+1,8,spacex,Integration & Test Specialist (Bus & Payload Sub-Assemblies) - 2nd Shift,"Redmond, WA",,2026-11-19,2,https://boards.greenhouse.io/spacex/jobs/8950317002?gh_jid=8950317002,greenhouse,2026-11-19
+1,8,spacex,Integration & Test Specialist (Starlink Satellite Integration),"Redmond, WA",,2026-11-19,2,https://boards.greenhouse.io/spacex/jobs/8950337002?gh_jid=8950337002,greenhouse,2026-11-19
 1,21,spacex,"Software Engineer, Design Software (Starship)","Hawthorne, CA",,2026-11-18,1,https://boards.greenhouse.io/spacex/jobs/8949395002?gh_jid=8949395002,greenhouse,2026-11-19
 1,21,spacex,"Software Engineer, Design Software (Starship)","Starbase, TX",,2026-11-18,1,https://boards.greenhouse.io/spacex/jobs/8950626002?gh_jid=8950626002,greenhouse,2026-11-19
 1,17,spacex,"Backend Software Engineer, GNC (Starlink)","Redmond, WA",,2026-11-18,2,https://boards.greenhouse.io/spacex/jobs/8753321002?gh_jid=8753321002,greenhouse,2026-11-19
