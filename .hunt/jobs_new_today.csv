@@ -1,22 +1,86 @@
 tier,score,company,title,location,pay,posted,min_years,url,source,first_seen
+0,20,andurilindustries,Mission Planning Engineer,"Costa Mesa, California, United States",,2026-11-20,3,https://boards.greenhouse.io/andurilindustries/jobs/5044303007?gh_jid=5044303007,greenhouse,2026-11-20
+0,18,baseten,Design Engineer (Brand Team),San Francisco remote,$190K – $240K • Offers Equity,2026-11-20,0,https://jobs.ashbyhq.com/baseten/81d573b6-741c-4140-a36b-6892456eca73,ashby,2026-11-20
+0,15,esri,Backend Software Engineer – TS/SCI,"Vienna, Virginia, United States",,2026-11-20,2,https://www.esri.com/careers/5303720007?gh_jid=5303720007,greenhouse,2026-11-20
+0,15,esri,Backend Software Engineer – TS/SCI,"St. Louis, MO - Globe",,2026-11-20,2,https://www.esri.com/careers/5303717007?gh_jid=5303717007,greenhouse,2026-11-20
+0,15,esri,Backend Software Engineer – TS/SCI,"Redlands, CA",,2026-11-20,2,https://www.esri.com/careers/5303721007?gh_jid=5303721007,greenhouse,2026-11-20
+0,15,lucidmotors,"Technical Specialist, Vehicle NVH CAE","Newark, CA",,2026-11-20,0,https://lucidmotors.com/careers/search/5279397007?gh_jid=5279397007,greenhouse,2026-11-20
+0,14,rocketlab,Flight Dynamics Engineer II,"Littleton, CO",,2026-11-20,2,https://job-boards.greenhouse.io/rocketlab/jobs/8210681003,greenhouse,2026-11-20
+0,14,mongodb,Software Engineer 3,United States,,2026-11-20,0,https://www.mongodb.com/careers/job/?gh_jid=8406812,greenhouse,2026-11-20
+0,14,furtherearlycareer,Graduate Program: Entry Level Developer 2027,"Dallas, Texas","$68,000 to $70,000",2026-11-20,0,https://job-boards.greenhouse.io/furtherearlycareer/jobs/8906198002,greenhouse,2026-11-20
+0,13,zscaler,Software Development Engineer,"Santa Clara, California, USA",,2026-11-20,2,https://job-boards.greenhouse.io/zscaler/jobs/5283494007,greenhouse,2026-11-20
 0,13,intercom,Forward Deployed Engineer,"New York, New York","$180,000 - $237,000",2026-11-20,0,https://job-boards.greenhouse.io/intercom/jobs/8405770,greenhouse,2026-11-20
+0,12,rocketlab,Radar RF Design Engineer I ,"Long Beach, CA",,2026-11-20,0,https://job-boards.greenhouse.io/rocketlab/jobs/8203624003,greenhouse,2026-11-20
+0,12,esri,DevOps / Platform Engineer – TS/SCI,"St. Louis, MO - Globe",,2026-11-20,2,https://www.esri.com/careers/5303724007?gh_jid=5303724007,greenhouse,2026-11-20
+0,12,esri,DevOps / Platform Engineer – TS/SCI,"Vienna, Virginia, United States",,2026-11-20,2,https://www.esri.com/careers/5303726007?gh_jid=5303726007,greenhouse,2026-11-20
+0,12,esri,DevOps / Platform Engineer – TS/SCI,"Redlands, CA",,2026-11-20,2,https://www.esri.com/careers/5303725007?gh_jid=5303725007,greenhouse,2026-11-20
+0,12,esri,Technical Consultant – Geospatial Data & Databases | TS/SCI,"St. Louis, MO - Globe",,2026-11-20,2,https://www.esri.com/careers/5303824007?gh_jid=5303824007,greenhouse,2026-11-20
+0,12,esri,Technical Consultant – Geospatial Data & Databases | TS/SCI,"Redlands, CA",,2026-11-20,2,https://www.esri.com/careers/5303826007?gh_jid=5303826007,greenhouse,2026-11-20
+0,12,esri,Technical Consultant – Geospatial Data & Databases | TS/SCI,"Vienna, Virginia, United States",,2026-11-20,2,https://www.esri.com/careers/5303827007?gh_jid=5303827007,greenhouse,2026-11-20
+0,12,oddball,DevOps Engineer,Remote,"$110,000 – $145,000",2026-11-20,0,https://job-boards.greenhouse.io/oddball/jobs/8210802003,greenhouse,2026-11-20
 0,10,carvana,Security Guard - ADESA Pittsburgh,"New Stanton, PA",,2026-11-20,2,https://www.carvana.com/careers/apply?gh_jid=8404959,greenhouse,2026-11-20
+0,10,oddball,Site Reliability Engineer,Remote,"$100,000 – $145,000",2026-11-20,0,https://job-boards.greenhouse.io/oddball/jobs/8210795003,greenhouse,2026-11-20
+0,9,esri,Contractor Program Security Officer (CPSO) – TS/SCI,"St. Louis, MO - Globe",,2026-11-20,0,https://www.esri.com/careers/5303690007?gh_jid=5303690007,greenhouse,2026-11-20
+0,9,esri,Contractor Program Security Officer (CPSO) – TS/SCI,"Vienna, Virginia, United States",,2026-11-20,0,https://www.esri.com/careers/5303694007?gh_jid=5303694007,greenhouse,2026-11-20
+0,9,esri,Contractor Program Security Officer (CPSO) – TS/SCI,"Redlands, CA",,2026-11-20,0,https://www.esri.com/careers/5303689007?gh_jid=5303689007,greenhouse,2026-11-20
+0,9,esri,Enterprise Database Engineer – Geospatial | TS/SCI,"St. Louis, MO - Globe",,2026-11-20,2,https://www.esri.com/careers/5303785007?gh_jid=5303785007,greenhouse,2026-11-20
+0,9,esri,Enterprise Database Engineer – Geospatial | TS/SCI,"Vienna, Virginia, United States",,2026-11-20,2,https://www.esri.com/careers/5303784007?gh_jid=5303784007,greenhouse,2026-11-20
+0,9,esri,Enterprise Database Engineer – Geospatial | TS/SCI,"Redlands, CA",,2026-11-20,2,https://www.esri.com/careers/5303789007?gh_jid=5303789007,greenhouse,2026-11-20
+0,9,esri,Systems Engineer – ArcGIS Enterprise | TS/SCI,"St. Louis, MO - Globe",,2026-11-20,2,https://www.esri.com/careers/5303807007?gh_jid=5303807007,greenhouse,2026-11-20
+0,9,esri,Systems Engineer – ArcGIS Enterprise | TS/SCI,"Redlands, CA",,2026-11-20,2,https://www.esri.com/careers/5303809007?gh_jid=5303809007,greenhouse,2026-11-20
+0,9,esri,Systems Engineer – ArcGIS Enterprise | TS/SCI,"Vienna, Virginia, United States",,2026-11-20,2,https://www.esri.com/careers/5303806007?gh_jid=5303806007,greenhouse,2026-11-20
+0,9,pointclickcare,"Solutions Analyst (EHR, Clinexus Customer Support) - US","Remote, USA remote",,2026-11-20,2,https://jobs.lever.co/pointclickcare/f905a4e4-dc78-4a65-a81c-ad00339fb6e2,lever,2026-11-20
+0,8,twilio,Software Engineer (L2) SuperNetwork,Remote - Estonia,,2026-11-20,2,https://job-boards.greenhouse.io/twilio/jobs/8405807,greenhouse,2026-11-20
+0,7,route,Solutions Engineer II ,"Lehi, Utah, United States","$66,000 - $76,000",2026-11-20,2,https://careers.route.com/job-board?gh_jid=8209735003,greenhouse,2026-11-20
+0,7,esri,Technical Consultant – ArcGIS Enterprise Systems | TS/SCI,"Vienna, Virginia, United States",,2026-11-20,2,https://www.esri.com/careers/5303686007?gh_jid=5303686007,greenhouse,2026-11-20
+0,7,esri,Technical Consultant – ArcGIS Enterprise Systems | TS/SCI,"Redlands, CA",,2026-11-20,2,https://www.esri.com/careers/5303679007?gh_jid=5303679007,greenhouse,2026-11-20
+0,7,esri,Technical Consultant – ArcGIS Enterprise Systems | TS/SCI,"St. Louis, MO - Globe",,2026-11-20,2,https://www.esri.com/careers/5303683007?gh_jid=5303683007,greenhouse,2026-11-20
 0,7,hearst,"Vice President, Engineering - Front Office","Dallas, TX, United States",,2026-11-20,3,https://job-boards.greenhouse.io/hearst/jobs/4516122009,greenhouse,2026-11-20
 0,7,kodiak,Vehicle Integration Engineer ,"Mountain View, CA",,2026-11-20,2,https://job-boards.greenhouse.io/kodiak/jobs/4511823009,greenhouse,2026-11-20
+0,7,ionq,Systems Engineer II,"Louisville, Colorado, United States",,2026-11-20,0,https://ionq.com/job?gh_jid=6236376004,greenhouse,2026-11-20
+0,6,andurilindustries,"Mission Systems Engineer, Early Career","Costa Mesa, California, United States",,2026-11-20,0,https://boards.greenhouse.io/andurilindustries/jobs/5303479007?gh_jid=5303479007,greenhouse,2026-11-20
+0,6,andurilindustries,"Radar Systems Engineer, Early Career","Costa Mesa, California, United States",,2026-11-20,0,https://boards.greenhouse.io/andurilindustries/jobs/5303553007?gh_jid=5303553007,greenhouse,2026-11-20
+0,6,andurilindustries,"RF Integration Systems Engineer, Early Career","Costa Mesa, California, United States",,2026-11-20,0,https://boards.greenhouse.io/andurilindustries/jobs/5303550007?gh_jid=5303550007,greenhouse,2026-11-20
 0,6,andurilindustries,Site Reliability Engineer,"Waltham, Massachusetts, United States",,2026-11-20,3,https://boards.greenhouse.io/andurilindustries/jobs/5303411007?gh_jid=5303411007,greenhouse,2026-11-20
-0,3,lucidmotors,Airbag Engineer II,"Phoenix, AZ",,2026-11-20,3,https://lucidmotors.com/careers/search/5279403007?gh_jid=5279403007,greenhouse,2026-11-20
+0,6,lucidmotors,Freight Bill Pay Analyst,"Newark, CA",,2026-11-20,2,https://lucidmotors.com/careers/search/5282975007?gh_jid=5282975007,greenhouse,2026-11-20
+0,5,lucidmotors,Quality Production Team Member,"Casa Grande, AZ",,2026-11-20,0,https://lucidmotors.com/careers/search/5261829007?gh_jid=5261829007,greenhouse,2026-11-20
+0,5,lucidmotors,Quality Production Team Member,"Casa Grande, AZ",,2026-11-20,0,https://lucidmotors.com/careers/search/5261827007?gh_jid=5261827007,greenhouse,2026-11-20
+0,5,formenergy,IQC Quality Control Technician,"Weirton, WV",,2026-11-20,3,https://jobs.ashbyhq.com/formenergy/0d44ef0a-bd12-4ed7-8768-d97c7e4ba774,ashby,2026-11-20
+0,5,whoop,"Quality Systems Specialist I, Digital Health","Boston, MA","$105,000 - $135,000",2026-11-20,2,https://jobs.ashbyhq.com/whoop/3bc46821-29f8-41cf-8e05-b1726533ba0e,ashby,2026-11-20
+0,4,andurilindustries,"EMC Systems Engineer, Air Dominance and Strike","Costa Mesa, California, United States",,2026-11-20,3,https://boards.greenhouse.io/andurilindustries/jobs/5303884007?gh_jid=5303884007,greenhouse,2026-11-20
 0,3,carvana,Quality Assurance Coordinator - ADESA Orlando,"Sanford, FL",,2026-11-20,2,https://www.carvana.com/careers/apply?gh_jid=8404980,greenhouse,2026-11-20
+0,3,lucidmotors,Airbag Engineer II,"Phoenix, AZ",,2026-11-20,3,https://lucidmotors.com/careers/search/5279403007?gh_jid=5279403007,greenhouse,2026-11-20
+0,2,andurilindustries,Quality Inspector,"Quonset, Rhode Island, United States",,2026-11-20,0,https://boards.greenhouse.io/andurilindustries/jobs/5293881007?gh_jid=5293881007,greenhouse,2026-11-20
+0,0,mixpanel,Deal Desk Analyst (Eastern Time Zone Preferred),"Remote, US (Remote)",,2026-11-20,0,https://job-boards.greenhouse.io/mixpanel/jobs/8393782,greenhouse,2026-11-20
 0,11,esri,Product Engineer II – Graph Analysis and Semantic Data Modeling (ArcGIS Pro),"Redlands, CA",,2026-11-19,2,https://www.esri.com/careers/5293652007?gh_jid=5293652007,greenhouse,2026-11-20
-0,7,esri,Product Engineer I - Raster & Imagery,"Sharjah, AE",,2026-11-19,1,https://www.esri.com/careers/5297038007?gh_jid=5297038007,greenhouse,2026-11-20
 0,7,rocketlab,Electric Propulsion Engineer II ,"Long Beach, CA",,2026-11-19,2,https://job-boards.greenhouse.io/rocketlab/jobs/8209718003,greenhouse,2026-11-20
+0,7,esri,Product Engineer I - Raster & Imagery,"Sharjah, AE",,2026-11-19,1,https://www.esri.com/careers/5297038007?gh_jid=5297038007,greenhouse,2026-11-20
 0,5,zscaler,Information Security Engineer,USA - Update Location,,2026-11-19,0,https://job-boards.greenhouse.io/zscaler/jobs/5302790007,greenhouse,2026-11-20
-0,4,hearst,QGenda Technical Engineer,"Atlanta, GA, United States",,2026-11-19,0,https://job-boards.greenhouse.io/hearst/jobs/4512343009,greenhouse,2026-11-20
 0,2,esri,Security Operations Center Analyst,"Redlands, CA",,2026-11-19,2,https://www.esri.com/careers/5302828007?gh_jid=5302828007,greenhouse,2026-11-20
+0,0,hearst,QGenda Technical Engineer,"Atlanta, GA, United States",,2026-11-19,0,https://job-boards.greenhouse.io/hearst/jobs/4512343009,greenhouse,2026-11-20
+0,12,airbnb,Data Engineer Tech Foundations,US - Remote,,2026-11-17,3,https://careers.airbnb.com/positions/8396777?gh_jid=8396777,greenhouse,2026-11-20
+0,7,oscar,"Operations Analyst, Plan Loading",Remote,"$62,100 - $81,506",2026-10-23,1,https://oscarhealth.com/careers/jobs?gh_jid=8286491,greenhouse,2026-11-20
 0,11,imprint,Product Counsel - Data & Privacy,Remote remote,$200K – $250K • Offers Equity,2026-10-21,0,https://jobs.ashbyhq.com/imprint/19195c58-6fa8-4b19-a1c0-f65fcef53af5,ashby,2026-11-20
+1,19,spacex,"Mission Integration Engineer, SI (Starshield) - Secret Clearance","Washington, DC",,2026-11-20,2,https://boards.greenhouse.io/spacex/jobs/8949424002?gh_jid=8949424002,greenhouse,2026-11-20
+1,17,spacex,Full Stack Software Engineer (Build Reliability),"Hawthorne, CA",,2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8955898002?gh_jid=8955898002,greenhouse,2026-11-20
+1,16,spacex,"Superintelligence (SI) Engineer, Supercomputing, Special Programs - Top Secret Clearance","Redmond, WA","$135,000 - $190,000",2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8947472002?gh_jid=8947472002,greenhouse,2026-11-20
+1,16,spacex,"Superintelligence (SI) Engineer, Supercomputing, Special Programs - Top Secret Clearance","Hawthorne, CA","$135,000 - $190,000",2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8947462002?gh_jid=8947462002,greenhouse,2026-11-20
+1,16,spacex,"Superintelligence (SI) Engineer, Supercomputing, Special Programs - Top Secret Clearance","Palo Alto, CA","$135,000 - $190,000",2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8947451002?gh_jid=8947451002,greenhouse,2026-11-20
+1,16,spacex,"Superintelligence (SI) Engineer, Supercomputing, Special Programs - Top Secret Clearance","Washington, DC","$135,000 - $190,000",2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8942121002?gh_jid=8942121002,greenhouse,2026-11-20
+1,15,spacex,"GNC Engineer, Satellite Power Systems (Starlink)","Redmond, WA",,2026-11-20,0,https://boards.greenhouse.io/spacex/jobs/8950343002?gh_jid=8950343002,greenhouse,2026-11-20
+1,15,databricks,"Industry Executive, Intel Community (AI Transformation)",Remote - Washington D.C.,,2026-11-20,0,https://databricks.com/company/careers/open-positions/job?gh_jid=8948986002,greenhouse,2026-11-20
+1,13,spacex,"Superintelligence (SI) Engineer, Special Programs - Top Secret Clearance","Palo Alto, CA","$135,000 - $190,000",2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8941647002?gh_jid=8941647002,greenhouse,2026-11-20
+1,13,spacex,"Superintelligence (SI) Engineer, Special Programs - Top Secret Clearance","Hawthorne, CA","$135,000 - $190,000",2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8945916002?gh_jid=8945916002,greenhouse,2026-11-20
+1,13,spacex,"Superintelligence (SI) Engineer, Special Programs - Top Secret Clearance","Washington, DC","$135,000 - $190,000",2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8945874002?gh_jid=8945874002,greenhouse,2026-11-20
 1,13,openai,"Data Scientist, Integrity",San Francisco remote,$265K – $380K • Offers Equity,2026-11-20,0,https://jobs.ashbyhq.com/openai/f6cada21-0f54-4d8a-884e-e3c64edd4789,ashby,2026-11-20
+1,11,anthropic,"Research Engineer, Beneficial Deployments","San Francisco, CA",,2026-11-20,0,https://job-boards.greenhouse.io/anthropic/jobs/5485188008,greenhouse,2026-11-20
 1,8,openai,"Protection Scientist Engineer, Integrity",San Francisco remote,$220K – $425K • Offers Equity,2026-11-20,0,https://jobs.ashbyhq.com/openai/13ade8a3-701f-4449-85f7-62319ce0f3ec,ashby,2026-11-20
+1,5,spacex,Maintenance & Reliability Engineer,"Hawthorne, CA",,2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8950837002?gh_jid=8950837002,greenhouse,2026-11-20
+1,5,spacex,"Software Engineer, Development Test (Starlink)","Redmond, WA",,2026-11-20,2,https://boards.greenhouse.io/spacex/jobs/8943795002?gh_jid=8943795002,greenhouse,2026-11-20
+1,2,spacex,"Technical Trainer II, Equipment and Safety","Memphis, TN",,2026-11-20,3,https://boards.greenhouse.io/spacex/jobs/8957490002?gh_jid=8957490002,greenhouse,2026-11-20
+1,2,spacex,"Technical Trainer II, Operations Safety","Memphis, TN",,2026-11-20,3,https://boards.greenhouse.io/spacex/jobs/8957492002?gh_jid=8957492002,greenhouse,2026-11-20
 1,6,spacex,Process Development Engineer,"Hawthorne, CA",,2026-11-19,2,https://boards.greenhouse.io/spacex/jobs/8955792002?gh_jid=8955792002,greenhouse,2026-11-20
-1,6,spacex,Sourcing Specialist (Compute Infrastructure),"Austin, TX",,2026-11-19,1,https://boards.greenhouse.io/spacex/jobs/8952158002?gh_jid=8952158002,greenhouse,2026-11-20
 1,6,spacex,Sourcing Specialist (Compute Infrastructure),"Bastrop, TX",,2026-11-19,1,https://boards.greenhouse.io/spacex/jobs/8949110002?gh_jid=8949110002,greenhouse,2026-11-20
-1,6,spacex,Sourcing Specialist (Network Infrastructure),"Bastrop, TX",,2026-11-19,1,https://boards.greenhouse.io/spacex/jobs/8949135002?gh_jid=8949135002,greenhouse,2026-11-20
+1,6,spacex,Sourcing Specialist (Compute Infrastructure),"Austin, TX",,2026-11-19,1,https://boards.greenhouse.io/spacex/jobs/8952158002?gh_jid=8952158002,greenhouse,2026-11-20
 1,6,spacex,Sourcing Specialist (Network Infrastructure),"Austin, TX",,2026-11-19,1,https://boards.greenhouse.io/spacex/jobs/8952164002?gh_jid=8952164002,greenhouse,2026-11-20
+1,6,spacex,Sourcing Specialist (Network Infrastructure),"Bastrop, TX",,2026-11-19,1,https://boards.greenhouse.io/spacex/jobs/8949135002?gh_jid=8949135002,greenhouse,2026-11-20
