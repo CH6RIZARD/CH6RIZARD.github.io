@@ -1,18 +1,3 @@
 tier,score,company,title,location,pay,posted,min_years,url,source,first_seen
-0,13,benchling,"Software Engineer, Full Stack (Core Admin)","San Francisco, CA remote","$173,369 – $234,557 • Offers Equity",2026-11-20,3,https://jobs.ashbyhq.com/benchling/0ad40d59-6e70-4081-8123-4864fc1b12d8,ashby,2026-11-21
-0,12,affirm,"Software Engineer I, Backend (Streaming Infra)",Remote US,"$ 130,000 - $ 180,000",2026-11-20,0,https://job-boards.greenhouse.io/affirm/jobs/8201469003,greenhouse,2026-11-21
-0,11,stitchfix,Data Scientist,"Remote, USA",,2026-11-20,0,https://www.stitchfix.com/careers/jobs?gh_jid=8406513&gh_jid=8406513,greenhouse,2026-11-21
-0,10,carvana,Security Guard - ADESA ,"Maple Grove, MN",,2026-11-20,2,https://www.carvana.com/careers/apply?gh_jid=8407713,greenhouse,2026-11-21
-0,9,pinterest,Solutions Engineer - Ads Product & Innovation,"San Francisco, CA, US; Remote, US",,2026-11-20,2,https://www.pinterestcareers.com/jobs/?gh_jid=8356222,greenhouse,2026-11-21
-0,7,andurilindustries,Product Data Engineer,"Ashville, Ohio, United States",,2026-11-20,3,https://boards.greenhouse.io/andurilindustries/jobs/5295058007?gh_jid=5295058007,greenhouse,2026-11-21
-0,4,vast,Sensor Development Test Engineer,"Long Beach, California, United States",,2026-11-20,0,https://boards.greenhouse.io/vast/jobs/4731412006?gh_jid=4731412006,greenhouse,2026-11-21
-0,3,healthcare,IT Systems Specialists,"Phoenix, AZ onsite",,2026-11-20,2,https://jobs.lever.co/healthcare/19957ff6-b74b-49fb-bbb2-d1bf996a83ad,lever,2026-11-21
-1,23,spacex,GNC Engineer (Starship),"Starbase, TX",,2026-11-21,2,https://boards.greenhouse.io/spacex/jobs/8947625002?gh_jid=8947625002,greenhouse,2026-11-21
-1,13,anthropic,"Research Engineer, Finetuning","San Francisco, CA | New York City, NY | Seattle, WA",,2026-11-21,0,https://job-boards.greenhouse.io/anthropic/jobs/5489567008,greenhouse,2026-11-21
-1,10,spacex,Critical Lift & Transport Engineer (Starship),"Starbase, TX",,2026-11-21,1,https://boards.greenhouse.io/spacex/jobs/8952902002?gh_jid=8952902002,greenhouse,2026-11-21
-1,8,spacex,Supplier Quality Specialist (SpaceXSI),"Bastrop, TX",,2026-11-21,3,https://boards.greenhouse.io/spacex/jobs/8957169002?gh_jid=8957169002,greenhouse,2026-11-21
-1,5,spacex,"New Graduate Engineer, Propulsion (Raptor)","Hawthorne, CA",,2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8957363002?gh_jid=8957363002,greenhouse,2026-11-21
-1,3,spacex,IT Support Technician (Help Desk),"Hawthorne, CA",,2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8957538002?gh_jid=8957538002,greenhouse,2026-11-21
-1,0,spacex,Security Operations Analyst ,"Bastrop, TX",,2026-11-20,1,https://boards.greenhouse.io/spacex/jobs/8955902002?gh_jid=8955902002,greenhouse,2026-11-21
-1,0,spacex,Security Protective Operations Center Operator (Night Shift),"Bastrop, TX",,2026-11-20,2,https://boards.greenhouse.io/spacex/jobs/8955909002?gh_jid=8955909002,greenhouse,2026-11-21
-1,0,spacex,Security Protective Operations Center Operator (Night Shift) ,"Palo Alto, CA",,2026-11-20,2,https://boards.greenhouse.io/spacex/jobs/8955906002?gh_jid=8955906002,greenhouse,2026-11-21
+0,10,oddball,Data Engineer,Remote,"$100,000 – $130,000",2026-11-21,0,https://job-boards.greenhouse.io/oddball/jobs/8213810003,greenhouse,2026-11-22
+0,10,oddball,Integration Engineer ,Remote,"$100,000 – $130,000",2026-11-21,0,https://job-boards.greenhouse.io/oddball/jobs/8213812003,greenhouse,2026-11-22
