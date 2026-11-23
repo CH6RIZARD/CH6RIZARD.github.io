@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';   // the body is meshopt-compressed (1.43 MB -> 0.24 MB)
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { createDancer, attachPage, dropOf } from './dance.js?v=20261123b';   // his dancing: a move grammar on the beat (dance.js)
 
 // A second being can live in this same code: void3d.js loads it again as hugo3d.js?being=void (The Void's mascot). He brings his own body
 // (ALT.body), his realm (ALT.realm(): the one element whose ledges are his, he is never outside it) and his own world (ALT.world: no
@@ -377,7 +378,7 @@ const sitRoom = (x, y) => clear(x, y, SIT_H + 4) && (ALT ? legRoom(x, y) : seatI
 // ALT: a heading or a small label over a ledge (the title over the phone's top, the kicker over the title) is no wall to WALK past: pass()
 // lets him through, clear() still decides where he may stop, sit, land for good or be born, and an idle there walks on (stepBody).
 let PASS = false;
-const pass = (x, y, h, z) => { if (!ALT) return clear(x, y, h, z); PASS = true; try { return clear(x, y, h, z); } finally { PASS = false; } };
+const pass = (x, y, h, z, bar) => { if (!ALT) return clear(x, y, h, z, bar); PASS = true; try { return clear(x, y, h, z, bar); } finally { PASS = false; } };
 const idleSpot = f => { for (let k = 1; k < 200; k++) for (const x of [st.x + k * 6, st.x - k * 6]) if (onFloor(f, x) && clear(x, f.y, CFG.size + 4)) return x; return null; };
 const clear = (x, y, h, z = st.z, bar = true) => !(ROOF && y - h < -2) && !ink.some(q => !(PASS && q.soft) && (z === 0 || q.bar) && (bar || !q.bar) && q.r > x - HALF_W && q.l < x + HALF_W && q.b > y - h && (q.runs ? runTop(q.runs, x) ?? q.b : q.t) < y - 2);
 // Where he has been: coarse cells with the last time he was there. New places are more interesting than ones he just
@@ -439,6 +440,7 @@ const STAND = ['look', 'hips', 'scratch', 'cross', 'weight', 'tap', 'look', 'wei
 const SIT = ['lean', 'chin', 'kick', 'look', 'kick', 'hands', 'curious'];
 const forced = new URLSearchParams(location.search).get('pose');
 const pickOf = a => a[(Math.random() * a.length) | 0];
+const dancer = createDancer(); attachPage(window); ENV.__dance = dancer;   // ENV.__dance: the probe reads his move log
 let gest = null, gestAt = 0, lastGest = null;
 // Things worth a look: the dove, pictures, buttons and links within reach of his eyes.
 function interestNear() {
@@ -516,10 +518,11 @@ function gesture(dt, sitting, still) {
     case 'breathe': { const b = Math.sin(t * (6 + A * 3)) * 0.06; mix(B.chest, 0.4 + b, 0, 0, w); armMix('L', [0.12, -0.75, 0.62], [0.02, -0.95, 0.25], w); armMix('R', [0.12, -0.75, 0.62], [0.02, -0.95, 0.25], w);
       mix(B.thighL, -0.35, 0, 0, w); mix(B.thighR, -0.35, 0, 0, w); mix(B.shinL, 0.55, 0, 0, w); mix(B.shinR, 0.55, 0, 0, w); break; }   // hands on knees, catching his breath
     case 'dust': armMix(S1, [0.2, -0.7, 0.55], [-0.6 + Math.sin(ph * 16) * 0.35, -0.6, 0.4], w); mix(B.chest, 0.2, 0, 0, w); lookGoal = -sd * 0.2; break;   // brushing himself off
-    case 'dance': { const b = Math.sin(ph * 5.2), c = Math.sin(ph * 2.6);   // a little dance, his own rhythm each time
-      mix(B.chest, 0.04, c * 0.12, b * 0.08 * A, w); mix(B.thighL, -0.15 - Math.max(0, b) * 0.25, 0, 0, w); mix(B.thighR, -0.15 - Math.max(0, -b) * 0.25, 0, 0, w);
-      mix(B.shinL, 0.2 + Math.max(0, b) * 0.4, 0, 0, w); mix(B.shinR, 0.2 + Math.max(0, -b) * 0.4, 0, 0, w);
-      armMix('L', [0.5, 0.1 + c * 0.4, 0.4], [0.2, 0.6 + b * 0.3, 0.3], w); armMix('R', [0.5, 0.1 - c * 0.4, 0.4], [0.2, 0.6 - b * 0.3, 0.3], w); lookGoal = c * 0.3; break; }
+    case 'dance': { const R = ENV.REL, n = R && R.needs ? R.needs(WHO) : null, Mo = ENV.MORTAL;   // a live sequence of moves on the beat, his mood setting the energy (dance.js)
+      const P = dancer.pose(t, { energy: n ? n.energy : 0.6, mood: n && Mo && Mo.mood ? Mo.mood(WHO, n) : '' });
+      for (const k in P.j) mix(B[k], P.j[k][0], P.j[k][1], P.j[k][2], w);
+      armMix('L', P.armL.u, P.armL.f, w); armMix('R', P.armR.u, P.armR.f, w);
+      st.dance = { air: P.air * w, shift: P.shift * w, yaw: P.yaw * w }; lookGoal = P.look; break; }
     case 'nap': case 'dead': { const br = gest.name === 'dead' ? -0.1 : Math.sin(t * 1.6) * 0.03;   // dead: the same slump, deeper, no breath mix(B.chest, -0.22 + br, 0, 0, w); mix(B.head, 0.42, 0, sd * 0.2, w); lookGoal = 0;   // dozing where he sits
       armMix('L', [0.25, -0.75, -0.55], [0.1, -1, -0.2], w); armMix('R', [0.25, -0.75, -0.55], [0.1, -1, -0.2], w); break; }
     case 'curious': { const tg = st.interest;   // something caught his eye: he leans toward it, looks, and reaches out to it
@@ -595,6 +598,7 @@ function gesture(dt, sitting, still) {
 
 ENV.__hugo = st;   // read-only peek for debugging
 if (!ALT) ENV.__hugoHead = () => { if (!skull || canvas.style.visibility === 'hidden') return null; skull.getWorldPosition(_hv); return { x: _hv.x + innerWidth / 2, y: innerHeight / 2 - _hv.y, r: CFG.size * 0.1 }; };   // his head in viewport px, for readtag.js
+if (/[?&]debug/.test(location.search)) ENV.__hugoJoint = k => (cur.get(B[k]) || []).slice(0, 3);   // debug: a joint's sprung angles (dance_probe.py)
 ENV.__hugoFloors = () => allFloors;   // the ledges he scans are the food's colliders too (bond.js skips support:false seams)
 if (/[?&]debug/.test(location.search)) ENV.__hugoDbg = { get inner() { return thoughts; }, get gph() { return gest && gest.ph; }, feed: () => { if (st.air || st.held || st.mode === 'climb' || st.mode === 'sit' || (st.sitK || 0) > 0.001) return false; if (st.beh) behEnd(false); st.goal = null; st.route = null; st.amt = 0; st.mode = 'idle'; st.idleUntil = t + 9; gest = { name: 'feed', t0: t, dur: 7, side: st.dir, amp: 1, f: 1 }; return true; }, get floors() { return floors; }, get t() { return t; }, get gest() { return gest && gest.name; }, miss: why => missed(why), clear: (x, y, h) => clear(x, y, h), get ink() { return ink; }, transits: () => { const g = graph(); return g ? g.transits : null; }, route: () => transitRoute(), graph: () => graph(), go: () => { const r = transitRoute(); if (r) { st.goal = null; st.route = r; nextLeg(); } return !!r; }, get sq() { return st.sq || 0; }, bones: () => { const o = {}; for (const [k, b] of Object.entries({ head: skull, chest: B.chest, hips: B.hips })) { b.getWorldPosition(_hv); o[k] = [+(_hv.x + innerWidth / 2 + O.x).toFixed(1), +(innerHeight / 2 - _hv.y + O.y).toFixed(1)]; } return o; }, get lid() { return eyes[0] ? eyes[0].scale.y : 1; }, get shade() { return shadeCss; }, get att() { return att; }, get brace() { return st.brace || 0; }, get why() { return pokeWhy; }, get intent() { return ENV.MORTAL && ENV.MORTAL.why ? ENV.MORTAL.why(WHO) : null; }, know: () => (ENV.MORTAL && ENV.MORTAL.beliefs ? ENV.MORTAL.beliefs(WHO) : []), get beh() { return st.beh ? { id: st.beh.id, kind: st.beh.kind, b: st.beh.p.b } : null; },
   walk: dx => { const f = st.floor; if (!f) return false; st.goal = { f, x: Math.max(f.x1 + HALF_W, Math.min(f.x2 - HALF_W, st.x + dx)), until: t + 20 }; st.route = null; if (st.mode !== 'walk') { st.mode = 'walk'; restyle(); } return true; }, park: s => { st.goal = null; st.route = null; if (st.mode === 'walk') st.mode = 'idle'; st.idleUntil = t + s; }, hop: v => hopUp(v), down: () => climbDown(), edgeWay: () => !!(st.floor && st.floor.screen && edgeWay()), holds: () => st.climb && holds(st.climb) };   // scripted beats for the harness
@@ -615,7 +619,7 @@ hit.addEventListener('pointerdown', e => {
   if (st.held) return;
   {                                                // press: pick him up (release lets go)
     st.held = true; st.fallTo = null; st.dropF = null; st.hop = false; st.goal = null; st.air = false; st.floor = null; st.mode = 'walk'; st.amt = 0; st.vx = st.vy = 0;
-    pointerId = e.pointerId; hit.style.cursor = 'grabbing'; document.body.style.cursor = 'grabbing';
+    pointerId = e.pointerId; try { hit.setPointerCapture(e.pointerId); } catch {} noFrames.disabled = false; hit.style.cursor = 'grabbing'; document.body.style.cursor = 'grabbing';   // the embeds (iframes) go deaf while he is held: over one, the let-go went to it and he hung in the air for good
     // He is held where you took him: by the head, the chest, or the legs (then he hangs upside down from your hand).
     st.grip = Math.max(0.3, Math.min(1, (st.y - (e.clientY + O.y)) / CFG.size)); st.flip = false;   // held where you took him, always the right way up
     st.temper = 0.5 + Math.random() * 0.9; st.fearHigh = Math.random() * 0.35 - 0.1; st.fearFlip = Math.random() * 0.45;
@@ -636,14 +640,15 @@ addEventListener('pointermove', e => {
   pvx = pvx * 0.6 + ((st.px - ppx) / dtp) * 0.4; pvy = pvy * 0.6 + ((st.py - ppy) / dtp) * 0.4;   // smoothed hand velocity
   ppx = st.px; ppy = st.py; ptime = now;
 });
+const noFrames = document.head.appendChild(document.createElement('style')); noFrames.textContent = 'iframe{pointer-events:none!important}'; noFrames.disabled = true;
 const release = e => {
   if (!st.held) return;
-  st.held = false; hit.style.cursor = 'grab'; document.body.style.cursor = ''; st.hover = false; st.flip = false; st.shaken = st.stress || 0;
+  st.held = false; noFrames.disabled = true; hit.style.cursor = 'grab'; document.body.style.cursor = ''; st.hover = false; st.flip = false; st.shaken = st.stress || 0;
   st.air = true; st.vx = Math.max(-1600, Math.min(1600, pvx)); st.vy = Math.max(-1800, Math.min(1800, pvy));   // a toss keeps the hand's speed
   st.dir = st.vx < 0 ? -1 : 1;
   const sp = Math.hypot(pvx, pvy); ENV.REL?.ev('visitor', sp > 600 ? 'tossed' : 'released', WHO, Math.min(1, sp / 1800), { stress: st.stress || 0 }); poke(sp > 600 ? 'the cursor threw me' : 'the cursor let me go');
 };
-addEventListener('pointerup', release); addEventListener('pointercancel', release);
+addEventListener('pointerup', release); addEventListener('pointercancel', release); hit.addEventListener('lostpointercapture', release); addEventListener('blur', release);
 let hiddenAt = 0;
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) { hiddenAt = performance.now(); return; }
@@ -749,7 +754,7 @@ ENV.__hugoAct = (act, target) => {
     case 'sit': if (!st.floor || !sitRoom(st.x, st.floor.y)) return 'no room to sit'; st.goal = null; st.mode = 'sit'; st.idleUntil = t + 12 + Math.random() * 15; return 'ok';
     case 'nap': if (!st.floor || !sitRoom(st.x, st.floor.y)) return 'no room to sit'; st.goal = null; st.mode = 'sit'; st.idleUntil = t + 20 + Math.random() * 15;
       st.pendGest = { name: 'nap', dur: 15 + Math.random() * 10 }; return 'ok';
-    case 'dance': case 'stretch': stand(act, act === 'dance' ? 5 + Math.random() * 4 : 3 + Math.random() * 2); return 'ok';
+    case 'dance': case 'stretch': stand(act, act === 'dance' ? 10 + Math.random() * 10 : 3 + Math.random() * 2); return 'ok';
     case 'look_around': stand('look', 3 + Math.random() * 3); return 'ok';
     case 'wander': { const g = pickFloor(true) || pickToward(Math.random() < 0.5 ? 1 : -1); if (!g) return 'nowhere new'; routeTo(g.f, g.x, {}); return 'ok'; }
     case 'behind': return laneHop(-1) ? 'ok' : 'no back lane here';
@@ -940,15 +945,11 @@ function gapHop(f, dir = st.dir) { const e = dir > 0 ? f.x2 : f.x1; let best = n
 // him (dropF), so he never falls past it to the page bottom.
 const dropTo = (x, y) => dropTo0(x, y) || (phone() ? dropTo0(x + st.dir * HALF_W * 2, y) : null);   // ALT on phones: the ledge under a box's side starts a step past its edge (his push-off carries him there)
 const dropTo0 = (x, y) => { const g = st.goal && st.goal.f, f = g && g.screen && g.y > y + 4 ? g : landingBelow(x, y), ok = f && (!f.screen || f === g) && !(f.ground && f.y - y > innerHeight * 0.8) && f.y <= O.y + innerHeight - 10; st.dropF = ok ? f : null; return ok ? f : null; };
-function landingBelow(x, y, vis) {   // nearest floor under (x, y) within a screen and a half; vis: a drop, so it must be one you can see
+function landingBelow(x, y) {   // nearest floor under (x, y), however far down: gravity skips no ledge
   let best = null;
-  const visBottom = O.y + innerHeight - 30, lim = vis && visBottom > y + 2 ? visBottom : Infinity;
   // The bottom of the page always catches him, words or not; otherwise he fell straight through it and out of the world.
   // Phones: not behind words (Read less: the monitor and its caption sit on it); past it he falls out of the world and is born again in view.
-  for (const f of (st.z < 0 ? allFloors : floors)) if (f.y > y + 2 && f.y <= lim && (f.ground || f.y < y + innerHeight * 1.5) && onFloor(f, x) && (f.ground || pass(x, f.y, CFG.size + 4)) && (!best || f.y < best.y)) best = f;
-  // Nothing visible to land on: the bottom edge of the screen catches him, so a drop never ends out of sight (both renders; once the
-  // view moves on, refloor() lets go of it and he falls to a real ledge, Shimeji's fall-then-recover).
-  if (!ALT && vis && lim !== Infinity && (!best || best.y > lim)) best = { y: lim, x1: 0, x2: pageW, el: document.body, screen: true, support: true };
+  for (const f of (st.z < 0 ? allFloors : floors)) if (f.y > y + 2 && onFloor(f, x) && (f.ground || pass(x, f.y, CFG.size + 4)) && (!best || f.y < best.y)) best = f;
   return best;
 }
 // ---------- him and the dove ----------
@@ -1128,7 +1129,7 @@ Object.assign(RUN, {
   sprint_across: p => { const f = st.floor; if (!f || f.x2 - f.x1 < 2 * HALF_W + 120) return false; const x = endX(f, Math.abs(f.x2 - st.x) > Math.abs(st.x - f.x1) ? 1 : -1); return Math.abs(x - st.x) > 100 ? walkOn(f, x, p, { run: 2.2 }) : false; },
   pace: p => { const f = st.floor, x0 = st.x; if (!f) return false; const x1 = Math.max(f.x1 + HALF_W + 4, Math.min(f.x2 - HALF_W - 4, x0 + p.side * (60 + 70 * p.amp))); if (Math.abs(x1 - x0) < 40 || !walkOn(f, x1, p)) return false;
     st.beh.steps = [() => walkOn(f, x0, p)]; return 'goal'; },
-  back_away: (p, o, ctx) => { const f = st.floor; if (!f) return false; const from = ctx.dove && ctx.dove.dist < 260 ? ctx.dove : cursorPt(), away = -(Math.sign(from.x - st.x) || st.dir);
+  back_away: (p, o, ctx) => { const f = st.floor; if (!f) return false; const from = o && o.x && o.x.x != null ? o.x : ctx.dove && ctx.dove.dist < 260 ? ctx.dove : cursorPt(), away = -(Math.sign(from.x - st.x) || st.dir);
     const x = Math.max(f.x1 + HALF_W + 4, Math.min(f.x2 - HALF_W - 4, st.x + away * (120 + 100 * p.amp))); if (Math.abs(x - st.x) < 50) return false; const k = walkOn(f, x, p, { run: 0.8 }); if (k) lookAt(from, 2.5); return k; },
   follow_dove: (p, o, ctx) => { const d = ctx.dove; if (!d) return false; const q = floorNear(d.x - p.side * (60 + 40 * p.amp), d.y); if (!q || q.f.y > O.y + innerHeight - 10) return false; return toPlace({ f: q.f, x: q.x, z: 0 }, p); },
   step_down: p => toPlace(pickToward(1), p),
@@ -1162,7 +1163,7 @@ Object.assign(RUN, {
   scratch: p => standGest('scratch', 1.8 + 1.2 * p.durK, p),
   hips: p => standGest('hips', 2 + 1.5 * p.durK, p),
   cross_arms: p => standGest('cross', 2.5 + 2 * p.durK, p),
-  dance: p => standGest('dance', 3 + 2.5 * p.durK, p),
+  dance: p => standGest('dance', 10 + 8 * p.durK, p),   // long enough to flow through several moves
   wave: (p, o) => { lookAt((o && o.x) || cursorPt(), 2.5); return standGest('wave', 1.8 + p.durK, p); },
   test_ledge: p => { const f = st.floor; if (!f || f.screen || f.ground) return false; const x = endX(f, p.side); if (Math.abs(x - st.x) > 12 && !walkOn(f, x, p)) return false;
     const peer = () => { st.dir = p.side; return standGest('peer', 1.2 + 0.6 * p.durK, p); }, tap = () => standGest('tap', 1.4 + 0.8 * p.durK, p);
@@ -1198,12 +1199,12 @@ const HUGO_REP = [
   { id: 'run_to', cat: 'move', dur: 4, move: 1, u: c => 0.15 + 0.5 * c.mo.c + 0.3 * (c.n.energy > 0.6 ? 1 : 0) },
   { id: 'sprint_across', cat: 'move', dur: 3, move: 1, u: c => (c.longFloor && c.n.energy > 0.5 ? 0.45 : 0) },
   { id: 'pace', cat: 'move', dur: 5, move: 1, u: c => 0.2 + 0.5 * c.mo.e },
-  { id: 'back_away', cat: 'move', dur: 3, move: 1, u: c => (c.near || (c.dove && c.dove.dist < 200) ? 0.5 : 0.1), on: ['cursor_near'] },
-  { id: 'follow_dove', cat: 'social', dur: 6, move: 1, u: c => (c.dove ? 0.3 + 0.4 * c.mo.s : 0) },
+  { id: 'back_away', cat: 'move', dur: 3, move: 1, u: c => (c.near || (c.dove && c.dove.dist < 200) ? 0.5 : 0.1), on: ['cursor_near', 'bump'] },
+  { id: 'follow_dove', cat: 'social', dur: 6, move: 1, u: c => (c.dove ? 0.3 + 0.4 * c.mo.s : 0), on: ['brush'] },
   { id: 'step_down', cat: 'move', dur: 4, move: 1, u: c => (c.below ? 0.35 : 0) },
   { id: 'climb_up', cat: 'climb', dur: 5, move: 1, u: c => (c.above ? 0.4 + 0.3 * c.mo.c : 0) },
   { id: 'hang_edge', cat: 'climb', dur: 7, move: 1, u: c => (c.above ? 0.35 : 0) },
-  { id: 'hop', cat: 'play', dur: 1.5, u: c => 0.15 + 0.4 * (c.n.energy > 0.6 ? 1 : 0) + 0.2 * (c.dove ? 1 : 0), on: ['dove_landed'] },
+  { id: 'hop', cat: 'play', dur: 1.5, u: c => 0.15 + 0.4 * (c.n.energy > 0.6 ? 1 : 0) + 0.2 * (c.dove ? 1 : 0), on: ['dove_landed', 'perched'] },
   { id: 'trip_recover', cat: 'move', dur: 4, move: 1, u: c => (c.longFloor ? 0.2 : 0) },
   { id: 'transit', cat: 'move', dur: 8, move: 1, u: c => (c.tr ? 0.9 : 0) },
   { id: 'peek_behind', cat: 'look', dur: 4, move: 1, words: ['~rain', '~snow', '~storm', '~cold'], u: c => (c.lanesBack && !c.edge ? 0.2 + 0.6 * c.mo.c : 0) },
@@ -1211,7 +1212,7 @@ const HUGO_REP = [
   { id: 'look_visitor', cat: 'look', dur: 3, u: c => 0.15 + 0.6 * c.mo.s, on: ['tap', 'cursor_near'] },
   { id: 'glance_section', cat: 'look', dur: 2.5, u: c => (c.freshEl ? 0.4 : 0.1), on: ['section', 'scroll_stop'] },
   { id: 'look_scroll', cat: 'look', dur: 1.6, u: 0.1, on: ['scroll_start'] },
-  { id: 'stare_dove', cat: 'social', dur: 3, u: c => (c.dove && c.dove.dist < CFG.size * 4 ? 0.4 : 0), on: ['dove_landed'] },
+  { id: 'stare_dove', cat: 'social', dur: 3, u: c => (c.dove && c.dove.dist < CFG.size * 4 ? 0.4 : 0), on: ['dove_landed', 'perched', 'brush'] },
   { id: 'point_project', cat: 'look', dur: 3, u: c => (c.hover ? 0.8 : 0) },
   { id: 'sit_edge', cat: 'rest', dur: 7, words: ['~sunny', '~warm', '~clear'], avoid: ['~rain', '~snow', '~storm'], u: c => 0.2 + 0.6 * c.fatigue + 0.2 * c.env.sleepy },
   { id: 'lie_down', cat: 'rest', dur: 8, words: ['~night'], u: c => (c.sitting ? 0.3 + 0.6 * c.fatigue : 0.1 + 0.4 * c.fatigue) },
@@ -1222,16 +1223,16 @@ const HUGO_REP = [
   { id: 'scratch', cat: 'fidget', dur: 2.5, u: 0.25 },
   { id: 'read_up', cat: 'learn', dur: 3, again: 25, u: c => (c.wonder ? 1 : 0) },   // patch 6: something it does not know about, looked up (the kernel's wonder())
   { id: 'hips', cat: 'fidget', dur: 3, u: 0.2 },
-  { id: 'cross_arms', cat: 'fidget', dur: 3.5, u: c => 0.15 + 0.3 * c.mo.s },
+  { id: 'cross_arms', cat: 'fidget', dur: 3.5, u: c => 0.15 + 0.3 * c.mo.s, on: ['bump'] },
   { id: 'dance', cat: 'play', dur: 4.5, words: ['animat', 'danc'], avoid: ['~night', '~cold'], u: c => 0.1 + 0.4 * (c.n.energy > 0.7 ? 1 : 0) },
   { id: 'wave', cat: 'social', dur: 2.5, u: c => 0.1 + 0.4 * c.mo.s, on: ['tab_back', 'tap'] },
   { id: 'test_ledge', cat: 'fidget', dur: 5, move: 1, words: ['physic', 'collision', 'contact'], u: c => (c.f && !c.f.screen && !c.f.ground ? 0.3 + 0.3 * c.mo.c : 0) },
   { id: 'lean_letter', cat: 'fidget', dur: 4, u: c => (c.textLedge || c.wallNear ? 0.45 : 0) },
   { id: 'balance_serif', cat: 'fidget', dur: 3, u: c => (c.textLedge ? 0.4 : 0) },
   { id: 'kick_crumb', cat: 'fidget', dur: 4, move: 1, u: c => (c.crumb ? 0.5 : 0), on: ['crumb'] },
-  { id: 'feed_dove', cat: 'social', dur: 7, u: c => (c.dove ? feedPull() : 0), on: ['dove_landed'] },
-  { id: 'greet_dove', cat: 'social', dur: 3, u: c => (c.dove ? 0.3 + 0.3 * c.mo.s : 0), on: ['dove_landed'] },
-  { id: 'shoo_dove', cat: 'social', dur: 2.5, u: c => (c.dove && c.dove.dist < CFG.size * 3.5 ? 0.3 : 0), on: ['dove_landed'] },
+  { id: 'feed_dove', cat: 'social', dur: 7, u: c => (c.dove ? feedPull() : 0), on: ['dove_landed', 'perched'] },
+  { id: 'greet_dove', cat: 'social', dur: 3, u: c => (c.dove ? 0.3 + 0.3 * c.mo.s : 0), on: ['dove_landed', 'perched'] },
+  { id: 'shoo_dove', cat: 'social', dur: 2.5, u: c => (c.dove && c.dove.dist < CFG.size * 3.5 ? 0.3 : 0), on: ['dove_landed', 'perched', 'brush'] },
   { id: 'edge_run_climb', cat: 'move', dur: 4, move: 1, edge: 1, u: 1 },
   { id: 'edge_jump_grab', cat: 'climb', dur: 3, move: 1, edge: 1, grab: 1, u: c => (c.over ? 1 : 0) },
   { id: 'edge_hang_look', cat: 'climb', dur: 5, move: 1, edge: 1, grab: 1, u: c => (c.over ? 0.8 : 0) },
@@ -1332,7 +1333,7 @@ function relStep(f) {
   const ph = R.phase; st.relBusy = !!(st.relOrder && ph && ph.stage !== 'resolve');
 }
 let returning = false; try { const ls = +localStorage.getItem(WHO + '.lastSeen') || 0; returning = ls > 0 && Date.now() - ls > 3600e3; localStorage.setItem(WHO + '.lastSeen', Date.now()); } catch {}   // he remembers you were here
-let bornTries = 0, lastSY = 0, curSY = 0, jumpAt = -1e9;   // lastSY: the scroll before the latest jump, to keep him put on screen across a view switch
+let bornTries = 0, curSY = 0;
 const ropeTop = () => O.y - (barInk ? 0 : CFG.size * 0.2);   // where his feet wait for the rope: at the view's top edge, hidden behind the nav bar (none: a little above the view). Not higher: every px up there is a wait nobody sees
 function born() {   // first appearance (patch 5, item 0): an entrance, never a pop-in. He walks in from the nearer side of the screen along his
   // target ledge's line and arrives within ~1.5 s: onto the hero name when it is in view (somewhere new along it each load), else onto a
@@ -1385,7 +1386,7 @@ function born() {   // first appearance (patch 5, item 0): an entrance, never a 
   return true;
 }
 function refloor(f) {   // the page reflows; keep the floor glued to its element
-  if (f.screen) { const E = O.y + innerHeight - 30; return f.y - E > -40; }   // the screen's bottom edge where he stepped onto it: it never carries him up (a scroll up or the iOS toolbar coming back leaves him below the view; the come-back climb brings him in), and lets go when the view moves on down (he falls to the next ledge)
+  if (f.screen) return true;   // a fixed line in the page where he stepped onto it: the view (a scroll) neither carries it nor lets go of it
   if (f.fr && (!simple() || !f.fr.getClientRects().length)) return false;   // a ledge in the Read less frame is gone once the frame is
   if (f.ground) { f.y = groundY(); f.x2 = ALT ? docW() : document.documentElement.scrollWidth; fit(f); return true; }
   if (!f.el.isConnected || !f.el.getClientRects().length) return false;   // its element was hidden (a view switch): the floor is gone, he falls
@@ -1428,11 +1429,9 @@ function stepBody(dt) {
     if (st.x < HALF_W) { st.x = HALF_W; st.vx = Math.abs(st.vx) * 0.5; } else if (st.x > W - HALF_W) { st.x = W - HALF_W; st.vx = -Math.abs(st.vx) * 0.5; }
     swingLimbs(dt, (st.vx - lastVx) / dt, (st.vy - lastVy) / dt + G, 0.7); lastVx = st.vx; lastVy = st.vy;
     st.tilt += ((st.vx * 0.0005) - st.tilt) * Math.min(1, dt * 4);
-    let f = landingBelow(st.x, py - 1, !st.hop && !st.pounce);
+    let f = landingBelow(st.x, py - 1);   // gravity is the page's: the view (scroll) never catches him nor limits where he lands
     if (st.fallTo) f = st.fallTo.f;   // his birth: nothing on the way catches him
     if (st.dropF && (!f || f.y > st.dropF.y)) f = st.dropF;   // the ledge he chose to step down to catches him
-    const E = O.y + innerHeight - 30;   // the screen's bottom edge catches him only when he falls through it from above: a view that moved up past him never snaps him up onto it
-    if (!ALT && py <= E && st.y > E && (!f || f.y > E)) f = { y: E, x1: 0, x2: pageW, el: document.body, screen: true, support: true };
     st.landF = f;   // where his shadow falls while he is up
     const ly = f ? footY(f, st.x) : 0;   // where his feet land: the letter tops under him on a text ledge
     if (f && st.y >= ly && st.vy > 0) { const born = st.fallTo; st.fallTo = null; if (f === st.dropF) st.x = Math.max(f.x1 + HALF_W, Math.min(f.x2 - HALF_W, st.x)); st.dropF = null; st.y = footY(f, st.x); st.floor = f; st.air = false; st.squash = Math.max(0.4, Math.min(1, st.vy / 600)); st.sqAt = t; if (st.vy > 420) kickDust(st.x, st.y, 3 + Math.round(5 * Math.min(1, (st.vy - 420) / 600))); st.vy = 0; st.vx = 0; st.land = 0.23; st.hop = false; st.mode = 'walk'; st.tilt = 0;   // land: a squash (x1.3, y0.7) recovering in ~0.23 s (Celeste's 1.75/s)
@@ -1463,7 +1462,7 @@ function stepBody(dt) {
         if (bx != null) C.x0 += Math.max(-140 * dt, Math.min(140 * dt, bx - C.x0)); }   // his seat was picked before the letters settled: he swings over to real ink on the way down
       if (C.rope && C.ft !== t) { C.ft = t; C.fs = C.wait ? 0 : 0.05; }   // rope: 50 ms of lowering per rendered frame at most (a frame's substeps share it), so a stalled frame never jumps him
       const k = C.rope ? (C.k += Math.max(0, Math.min(dt, C.fs)), C.fs -= Math.min(dt, C.fs), C.k) : t - C.t0, dur = Math.max(0.6, Math.abs(C.yTo - C.y0) / 110); C.ph = 'hang'; C.u = Math.max(0, Math.min(1, k / dur));
-      st.y = C.y0 + (C.yTo - C.y0) * C.u; st.x = C.x0 + (C.rope ? Math.sin(k * 2.2) * 3 * (1 - C.u) : Math.sin(k * 6) * 1.5);
+      st.y = C.y0 + (C.yTo - C.y0) * C.u; st.x = (C.rope ? ENV.__pack?.rope?.hx : null) ?? C.x0 + (C.rope ? 0 : Math.sin(k * 6) * 1.5);   // on a rope his x is the pendulum his weight makes of it (rope.js)
       if (C.u >= 1 && C.rope) { st.floor = C.f; st.x = C.x0; st.y = C.yTo; st.mode = 'walk'; st.land = 0.25; st.climb = null; ENV.__pack.rope.landed(); if (C.born) { if (C.born.sit) { st.mode = 'sit'; st.idleUntil = t + 5 + Math.random() * 6; } ENV.MORTAL?.signal?.(WHO, 'ENTERED', { x: st.x, y: st.y, sit: st.mode === 'sit' }); } return; }   // onto his name he sits as he lands (standing there his head is in the nav, and he stepped off mid-stow)   // feet on the ledge: tug, coil, into the pack (rope.js), then autonomy again
       if (C.u >= 1) { st.climb = null; st.mode = 'walk'; st.air = true; st.hop = false; st.vx = C.up ? Math.sign((C.f.x1 + C.f.x2) / 2 - st.x) * (HALF_W * 2 + 6) / Math.sqrt(2 * CFG.size * 0.9 / G) : 0; st.vy = 0; st.dropF = C.f; }   // the last body height: a drop he lands from
       return;
@@ -1476,10 +1475,10 @@ function stepBody(dt) {
     return;
   }
   const f = st.floor; if (!f) return;
-  if (!refloor(f)) { poke('ledge gone'); st.floor = null; if (!ALT && !f.screen && performance.now() - jumpAt < 800) st.y += O.y - lastSY; jumpAt = -1e9; st.air = true; st.hop = false; st.vx = 0; st.vy = 0; st.mode = 'walk'; return; }   // his ledge is gone (a view switch, the screen edge moved on): same spot on screen, then he drops to the next one
+  if (!refloor(f)) { poke('ledge gone'); st.floor = null; st.air = true; st.hop = false; st.vx = 0; st.vy = 0; st.mode = 'walk'; return; }   // his ledge is gone (a view switch): he drops from where he is in the page to the next one
   st.y = footY(f, st.x);
   // the page shifted under him (an app loaded, a block grew): if his spot now runs through words, step off and fall to a clear floor
-  const room = () => pass(st.x, f.y - 4, (st.mode === 'sit' ? SIT_H : st.mode === 'crawl' || (st.crawlK || 0) > 0.05 ? CRAWL_H : CFG.size) + 4);   // staying needs less than arriving: his own line settling a few px (fonts, the hero) is no reason to fall; the nav sliding over him is (he steps down out of it)
+  const room = () => pass(st.x, f.y - 4, (st.mode === 'sit' ? SIT_H : st.mode === 'crawl' || (st.crawlK || 0) > 0.05 ? CRAWL_H : CFG.size) + 4, undefined, false);   // staying needs less than arriving: his own line settling a few px (fonts, the hero) is no reason to fall; nor is the nav, which rides with the view (a scroll), not the world
   if ((f.screen || f.ground) && st.z === 0 && st.mode !== 'lane' && !st.held && !room()) {   // the catch floor runs through words: never in front of them. Behind them (dimmed, out again where his whole body clears: backOut) while a support is found; with no back lane here, the nearest clear spot along the edge (he cannot walk out of a word he is already in: every step is a wall)
     if (ALT) { const x = nearSpot(f); if (x != null) st.x += Math.sign(x - st.x) * Math.min(Math.abs(x - st.x), 80 * dt); }
     else if (laneHop(-1)) st.backUntil = t + 3;
@@ -1757,14 +1756,16 @@ function frame(now) {
   }
   if (packPose) packPose(dt);   // backpack.js: swing the pack off, reach into the pocket, hold or read the item (after gestures, before the springs)
   applyPose(dt, st.held || st.air); applyArms(dt, st.held || st.air); if (ALT) alt.pose();
-  const yawGoal = st.mode === 'lane' && st.hopL ? (st.hopL.to < 0 ? st.dir * (Math.PI / 2 + 0.7) : st.dir * (Math.PI / 2 - 0.9)) :   // into the page or out of it, through profile
+  const dz = st.dance; st.dance = null;   // set by this frame's dance pose only
+  if (dz) { const c = k => cur.get(B[k]) || [0, 0, 0]; dz.drop = dropOf(c('thighL'), c('shinL'), c('thighR'), c('shinR')) - dz.air; }   // from the sprung knees: the planted foot stays put
+  const yawGoal = dz && !st.air ? Math.sign(st.dir || 1) * 0.7 + dz.yaw : st.mode === 'lane' && st.hopL ? (st.hopL.to < 0 ? st.dir * (Math.PI / 2 + 0.7) : st.dir * (Math.PI / 2 - 0.9)) :   // into the page or out of it, through profile
     st.mode === 'climb' ? Math.PI : crawlE > 0.3 ? (st.dir > 0 ? Math.PI / 2 : -Math.PI / 2) :(st.mode === 'sit' || sitE > 0.5) && !st.air ? (ALT && st.floor && st.floor.text && sideOf(st.x, st.y) ? sideOf(st.x, st.y) * (Math.PI / 2 - 0.15) : -0.35) : st.dir > 0 ? Math.PI / 2 - 0.45 : -Math.PI / 2 + 0.45;
   if (st.yaw == null) st.yaw = yawGoal;
   // A reversal is never a mirror flip: he turns through profile over 0.2 s (eased), the direction locked for the turn; small
   // changes of bearing ease in as before.
-  if (Math.abs(Math.atan2(Math.sin(yawGoal - st.yaw), Math.cos(yawGoal - st.yaw))) > 0.6 && !(st.turn && st.turn.to === yawGoal)) { st.turn = { from: st.yaw, to: yawGoal, t0: t, dur: 0.22 }; if (st.mode === 'walk' && !st.air) st.amt = 0; }
+  if (!dz && Math.abs(Math.atan2(Math.sin(yawGoal - st.yaw), Math.cos(yawGoal - st.yaw))) > 0.6 && !(st.turn && st.turn.to === yawGoal)) { st.turn = { from: st.yaw, to: yawGoal, t0: t, dur: 0.22 }; if (st.mode === 'walk' && !st.air) st.amt = 0; }
   if (st.turn) { const u = Math.min(1, (t - st.turn.t0) / st.turn.dur), d = Math.atan2(Math.sin(st.turn.to - st.turn.from), Math.cos(st.turn.to - st.turn.from)); st.yaw = st.turn.from + d * u * u * (3 - 2 * u); if (u >= 1) st.turn = null; }
-  else { let dyaw = yawGoal - st.yaw; dyaw = Math.atan2(Math.sin(dyaw), Math.cos(dyaw)); st.yaw += dyaw * Math.min(1, dt * 7); }
+  else { let dyaw = yawGoal - st.yaw; dyaw = Math.atan2(Math.sin(dyaw), Math.cos(dyaw)); st.yaw += dyaw * Math.min(1, dt * (dz ? 14 : 7)); }
   inner.rotation.y = st.yaw;
   const bob = !st.air && (st.mode === 'walk' || st.mode === 'idle') ? (1 - Math.cos(4 * Math.PI * st.ph)) * 0.5 * CFG.size * 0.04 * st.amt : 0;   // 4 % of his height: a walk you can see at 64 px
   const crouch = st.land > 0 ? -st.land * 20 * K : 0;
@@ -1775,7 +1776,7 @@ function frame(now) {
   const str = st.air && st.vy < 0 && t - (st.airAt || -1) < 0.12 ? 1 - (t - st.airAt) / 0.12 : 0;   // takeoff: a 0.12 s stretch up from the feet
   view.scale.set(lsc * (1 + 0.3 * sq - 0.12 * str), lsc * (1 - 0.3 * sq + 0.15 * str), lsc);
   renderer.toneMappingExposure = 1 - 0.22 * Math.max(0, -st.zs);   // the back lane sits in the page's haze: a little dimmer (Inside, Silksong)
-  view.position.set(st.x - O.x - innerWidth / 2, innerHeight / 2 - vy + bob + crouch + THIGH * crawlE - (!ALT && st.floor && st.floor.runs ? 5 * K * sitE : 0), 0);   // on letters his seat touches the ink (his seat point sits a few px under his body: fine on a rule, a visible gap on type)
+  view.position.set(st.x - O.x - innerWidth / 2 + (dz ? dz.shift * CFG.size : 0), innerHeight / 2 - vy + bob + crouch - (dz ? dz.drop * CFG.size : 0) + THIGH * crawlE - (!ALT && st.floor && st.floor.runs ? 5 * K * sitE : 0), 0);   // on letters his seat touches the ink (his seat point sits a few px under his body: fine on a rule, a visible gap on type)
   { const d = ENV.__scion; let best = null;   // H1: his hand (the one nearer the bird) in page coords
     for (const b of [B.handL || B.foreL, B.handR || B.foreR]) { if (!b) continue; b.getWorldPosition(_hv);
       const x = _hv.x + innerWidth / 2 + O.x, y = innerHeight / 2 - _hv.y + O.y;
@@ -1807,7 +1808,7 @@ let scrolledAt = 0;
 const free = () => st.air || st.mode === 'lane' || (st.z < 0 && st.floor && st.floor.section);
 addEventListener('scroll', () => { if (free() && st.zs) st.par += (O.y - curSY) * 0.12 * -st.zs; }, { passive: true });
 addEventListener('scroll', () => { const now = performance.now(), gap = Math.max(16, Math.min(100, now - scrolledAt)); const v = (O.y - curSY) / gap * 1000, a = 1 - Math.exp(-gap / 150); st.scrollV = (st.scrollV || 0) + (v - (st.scrollV || 0)) * a; st.scrollS = (st.scrollS || 0) + (Math.abs(v) - (st.scrollS || 0)) * a;   // page speed under his feet, px/s (150 ms averages: signed for where he looks, unsigned for how hard he braces)
-  if (Math.abs(O.y - curSY) > 120) { lastSY = curSY; jumpAt = performance.now(); } curSY = O.y; dirty = true; scrolledAt = now; }, { passive: true });
+  curSY = O.y; dirty = true; scrolledAt = now; }, { passive: true });
 // Phone carousels scroll an element, not the window (element scroll events do not bubble: listen in the capture phase).
 // The swiped cards' ledges and ink shift at once, he rides the card under him, and a full re-measure follows once it settles.
 document.addEventListener('scroll', e => {
@@ -1830,6 +1831,22 @@ document.addEventListener('scroll', e => {
 }, { capture: true, passive: true });
 // the agents rewrite their own transforms every frame: those mutations are not page changes and must not trigger a rescan
 new MutationObserver(ms => { if (ms.some(m => m.target !== hit && m.target !== hud && !(m.target.closest && m.target.closest(skipSel)))) dirty = true; }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'open', 'style'] });
+// Body contact (contact.js): his capsule on the page, pushed by and pushing the other beings. Seated or mid-climb he is anchored.
+// A knock is a reflex here (squash, turn to it, stop short); what he does next is the kernel's answer to 'bump' / 'brush' / 'perched'.
+{ const C = window.CONTACT, fixed = () => st.held || PIN() || st.mode === 'sit' || ['prep', 'climb', 'lane', 'crawl'].includes(st.mode);
+  if (C) {
+    C.add(WHO, () => (!st.bornOnce || st.dead || (ALT && !host) ? null : { x: st.x - O.x + scrollX, y: st.y - (st.hopY || 0) - O.y + scrollY, r: HALF_W * 0.85, headH: st.headH || CFG.size, vx: st.vx, vy: st.air ? st.vy : 0,
+      m: ALT ? 0.4 : 1, lane: st.zs || 0, held: st.held, air: st.air, mode: ['prep', 'climb'].includes(st.mode) ? 'climb' : st.mode, dir: st.dir }),
+      (dx, dy, dvx) => { if (fixed()) return 0; if (st.air) { st.x += dx; st.vx += dvx; return 1; }
+        const f = st.floor, nx = st.x + dx; if (!f || Math.abs(dy) > Math.abs(dx) || !onFloor(f, nx) || !pass(nx + Math.sign(dx) * 10, f.y, CFG.size + 4)) return 0; st.x = nx; return 1; });
+    C.on(WHO, (type, o) => { if (st.held || st.dead || !o) return;
+      const pt = o.x != null ? { x: o.x + O.x - scrollX, y: o.y + O.y - scrollY, what: o.with } : { ...(dovePt() || { x: st.x, y: st.y - CFG.size }), what: o.with };
+      if (type === 'bump' && o.with !== 'dove') {
+        if (!fixed() && !st.air && o.speed > 20) { st.squash = 0.7; st.sqAt = t; st.land = 0.25; lookAt(pt, 1.5); if (o.speed > 45) { st.goal = null; st.route = null; st.mode = 'idle'; st.amt = 0; st.idleUntil = t + 0.5; } }
+        notice('bump', pt);
+      } else if (type === 'bump' || type === 'perched') { lookAt(pt, 1.8); notice(type === 'bump' ? 'brush' : 'perched', pt); }
+    });
+  } }
 requestAnimationFrame(frame);
 // The backpack (backpack.js, realms/hugo/pack): loaded after his first frame so it never delays him; it owns ENV.__pack.
-let packPose = null; if (!ALT) requestAnimationFrame(() => setTimeout(() => import('./backpack.js?v=20261116r3').then(m => m.boot({ model, B, rest, st, armMix, mix, springK, body: () => BODY, glb: CFG.glb, size: CFG.size, persp: CFG.perspective, canvas })).then(f => { packPose = f; }, e => console.warn('backpack', e)), 0));
+let packPose = null; if (!ALT) requestAnimationFrame(() => setTimeout(() => import('./backpack.js?v=20261123a').then(m => m.boot({ model, B, rest, st, armMix, mix, springK, body: () => BODY, glb: CFG.glb, size: CFG.size, persp: CFG.perspective, canvas })).then(f => { packPose = f; }, e => console.warn('backpack', e)), 0));

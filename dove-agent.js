@@ -352,6 +352,12 @@ window.SCION_BOOT = R => {
       // The cover test (it scans every line of text) runs only for a spot that would win.
       if (d < bd && !covers(fx, sy, s)) { bd = d; best = { s, dx: fx - (r.left + scrollX), x: fx, y: sy }; }
     }
+    // A standing head (Hugo's, the mascot's) is a perch like any other, a little less inviting (it moves), and not right after a ride.
+    if (performance.now() - rodeHugo > 30000) for (const who of ['hugo', 'void']) {
+      const b = window.CONTACT?.get(who), sp = { s: { kind: 'hugo', where: 'head', who }, dx: 0 }, p = b && Math.abs(b.vx || 0) < 5 && b.mode !== 'sit' && !(avoid && (avoid.who === who || (avoid.s && avoid.s.who === who))) ? spotPos(sp) : null;
+      const d = p && p.y > top + CFG.size * 2 && p.y < bottom ? Math.hypot(p.x - x, (p.y - y) * 1.3) + 80 : Infinity;
+      if (d < bd) { bd = d; best = { ...sp, x: p.x, y: p.y }; }
+    }
     return best;
   }
   // The ledge Hugo is standing on, at x, when nothing the bird already knows is on that ledge. It is anchored to the
@@ -403,7 +409,8 @@ window.SCION_BOOT = R => {
       const left = r.left + s.lx; return { x: left + scrollX + sp.dx, y, r: { left, right: left + s.w, width: s.w, top: y - scrollY } };
     }
     if (sp.s.kind === 'hugo') {   // riding Hugo: his head or shoulder is a perch that walks (gone when he jumps, climbs or is held)
-      const h = window.__hugo; if (!h || h.held || h.air || h.mode === 'climb' || sp.gone) return null;
+      const h = sp.s.who === 'void' ? window.CONTACT?.get('void') : window.__hugo; if (!h || h.held || h.air || h.mode === 'climb' || sp.gone) return null;
+      if (Math.abs(h.vx || 0) > 85) { sp.gone = true; return null; }   // he broke into a run: too hard a ride, it hops off
       if (sp.hx != null && Math.hypot(h.x - sp.hx, h.y - sp.hy) > 120) { sp.gone = true; return null; } sp.hx = h.x; sp.hy = h.y;   // he was moved in one step (the come-back off camera): the perch is gone, it never rides along through a teleport
       const hh = h.headH || 150, sh = sp.s.where === 'shoulder', y = h.y - (sh ? hh * 0.78 : hh - 4), x = h.x + (sh ? (h.dir || 1) * 14 : 0);
       return { x, y, r: { left: x - 20 - scrollX, right: x + 20 - scrollX, width: 40, top: y - scrollY } };
@@ -504,7 +511,7 @@ window.SCION_BOOT = R => {
     a.mode = 'perch'; a.spot = sp; a.x = pos.x; a.y = pos.y; a.vx = a.vy = 0; a.glideWant = 0; a.idle = rand(0.8, 2); perchedAt.set(sp.s, performance.now()); a.perchSince = performance.now();
     a.perchInfo = { kind: sp.s.kind, fs: sp.s.el && sp.s.el.nodeType === 1 ? parseFloat(getComputedStyle(sp.s.el).fontSize) : null, z: sp.z || 0 };
     window.MORTAL?.signal?.('dove', 'LANDED', { x: a.x, y: a.y });   // Hugo's cue
-    if (sp.s.kind === 'hugo') { rodeHugo = true; emit('PAGE', 'perched on Hugo'); REL.ev('dove', 'landedNear', 'hugo', 0.1, { ride: 1 }); return; }
+    if (sp.s.kind === 'hugo') { rodeHugo = performance.now(); if (sp.s.who === 'void') { emit('PAGE', 'perched on the Void mascot'); return; } emit('PAGE', 'perched on Hugo'); REL.ev('dove', 'landedNear', 'hugo', 0.1, { ride: 1 }); return; }
     // It has weight: whatever it lands on gives a little.
     const host = sp.s.kind === 'card' ? sp.s.el : sp.s.el.closest('h1,h2,h3,p,li,td') || sp.s.el;
     host.animate({ translate: ['0 0', '0 3px', '0 0'] }, { duration: 420, easing: 'cubic-bezier(.3,1.6,.5,1)' });
@@ -525,7 +532,7 @@ window.SCION_BOOT = R => {
     if (sp) sp.label = title;
     return sp;
   }
-  let rodeHugo = false;   // on Hugo's head once a visit at most (a being's rebirth does not reset it)
+  let rodeHugo = -1e9;   // when it last rode a head (Hugo's or the mascot's): a chosen ride at most once a minute (landing on one by contact is not a choice)
   function act(it) {
     if (!a) return; a.relRun = 0;
     const p = it.p || { speed: 1, amp: 1, durK: 1, side: a.face || 1, before: 0, after: 0 }, now = performance.now();   // this execution's speed, size, side, length (the kernel's vary())
@@ -550,7 +557,8 @@ window.SCION_BOOT = R => {
         if (!best) { cant(); break; }
         a.wary = now + 3000; takeOff({ spot: best, label: 'away' }, 'startled', true); if (from && from.s.kind !== 'hugo') a.returnTo = { spot: from, at: now + (4 + 6 * p.durK) * 1000 }; break; }
       case 'follow_hugo': { const h = window.__hugo; if (hugoPlaced()) { go(landingNear(h.x + p.side * (50 + 110 * p.amp), h.y, null, true) || hugoFloorSpot(h, h.x + p.side * 90), 'to Hugo'); REL.ev('dove', 'approach', 'hugo', 0.1); } else cant(); break; }
-      case 'perch_hugo_head': if (hugoPlaced() && !rodeHugo) { rodeHugo = true; takeOff({ spot: { s: { kind: 'hugo', where: 'head' }, dx: 0 }, label: 'Hugo' }, 'onto Hugo'); } else cant(); break;
+      case 'perch_hugo_head': { const v = mascotNear(), who = v && (!hugoPlaced() || v.dist < Math.hypot(window.__hugo.x - a.x, window.__hugo.y - a.y)) ? 'void' : hugoPlaced() ? 'hugo' : null;   // the nearer standing head
+        if (who && now - rodeHugo > 60000) { rodeHugo = now; takeOff({ spot: { s: { kind: 'hugo', where: 'head', who }, dx: 0 }, label: who === 'void' ? 'the mascot' : 'Hugo' }, who === 'void' ? 'onto the Void mascot' : 'onto Hugo'); } else cant(); break; }
       case 'look_around': a.seq = [{ head: p.side > 0 ? 'turnA' : 'turnB', gaze: 2, t: 0.7 * p.durK }, { head: 'look', gaze: 6, t: 0.5 }, { head: p.side > 0 ? 'turnB' : 'turnA', gaze: 3, t: 0.8 * p.durK }, { head: 'tilt', gaze: 1, t: 0.6 }]; break;
       case 'head_tilt': { const T = it.x || mouse; if (T && Math.abs(T.x - a.x) > 12) a.wantFace = Math.sign(T.x - a.x); a.seq = [{ head: 'tilt', gaze: 5, t: 1.1 * p.durK }, { head: 'look', gaze: 6, t: 0.5 }]; break; }
       case 'head_bob': a.bobT = 0.9 + 0.8 * p.durK; break;
@@ -593,9 +601,9 @@ window.SCION_BOOT = R => {
     { id: 'lap', cat: 'soar', dur: 7, move: 1, avoid: ['~rain', '~storm', '~snow'], u: c => 0.2 + 0.4 * (c.n.energy > 0.5 ? 1 : 0) + 0.2 * c.mo.e },
     { id: 'circle_cursor', cat: 'social', dur: 8, move: 1, u: c => (c.mouse && !c.wary ? 0.25 + 0.5 * c.mo.s : 0), on: ['cursor_slow'] },
     { id: 'approach_visitor', cat: 'social', dur: 5, move: 1, u: c => (c.mouse && !c.wary ? 0.2 + 0.5 * c.mo.s : 0), on: ['tap'] },
-    { id: 'startle', cat: 'flee', dur: 9, move: 1, words: ['predator', 'falcon', 'hawk'], u: c => (c.threat ? 0.9 : 0), on: ['tap_near', 'cursor_fast'] },
+    { id: 'startle', cat: 'flee', dur: 9, move: 1, words: ['predator', 'falcon', 'hawk'], u: c => (c.threat ? 0.9 : 0), on: ['tap_near', 'cursor_fast', 'body_fast'] },
     { id: 'follow_hugo', cat: 'hugo', dur: 6, move: 1, u: c => (c.hugo && c.hugo.dist > 140 ? 0.25 + 0.45 * c.mo.s : 0), on: ['hugo_ready'] },
-    { id: 'perch_hugo_head', cat: 'hugo', dur: 12, move: 1, u: c => (c.hugo && c.hugo.still && !rodeHugo ? 0.3 + 0.3 * c.mo.s : 0) },
+    { id: 'perch_hugo_head', cat: 'hugo', dur: 12, move: 1, u: c => (((c.hugo && c.hugo.still) || c.mascot) && performance.now() - rodeHugo > 60000 ? 0.3 + 0.3 * c.mo.s : 0) },
     { id: 'watch_visitor', cat: 'look', dur: 3.5, perch: 1, u: c => (c.mouse ? 0.2 + 0.4 * (c.still > 4 ? 1 : 0) : 0), on: ['tap', 'scroll_stop'] },
     { id: 'look_around', cat: 'look', dur: 3, perch: 1, u: 0.3, on: ['scroll_stop', 'tab_back'] },
     { id: 'head_tilt', cat: 'look', dur: 1.8, perch: 1, u: c => 0.15 + 0.3 * (c.mouse ? 1 : 0), on: ['cursor_slow', 'hugo_near'] },
@@ -611,6 +619,7 @@ window.SCION_BOOT = R => {
   const DOVE_DUR = Object.fromEntries(DOVE_REP.map(d => [d.id, d.dur]));
   if (window.MORTAL && window.MORTAL.repertoire) window.MORTAL.ready.then(() => window.MORTAL.repertoire('dove', DOVE_REP));
   let hugoNearWas = false;
+  const mascotNear = () => { const v = window.CONTACT?.get('void'); return v && !v.held && !v.air && Math.abs(v.vx || 0) < 5 && v.y > scrollY + 60 && v.y < scrollY + innerHeight + 10 ? { dist: Math.hypot(v.x - a.x, v.y - a.y) } : null; };   // the Void mascot standing in view
   function decide() {
     const M = window.MORTAL; if (!M || !M.next) return null;
     const n = REL.needs('dove'), mo = M.mot('dove'), g = M.goal('dove'), h = window.__hugo, now = performance.now();
@@ -623,7 +632,7 @@ window.SCION_BOOT = R => {
     if (a.threat && now - a.threat.at > 2500) a.threat = null;
     const ctx = { fresh, mo, n, env: M.env, fatigue: M.fatigue(n.energy), perched: onP ? (now - a.perchSince) / 1000 : 0, flying: a.mode !== 'perch', onText: !!(onP && a.spot.s.range),
       room: !!(pr && pr.r.width > 160), mouse: !!(mouse && gateOpen()), still: stillFor(), wary: a.wary > now, quiet: !mouse || stillFor() > 8, threat: !!a.threat,
-      back: !!window.DEPTH?.at(a.y).lanes.includes(-1), cardBelow: !!cardBelow(), hugo };
+      back: !!window.DEPTH?.at(a.y).lanes.includes(-1), cardBelow: !!cardBelow(), hugo, mascot: mascotNear() };
     const o = M.next('dove', ctx); if (!o) return null;
     if (gT && o.id === 'visit') M.goalDone('dove', g.id);
     return { do: o.id, target: o.id === 'visit' ? fresh : undefined, why: o.reason, source: 'reflex', p: o.p, x: o.x, say: (o.belief && M.line('dove', o.belief)) || undefined, minT: o.p.before + (DOVE_DUR[o.id] || 3) * o.p.durK + o.p.after };
@@ -1197,6 +1206,20 @@ window.SCION_BOOT = R => {
       landOn(landing); a.target = null; return drawPerch(a.x + (a.settle ? a.settle.dx : 0), a.y + (a.settle ? a.settle.dy : 0), a.yaw, a.face, 'look');
     }
     drawFly(a.x, a.y - bob, a.z, a.view, a.face, a.phase % 1, a.glide, pitch, a.roll * a.face, ground);
+  }
+
+  // Body contact (contact.js): a small light body. In flight it glances off Hugo and the mascot; coming down onto a standing
+  // head it lands there and rides; perched, it is anchored but gets out of the way when walked into; a hard knock or a fast body brushing past sends it off in a panic.
+  if (window.CONTACT) {
+    window.CONTACT.add('dove', () => { if (!a || a.held || a.hiddenUntil || corpse) return null; const r = CFG.size * 0.5, s = depthScale(a.z || 0), fly = a.mode !== 'perch';
+      return { x: a.x, y: a.y + (fly ? R.bodyAbove || r : 0), r, headH: 2 * r, vx: fly ? a.vx : 0, vy: fly ? a.vy : 0, m: 0.03, lane: s >= 1 ? (s - 1) / 0.15 : -(1 - s) / 0.15,   // lane: its depth scale read as depth.js lanes (+-.15 a lane)
+        fly: fly && !(a.tumble > 0) && !a.target?.hand && !a.target?.pass && !(a.wary > performance.now()), perch: !fly, ride: !fly && a.spot.s.kind === 'hugo' ? a.spot.s.who || 'hugo' : null }; },
+      (dx, dy, dvx, dvy) => { if (a.mode === 'perch') { const hard = Math.hypot(dvx, dvy) > 60; takeOff(null, hard ? 'knocked off its perch' : 'nudged off its perch', hard); return 0; } a.x += dx; a.y += dy; a.vx += dvx; a.vy += dvy; return 1; });
+    window.CONTACT.on('dove', (type, o) => { if (!a || a.held) return;
+      if (type === 'land' && a.mode === 'fly') { const sp = { s: { kind: 'hugo', where: 'head', who: o.with }, dx: 0 }; if (spotPos(sp)) { a.z = a.vz = 0; a.yaw = clamp(a.view, 0, 6); landOn(sp); a.target = null; } }
+      else if (type === 'startle' && a.mode === 'perch') { a.threat = { x: o.x, y: o.y, at: performance.now() }; if (!noticeD('body_fast', { x: o.x, y: o.y })) { a.jump = 0.3; a.wingT = 0.25; } }   // the kernel's startle, else a flinch
+      else if (type === 'bump' && a.mode === 'fly') { a.puffT = 0.6; emit('PAGE', 'glanced off ' + (o.with === 'void' ? 'the Void mascot' : o.with === 'hugo' ? 'Hugo' : o.with)); }
+    });
   }
 
   if (reduced) { // No flight for visitors who asked for less motion: perched face-on beside the first heading.
