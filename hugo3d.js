@@ -366,7 +366,8 @@ const inkUnder = (f, x, a, b) => { const y = footY(f, x); let n = 0, k = 0; for 
 const lineAt = (x, y) => { let f = null; for (const q of floors) if (q.runs && x >= q.x1 && x <= q.x2 && q.y <= y + 3 && y - q.y < 80 && (!f || q.y > f.y)) f = q; return f; };
 const seatInk = (x, y) => { const f = lineAt(x, y); return !f || inkUnder(f, x, -33, 9) >= 0.6; };
 const standInk = (f, x) => !f.runs || (inkUnder(f, x, -18, -3) >= 0.4 && inkUnder(f, x, 3, 18) >= 0.4);
-const inkSpot = f => { for (let k = 1; k < 300; k++) for (const x of [st.x + k * 2, st.x - k * 2]) if (onFloor(f, x) && standInk(f, x)) return x; return null; };
+const bodyAt = x => ['hugo', 'void'].some(id => { const b = id !== WHO && window.CONTACT && window.CONTACT.get(id); return b && !b.held && Math.abs(b.y - (st.y - O.y + scrollY)) < 20 && Math.abs(b.x - (x - O.x + scrollX)) < b.r + HALF_W * 0.85; });   // another being stands there (contact.js would only push him off it)
+const inkSpot = f => { for (let k = 1; k < 300; k++) for (const x of [st.x + k * 2, st.x - k * 2]) if (onFloor(f, x) && standInk(f, x) && !bodyAt(x)) return x; return null; };
 // ALT sits with his shins over the edge: never over body text (a heading's own letters and a box's face are fine), never out of his realm's bottom
 // On a heading's letters he sits only at the END of the line, turned outward, so his shins hang beside the ink, not over it (sideOf: 1 / -1 the end he
 // is on, null on letters but not at an end, 0 not on letters). Anywhere else on the letters he stands.
@@ -1518,7 +1519,7 @@ function stepBody(dt) {
         st.enter = null; st.amt = 0; const sit = E.sit && sitRoom(st.x, f.y); if (E.sit && !sit) poke('no sitting room at arrival'); st.mode = sit ? 'sit' : 'idle'; st.idleUntil = t + (sit ? 5 + Math.random() * 6 : 0.8 + Math.random() * 0.8); if (!E.again) ENV.MORTAL?.signal?.(WHO, 'ENTERED', { x: st.x, y: st.y, sit }); }   // on the name he sits a while first; the dove hears he is in
       return; }
     if (st.land > 0) return;   // the landing's beat (st.land decays in frame())
-    if (ALT && st.goal) { if (st.stuckG !== st.goal || Math.abs(st.x - st.stuckX) > 2) { st.stuckG = st.goal; st.stuckX = st.x; st.stuckAt = t; } else if (t - st.stuckAt > 2) { st.stuckAt = t; st.goal = null; st.route = null; if (st.beh) st.beh.failed = 1; st.mode = 'idle'; st.idleUntil = t + 0.3; return; } }   // ALT: 2 s in a walk that goes nowhere (timed per goal: a new goal after a standstill is no stall) the goal is dropped (the idle rule then takes him to a free spot)
+    if (st.goal && !(st.relOrder && st.relOrder.ex === 'stalk')) { if (st.stuckG !== st.goal || Math.abs(st.x - st.stuckX) > (ALT ? 2 : 12)) { st.stuckG = st.goal; st.stuckX = st.x; st.stuckAt = t; } else if (t - st.stuckAt > (ALT ? 2 : 3)) { st.stuckAt = t; if (!ALT) { st.amt = 0; giveUp('walked into someone'); st.dir = -st.dir; st.mode = 'idle'; st.idleUntil = t + 0.6; return; } st.goal = null; st.route = null; if (st.beh) st.beh.failed = 1; st.mode = 'idle'; st.idleUntil = t + 0.3; return; } }   // Hugo too (3 s): pinned by a seated body (contact.js pushes him back a few px a frame) he walked in place for the goal's 25 s, again and again. ALT: 2 s in a walk that goes nowhere (timed per goal: a new goal after a standstill is no stall) the goal is dropped (the idle rule then takes him to a free spot)
     if ((st.sitK || 0) > 0.04 || (st.crawlK || 0) > 0.05) { st.amt = 0; return; }   // still getting up
     if (st.throwing) { st.amt = Math.max(0, st.amt - dt * 6); return; }   // he plants his feet to throw or lift the bird
     // Purpose: where he walks comes from his drives (autonomy(), via the Mortal Agent kernel) or from REL; with no goal he
