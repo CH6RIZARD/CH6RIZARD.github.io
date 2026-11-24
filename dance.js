@@ -263,7 +263,8 @@ export function createDancer(opts = {}) {
   let seed = opts.seed >>> 0;
   const rnd = opts.seed == null ? Math.random : () => { seed = (seed + 0x6D2B79F5) >>> 0; let x = seed; x = Math.imul(x ^ (x >>> 15), x | 1); x ^= x + Math.imul(x ^ (x >>> 7), x | 61); return ((x ^ (x >>> 14)) >>> 0) / 4294967296; };
   const D = { listen,   // a page with its own audio graph hands its analyser here
-    bpm: 95, beats: 0, lastT: null, E: 0.5, style: 'dallas', cur: null, prev: null, recent: [], log: [], invented: 0, heard: false };
+    bpm: 95, beats: 0, lastT: null, E: 0.5, style: 'dallas', cur: null, prev: null, recent: [], log: [], invented: 0, heard: false,
+    want: null };   // the mind's ask {style, energy, until (dancer time)}: that style held, energy as the target, until then
   const pickW = list => { const tot = list.reduce((s, x) => s + x[1], 0); let r = rnd() * tot; for (const [v, w] of list) if ((r -= w) <= 0) return v; return list[list.length - 1][0]; };
   const styleFor = E => pickW(Object.entries(STYLES).map(([k, e]) => [k, Math.exp(-((e - E) ** 2) / 0.04)]));
   function invent(E) {   // a move nobody has seen: legs of one figure, arms of another, torso of a third
@@ -275,7 +276,7 @@ export function createDancer(opts = {}) {
   }
   function next(start) {
     const p = D.cur, lvl = p ? p.lvl : 0;
-    if (rnd() < 0.2) D.style = rnd() < 0.5 ? styleFor(D.E) : Object.keys(STYLES)[(rnd() * 6) | 0];   // the style drifts every so often
+    if (!D.W && rnd() < 0.2) D.style = rnd() < 0.5 ? styleFor(D.E) : Object.keys(STYLES)[(rnd() * 6) | 0];   // the style drifts every so often
     let m;
     if (p && rnd() < 0.1) m = invent(D.E);
     else {
@@ -290,9 +291,10 @@ export function createDancer(opts = {}) {
   }
   D.pose = (t, ctx = {}) => {
     let dt = D.lastT == null ? 1 : t - D.lastT; D.lastT = t;
-    const target = cl(0.25 + 0.6 * (ctx.energy ?? 0.6) + ({ playful: 0.2, curious: 0.05, content: 0, lonely: -0.1, tired: -0.25, sleepy: -0.25, wary: -0.15, shaken: -0.2, hungry: -0.1 }[ctx.mood] || 0), 0.15, 1);
+    D.W = D.want && t < D.want.until ? D.want : null;
+    const target = D.W && D.W.energy != null ? cl(D.W.energy, 0.15, 1) : cl(0.25 + 0.6 * (ctx.energy ?? 0.6) + ({ playful: 0.2, curious: 0.05, content: 0, lonely: -0.1, tired: -0.25, sleepy: -0.25, wary: -0.15, shaken: -0.2, hungry: -0.1 }[ctx.mood] || 0), 0.15, 1);
     if (dt > 0.6 || dt < 0) {   // a fresh dance: his own tempo, a style that fits how he feels
-      D.bpm = 85 + rnd() * 20; D.beats = 0; D.E = target; D.style = styleFor(D.E); D.cur = null; D.prev = null; next(0); dt = 0;
+      D.bpm = 85 + rnd() * 20; D.beats = 0; D.E = target; D.style = (D.W && D.W.style) || styleFor(D.E); D.cur = null; D.prev = null; next(0); dt = 0;
     }
     const h = hear(t, D.beats, D.bpm);
     if (h) { D.heard = true; D.beats += h.err * 0.3; if (h.bpm) D.bpm += (h.bpm - D.bpm) * 0.3; }
@@ -320,4 +322,6 @@ if (typeof process !== 'undefined' && process.argv && /dance\.js$/.test(process.
   for (let i = 1; i < d.log.length; i++) if (d.log[i].base === d.log[i - 1].base) throw new Error('repeat ' + d.log[i].name);
   console.log('60 s:', d.log.length, 'moves,', new Set(d.log.map(x => x.name)).size, 'distinct,', d.invented, 'invented, nan', d.nan || 0);
   if (MOVES.length < 200) throw new Error('vocabulary under 200');
+  const w = createDancer({ seed: 3 }); w.want = { style: 'krump', energy: 0.95, until: 30 }; for (let t = 0; t < 20; t += 1 / 60) w.pose(t, { energy: 0.2, mood: 'tired' });
+  if (w.style !== 'krump' || w.E < 0.8) throw new Error(`the mind's ask ignored: ${w.style} ${w.E}`);   // style held, energy toward the ask
 }

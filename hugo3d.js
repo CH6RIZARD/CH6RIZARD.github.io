@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';   // the body is meshopt-compressed (1.43 MB -> 0.24 MB)
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { createDancer, attachPage, dropOf } from './dance.js?v=20261123b';   // his dancing: a move grammar on the beat (dance.js)
+import { createDancer, attachPage, dropOf } from './dance.js?v=20261123m1';   // his dancing: a move grammar on the beat (dance.js)
 
 // A second being can live in this same code: void3d.js loads it again as hugo3d.js?being=void (The Void's mascot). He brings his own body
 // (ALT.body), his realm (ALT.realm(): the one element whose ledges are his, he is never outside it) and his own world (ALT.world: no
@@ -722,8 +722,16 @@ ENV.__hugoSense = () => {
     cursor: pointer.in ? { ...rel(cp.x, cp.y), dist: Math.round(Math.hypot(cp.x - st.x, cp.y - (st.y - CFG.size / 2))), moving: still > 1.5 ? 'still' : pointer.sp > 900 ? 'fast' : 'slowly',
       still_s: Math.round(still), over: over && over !== hit ? labelOf(over, 40) : over === hit ? 'me' : '', touching_me: !!st.hover, holding_me: !!st.held } : 'off the page',
     poke: pokes, poke_why: pokeWhy,
+    contacts: ENV.CONTACT ? ENV.CONTACT.told(WHO) : [],   // bumps, perches, startles and with whom (contact.js)
+    dancing: ENV.__hugoDance(),
+    dove: (d => d && !d.off ? { ...rel(d.x, d.y), doing: d.held ? 'held by the cursor' : d.beh || d.act || d.mode, mode: d.mode, on: d.spotKey === 'hugo' ? 'a head' : d.onText ? 'a line of text' : d.mode === 'perch' ? 'a ledge' : 'the air',
+      mood: d.mood || '', stress: +(d.stress || 0).toFixed(2) } : 'not around')(ENV.__scion),
+    mascot: (v => v ? { ...rel(v.x, v.y), doing: v.held ? 'held' : v.air ? 'in the air' : v.mode || 'standing' } : 'not in sight')(otherPt(WHO === 'hugo' ? 'void' : 'hugo')),
   };
 };
+// another being's body (contact.js, page px) in his coordinates, for the mind; null when it is absent
+const otherPt = id => { const b = ENV.CONTACT && ENV.CONTACT.get(id); return b ? { ...b, x: b.x + O.x - scrollX, y: b.y + O.y - scrollY } : null; };
+ENV.__hugoDance = () => gest && gest.name === 'dance' && dancer.cur ? { style: dancer.style, move: dancer.cur.name, energy: +dancer.E.toFixed(2), bpm: Math.round(dancer.bpm), to_music: !!dancer.heard } : null;
 function floorNear(x, y) {   // somewhere he can stand at or just under (x, y), and the standing spot nearest x
   let best = null;
   for (const q of floors) {
@@ -735,13 +743,14 @@ function floorNear(x, y) {   // somewhere he can stand at or just under (x, y), 
   }
   return best;
 }
-// The mind's wish, carried out with his own body. Never while he is held, airborne, climbing, crawling, mid-jump or busy
+// The mind's wish, carried out with his own body. Never while he is held, airborne, climbing, crawling, mid-jump, on the screen's bottom edge (its own rule gets him off it) or busy
 // with the dove (REL leads there); a wish he cannot carry out is just dropped.
-ENV.__hugoAct = (act, target) => {
-  if (!act || st.dead || st.held || st.air || st.relOrder || (gest && gest.name === 'mad') || ['climb', 'prep', 'crawl', 'lane'].includes(st.mode) || (st.crawlK || 0) > 0.05) return 'busy';
+ENV.__hugoAct = (act, target, o = {}) => {   // o: the mind's extras (dance: {style, energy})
+  if (!act || st.dead || !st.bornOnce || st.enter || st.held || st.air || st.relOrder || (st.floor && st.floor.screen) || (gest && gest.name === 'mad') || ['climb', 'prep', 'crawl', 'lane'].includes(st.mode) || (st.crawlK || 0) > 0.05) return 'busy';
   const p = target && target !== 'cursor' ? places.find((q, i) => 'p' + (i + 1) === target) : null;
   const cp = { x: pointer.cx + O.x, y: pointer.cy + O.y };
-  const stand = (name, dur) => { if (st.mode === 'sit') return; st.mode = 'idle'; st.amt = 0; st.idleUntil = t + dur; gest = { name, t0: t, dur, side: Math.random() < 0.5 ? -1 : 1, amp: 0.8 + Math.random() * 0.3, f: 0.8 + Math.random() * 0.5 }; };
+  const who = id => id === 'dove' ? dovePt() : id === 'void' || id === 'hugo' ? otherPt(id) : null;
+  const stand = (name, dur) => { if (st.mode === 'sit') return; if (st.beh) behEnd(false); st.goal = null; st.route = null; st.mode = 'idle'; st.amt = 0; st.idleUntil = t + dur; gest = { name, t0: t, dur, side: Math.random() < 0.5 ? -1 : 1, amp: 0.8 + Math.random() * 0.3, f: 0.8 + Math.random() * 0.5 }; };   // the wish replaces what he was on his way to
   const goTo = (x, y, why) => { const g = floorNear(x, y); if (!g) return 'no way there'; st.goal = { f: g.f, x: g.x, until: t + 30, mind: why }; if (st.mode !== 'walk') { st.mode = 'walk'; restyle(); } return 'ok'; };
   switch (act) {
     case 'go': return p ? goTo(p.x, p.el.getBoundingClientRect().top + O.y, p.label) : 'no such place';
@@ -755,7 +764,17 @@ ENV.__hugoAct = (act, target) => {
     case 'sit': if (!st.floor || !sitRoom(st.x, st.floor.y)) return 'no room to sit'; st.goal = null; st.mode = 'sit'; st.idleUntil = t + 12 + Math.random() * 15; return 'ok';
     case 'nap': if (!st.floor || !sitRoom(st.x, st.floor.y)) return 'no room to sit'; st.goal = null; st.mode = 'sit'; st.idleUntil = t + 20 + Math.random() * 15;
       st.pendGest = { name: 'nap', dur: 15 + Math.random() * 10 }; return 'ok';
-    case 'dance': case 'stretch': stand(act, act === 'dance' ? 10 + Math.random() * 10 : 3 + Math.random() * 2); return 'ok';
+    case 'dance': if (o.style || o.energy != null) { dancer.want = { style: o.style || '', energy: o.energy, until: t + 30 }; dancer.lastT = null; }   // a fresh dance in the asked style
+      if (st.mode === 'sit') { if (st.floor && !clear(st.x, st.floor.y, CFG.size + 4)) return 'no room to stand'; st.mode = 'idle'; }   // he gets up to dance
+      stand('dance', 10 + Math.random() * 10); return 'ok';
+    case 'stretch': stand(act, 3 + Math.random() * 2); return 'ok';
+    case 'approach': { const q = who(target); if (!q) return `no ${target || 'one'} in sight`; if (Math.hypot(q.x - st.x, q.y - st.y) < CFG.size * 1.2) { lookAt(q, 2); return 'already there'; }
+      return goTo(q.x - (Math.sign(q.x - st.x) || 1) * CFG.size * 0.8, q.y, target); }
+    case 'greet': { const q = target === 'cursor' ? (pointer.in ? { x: cp.x, y: cp.y } : null) : who(target); if (!q) return 'nobody there'; lookAt(q, 2.5); if (st.mode === 'sit') return 'sitting'; stand(target === 'dove' ? 'greet' : 'wave', 2.5); return 'ok'; }
+    case 'offer_perch': { const d = who('dove'); if (!d) return 'no dove'; if (st.mode === 'sit') return 'sitting'; lookAt(d, 4); stand('look', 6);
+      return ENV.__scionAct ? 'offered, the dove ' + ENV.__scionAct({ do: 'perch_hugo_head', target: WHO, why: 'invited' }) : 'offered'; }
+    case 'shoo': { const d = who('dove'); if (!d || Math.hypot(d.x - st.x, d.y - st.y) > CFG.size * 3.5) return 'the dove is not close'; lookAt(d, 1.5);
+      if (st.mode === 'sit') return 'sitting'; stand('shoo', 2); if (ENV.__scionAct) ENV.__scionAct({ do: 'startle', x: { x: st.x, y: st.y } }); return 'ok'; }
     case 'look_around': stand('look', 3 + Math.random() * 3); return 'ok';
     case 'wander': { const g = pickFloor(true) || pickToward(Math.random() < 0.5 ? 1 : -1); if (!g) return 'nowhere new'; routeTo(g.f, g.x, {}); return 'ok'; }
     case 'behind': return laneHop(-1) ? 'ok' : 'no back lane here';

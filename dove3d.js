@@ -92,6 +92,22 @@ const R = {
 };
 
 const D2R = Math.PI / 180;
+// Micro-life on the real bones (dove-agent.js's overlay(), degrees): neck nod (Bone.003), head tilt and one-eye twist (Bone.004,
+// the bone the eyes hang on), tail flick (Bone.001), blinks (the eye spheres). The mixer only writes a bone when its clip value
+// changes, so each frame starts by putting back the clean pose (unpose) and these offsets never accumulate.
+const bone = n => model.getObjectByName(n) || model.getObjectByName(n.replace('.', ''));
+const neck = bone('Bone.003'), head = bone('Bone.004'), tail = bone('Bone.001'), eyes = ['Sphere', 'Sphere.001'].map(bone).filter(Boolean);
+const eyeS = eyes.map(e => e.scale.clone()), posed = [neck, head, tail].filter(Boolean), clean = posed.map(b => b.quaternion.clone());
+const unpose = () => posed.forEach((b, i) => b.quaternion.copy(clean[i]));
+function livePose(o) {
+  posed.forEach((b, i) => clean[i].copy(b.quaternion));
+  if (!o) return;
+  if (neck) neck.rotateX(-o.nod * D2R);   // + : head forward and down
+  if (head) { head.rotateZ(o.tilt * D2R); head.rotateY(o.twist * D2R); }
+  if (tail) tail.rotateX(o.tail * D2R);   // + : tail up
+  eyes.forEach((e, i) => e.scale.set(eyeS[i].x, eyeS[i].y * (1 - 0.9 * o.blink), eyeS[i].z));
+  st.lean = o.lean;
+}
 let last = performance.now(), shown = true;
 function frame(now) {
   requestAnimationFrame(frame);
@@ -104,7 +120,8 @@ function frame(now) {
   for (const k in w) acts[k].setEffectiveWeight(w[k] / (sum || 1));
   acts.flap.time = (st.flapPh % 1) * acts.flap.getClip().duration;
   acts.walk.time = (st.walkPh % 1) * acts.walk.getClip().duration;
-  mixer.update(0);
+  unpose(); mixer.update(0);
+  livePose(st.ov);
 
   // Anchor: perched it stands on its feet (rotations and breathing pivot there); flying it pivots on its body.
   const anc = st.mode === 'perch' ? foot : center;
@@ -112,7 +129,7 @@ function frame(now) {
   view.position.set(st.x - scrollX - innerWidth / 2, innerHeight / 2 - (st.y - scrollY), st.z);
   view.rotation.x = CFG.viewTilt * D2R;
   st.pitchD = (st.pitchD ?? st.pitch) + (st.pitch - (st.pitchD ?? st.pitch)) * Math.min(1, dt * 12);
-  group.rotation.set(st.roll * D2R, st.heading * D2R, -st.pitchD * D2R);
+  group.rotation.set((st.roll + (st.mode === 'perch' ? st.lean || 0 : 0)) * D2R, st.heading * D2R, -st.pitchD * D2R);
   const k = st.scale || 1;   // perched lane scale (depth.js): smaller on a back-lane seam, about its feet
   group.scale.set((1 - st.breath * 0.4) * (1 + 0.12 * st.puff) * k, (1 + st.breath) * k, (1 - st.breath * 0.4) * (1 + 0.12 * st.puff) * k);
 

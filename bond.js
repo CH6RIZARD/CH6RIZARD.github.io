@@ -1457,9 +1457,33 @@
   // He thinks every 12 s, or within 3 s of something happening to him (hugo3d's pokes: the cursor near, grabbed, thrown,
   // a wall; REL: a hit or a fall). The mind sees his body's senses (hugo3d's __hugoSense) and REL's state, and answers
   // with a lean toward the dove (REL motive) and something to do with his body (hugo3d's __hugoAct, his own moves only).
-  const HUGO_MIND = DOM && /^(127\.0\.0\.1|localhost)$/.test(G.location.hostname) ? 'http://127.0.0.1:8772/decide' : '';
+  // Local (127.0.0.1) = hugo-mind.py; the public site = the hosted mind (mind-worker/, Claude Haiku, capped per IP and per
+  // day). G.MIND_URL is the one place that URL lives; dove-agent.js asks the same mind for the dove.
+  const LOCAL = DOM && /^(127\.0\.0\.1|localhost)$/.test(G.location.hostname);
+  const HUGO_MIND = G.MIND_URL = !DOM ? '' : LOCAL ? 'http://127.0.0.1:8772/decide'
+    : /^(chiagozie\.tech|www\.chiagozie\.tech|ch6rizard\.github\.io)$/.test(G.location.hostname) ? 'https://hugo-mind.daniel4chigs.workers.dev/decide' : '';
   const LIFE = Math.random().toString(36).slice(2, 10);   // one visit, one life: the mind's memory is keyed to it
+  // The life's memory, kept here too: the hosted mind is stateless and reads it back each turn (hugo-mind.py keeps its own).
+  // shortcut: lives in this tab's RAM like REL; a reload is a new life anyway.
+  G.mindMemory = () => ({ age: performance.now() / 1000, mood: 'new here', thoughts: [], memories: [] });
+  G.mindRemember = (mem, r, result) => {
+    if (r.mood) mem.mood = r.mood;
+    mem.thoughts.push(`${Math.round(performance.now() / 1000 - mem.age)}s: ${r.thought || ''} -> ${r.act}${r.target ? ' ' + r.target : ''}${r.lean ? ', leaning ' + r.lean : ''}; result: ${result || 'n/a'}`);
+    if (r.remember) mem.memories.push(r.remember);
+    mem.thoughts.splice(0, mem.thoughts.length - 10); mem.memories.splice(0, mem.memories.length - 12);
+  };
+  // POST a brief, get {act, ...} or null. "No mind" answers (cap, rate limit) and failures hold the asker off a while, silently.
+  G.askMind = async (brief, hold) => {
+    if (!HUGO_MIND || performance.now() < hold.until) return null;
+    try {
+      const r = await (await fetch(HUGO_MIND, { method: 'POST', body: JSON.stringify(brief), signal: AbortSignal.timeout(25000) })).json();
+      if (r && r.act) return r;
+      hold.until = performance.now() + (r && r.why === 'daily cap' ? 36e5 : 60e3);
+    } catch (e) { hold.until = performance.now() + 60e3; }
+    return null;
+  };
   let hugoMindBusy = false, thoughtAt = -1e9, pokesSeen = 0, logSeen = 0, lastResult = null;
+  const hugoMem = G.mindMemory('hugo'), hugoHold = { until: 0 };
   if (HUGO_MIND) setInterval(async () => {
     if (!S || SIM || hugoMindBusy || document.hidden || frame.up || frame.dead) return;   // the frame is his mind when it is up
     const now = performance.now() / 1000, sense = G.__hugoSense ? G.__hugoSense() : null;
@@ -1467,20 +1491,20 @@
     if (!(now - thoughtAt >= 12 || ((hit || (sense && sense.poke !== pokesSeen)) && now - thoughtAt >= 3))) return;
     hugoMindBusy = true; thoughtAt = now; pokesSeen = sense ? sense.poke : 0; logSeen = S.t;
     try {
-      const brief = { life: LIFE, ...hugoBrief(), ...(sense || {}), last_wish_result: lastResult };
-      const r = await (await fetch(HUGO_MIND, { method: 'POST', body: JSON.stringify(brief), signal: AbortSignal.timeout(25000) })).json();
-      if (!S) return;
+      const r = await G.askMind({ who: 'hugo', life: LIFE, mind_mem: hugoMem, ...hugoBrief(), ...(sense || {}), last_wish_result: lastResult }, hugoHold);
+      if (!S || !r) return;   // no mind reachable: REL and his own body, as before
       if (MOT.includes(r.lean)) { S.nudge.hugo[r.lean] = { v: .3, until: S.t + 20 }; logEv('mind', 'mind', 'hugo', 0, { do: r.lean }); }
-      lastResult = r.act && G.__hugoAct ? `${r.act}${r.target ? ' ' + r.target : ''}: ${G.__hugoAct(r.act, r.target)}` : null;
+      lastResult = G.__hugoAct ? `${r.act}${r.target ? ' ' + r.target : ''}: ${G.__hugoAct(r.act, r.target, r)}` : null;
+      G.mindRemember(hugoMem, r, lastResult);
       S.hugoMind = { ...r, result: lastResult };
-    } catch (e) { /* no mind reachable: REL and his own body, as before */ } finally { hugoMindBusy = false; }
+    } finally { hugoMindBusy = false; }
   }, 1000);
   // His mind, first choice: the Mortal Agent Frame (run_web_body.py --port 8081 --body hugo), the same frame and the same
   // protocol as the dove's link in dove-agent.js (linkTick / openStream): the body reports what it senses about once a
   // second, the frame's own being answers with BODY_INTENT. Its life is the frame's: BIRTH = a new being in this body,
   // ENDED (or the frame vanishing mid-life) = the body goes limp until the next BIRTH. Frame not running (every public
   // visitor: no URL, no request at all) = REL and his reflexes, as before.
-  const FRAME = HUGO_MIND ? 'http://127.0.0.1:8081' : '';
+  const FRAME = LOCAL ? 'http://127.0.0.1:8081' : '';
   const frame = { up: false, id: null, es: null, busy: false, fails: 0, retryAt: 0, dead: false, deadAt: 0, leaving: false };
   const frameSense = () => JSON.stringify({
     gate: { power: !document.hidden && !frame.leaving, sensors: !!G.__hugoSense, actuators: !!G.__hugoAct },   // the truth: a hidden or closing tab is a body with no power

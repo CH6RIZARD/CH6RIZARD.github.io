@@ -13,7 +13,8 @@
   const bodies = new Map(), subs = new Map(), touching = new Set(), rideOf = new Map(), startledAt = new Map();
   const stats = { frames: 0, deep: 0, maxPen: 0, events: { bump: 0, land: 0, startle: 0, perched: 0 } };
   let last = 0;
-  const emit = (id, type, o) => { if (type in stats.events) stats.events[type]++; for (const f of subs.get(id) || []) try { f(type, o); } catch (e) { console.warn('contact', id, type, e); } };
+  const recent = [];   // the last events, for the minds' briefs: {t (ms), id, type, with}
+  const emit = (id, type, o) => { if (type in stats.events) stats.events[type]++; recent.push({ t: Date.now(), id, type, with: o && o.with }); if (recent.length > 24) recent.shift(); for (const f of subs.get(id) || []) try { f(type, o); } catch (e) { console.warn('contact', id, type, e); } };
   // closest points of two vertical segments [top, bottom] at xa, xb: the gap vector from a to b
   function gap(A, B) {
     const a0 = A.y - A.headH + A.r, a1 = A.y - A.r, b0 = B.y - B.headH + B.r, b1 = B.y - B.r;
@@ -66,7 +67,9 @@
     add(id, get, push) { bodies.set(id, { get, push }); },
     on(id, fn) { subs.set(id, [...(subs.get(id) || []), fn]); },
     get(id) { const b = bodies.get(id); return b ? b.get() : null; },
-    step, stats,
+    step, stats, recent,
+    // what happened to this body in the last `secs` seconds, as a mind reads it: "4s ago: bump with dove"
+    told(id, secs = 60) { const now = Date.now(); return recent.filter(e => e.id === id && now - e.t < secs * 1000).slice(-6).map(e => `${Math.round((now - e.t) / 1000)}s ago: ${e.type}${e.with ? ' with ' + e.with : ''}`); },
   };
   G.CONTACT = C;
   if (typeof requestAnimationFrame === 'function') { const loop = now => { requestAnimationFrame(loop); const dt = Math.min(0.05, last ? (now - last) / 1000 : 1 / 60); last = now; step(dt); }; requestAnimationFrame(loop); }
