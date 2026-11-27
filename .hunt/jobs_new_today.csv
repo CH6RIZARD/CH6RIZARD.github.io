@@ -1,18 +1,1 @@
 tier,score,company,title,location,pay,posted,min_years,url,source,first_seen
-0,8,llamaindex,GTM Engineer,San Francisco remote,$120K – $180K • Offers Equity,2026-11-26,1,https://jobs.ashbyhq.com/llamaindex/3e7dfcda-dd8d-47d2-ba6b-7ab5479bfddd,ashby,2026-11-26
-0,6,gitlab,"Enterprise Applications Engineer, Zendesk","Remote, United States",,2026-11-26,0,https://job-boards.greenhouse.io/gitlab/jobs/8961167002,greenhouse,2026-11-26
-0,2,wayflyer,Graduate Credit Analyst,"Charlotte, North Carolina remote",,2026-11-26,0,https://jobs.ashbyhq.com/wayflyer/39556af7-07f0-40ac-9d1b-ca141beace27,ashby,2026-11-26
-0,20,runpod,Software Engineer (Full-Stack) - Multiple Levels ,Remote - USA remote,"$130,000 - $200,000",2026-11-25,0,https://jobs.ashbyhq.com/runpod/d7c53f7a-ce66-4ecb-91f6-75b1565d4d62,ashby,2026-11-26
-0,12,discord,Data Engineer,San Francisco Bay Area,,2026-11-25,2,https://job-boards.greenhouse.io/discord/jobs/8942144002,greenhouse,2026-11-26
-0,4,hostinger,FP&A Analyst,Vilnius remote,,2026-11-25,3,https://jobs.ashbyhq.com/hostinger/7f0c339b-f16f-49fd-97e6-3e2004f657ae,ashby,2026-11-26
-1,15,spacex,"Software Engineer, Beam Planning (Starlink)   ","Palo Alto, CA",,2026-11-25,2,https://boards.greenhouse.io/spacex/jobs/8962750002?gh_jid=8962750002,greenhouse,2026-11-26
-1,15,spacex,"Software Engineer, Beam Planning (Starlink)   ","Redmond, WA",,2026-11-25,2,https://boards.greenhouse.io/spacex/jobs/8962728002?gh_jid=8962728002,greenhouse,2026-11-26
-1,15,spacex,"Software Engineer, C++ (Starlink)","Redmond, WA",,2026-11-25,2,https://boards.greenhouse.io/spacex/jobs/8938572002?gh_jid=8938572002,greenhouse,2026-11-26
-1,15,spacex,"Software Engineer, C++ (Starlink)","Palo Alto, CA",,2026-11-25,2,https://boards.greenhouse.io/spacex/jobs/8938571002?gh_jid=8938571002,greenhouse,2026-11-26
-1,15,spacex,"Software Engineer, High Performance Computing (Starlink)   ","Redmond, WA",,2026-11-25,2,https://boards.greenhouse.io/spacex/jobs/8962752002?gh_jid=8962752002,greenhouse,2026-11-26
-1,15,spacex,"Software Engineer, High Performance Computing (Starlink)   ","Palo Alto, CA",,2026-11-25,2,https://boards.greenhouse.io/spacex/jobs/8962753002?gh_jid=8962753002,greenhouse,2026-11-26
-1,15,spacex,"Software Engineer, Low Latency Computing (Starlink)   ","Redmond, WA",,2026-11-25,2,https://boards.greenhouse.io/spacex/jobs/8962756002?gh_jid=8962756002,greenhouse,2026-11-26
-1,15,spacex,"Software Engineer, Low Latency Computing (Starlink)   ","Palo Alto, CA",,2026-11-25,2,https://boards.greenhouse.io/spacex/jobs/8962757002?gh_jid=8962757002,greenhouse,2026-11-26
-1,15,spacex,"Software Engineer, Starlink Network","Redmond, WA",,2026-11-25,2,https://boards.greenhouse.io/spacex/jobs/8938574002?gh_jid=8938574002,greenhouse,2026-11-26
-1,15,spacex,"Software Engineer, Starlink Network","Palo Alto, CA",,2026-11-25,2,https://boards.greenhouse.io/spacex/jobs/8938556002?gh_jid=8938556002,greenhouse,2026-11-26
-1,12,spacex,Network Software Integration Engineer (Starlink)   ,"Redmond, WA",,2026-11-25,2,https://boards.greenhouse.io/spacex/jobs/8962680002?gh_jid=8962680002,greenhouse,2026-11-26
