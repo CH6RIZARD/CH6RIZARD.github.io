@@ -1,4 +1,8 @@
 tier,score,company,title,location,pay,posted,min_years,url,source,first_seen
-0,11,spin,IC2 - Data Engineer,"Ciudad de México, MX",,2026-11-27,2,https://job-boards.greenhouse.io/spin/jobs/4758404005,greenhouse,2026-11-27
-0,5,siteminder,Technical Support Specialist - German,Barcelona remote,,2026-11-27,0,https://jobs.ashbyhq.com/SiteMinder/d0dea8fe-93f3-41e5-8a39-6116c10e2a1d,ashby,2026-11-27
-0,4,hostinger,Junior System Engineer | Network Team,Kaunas remote,,2026-11-27,0,https://jobs.ashbyhq.com/hostinger/b128e651-3c2a-419c-a7ef-9cf436ec668b,ashby,2026-11-27
+0,10,rocketlab,Radar Phase Array Engineer I,"Long Beach, CA",,2026-11-27,0,https://job-boards.greenhouse.io/rocketlab/jobs/8203626003,greenhouse,2026-11-28
+1,15,stripe,Software Engineer,"South San Francisco, CA",,2026-11-27,3,https://stripe.com/jobs/search?gh_jid=8421452,greenhouse,2026-11-28
+1,13,stripe,"Software Engineer, Backend","Seattle, WA","$206,086 - $235,200",2026-11-27,0,https://stripe.com/jobs/search?gh_jid=8421091,greenhouse,2026-11-28
+1,13,stripe,"Software Engineer, Backend ","South San Francisco, CA","$165,131 - $235,200",2026-11-27,0,https://stripe.com/jobs/search?gh_jid=8421387,greenhouse,2026-11-28
+1,13,stripe,"Software Engineer, Full Stack Atlas","South San Francisco, CA","$156,800 - $235,200",2026-11-27,0,https://stripe.com/jobs/search?gh_jid=8421000,greenhouse,2026-11-28
+1,13,stripe,"Software Engineer, Reporting Platform","New York, NY","$190,400 - $285,600",2026-11-27,0,https://stripe.com/jobs/search?gh_jid=8421367,greenhouse,2026-11-28
+1,11,stripe,Software Engineer,"South San Francisco, CA",,2026-11-27,2,https://stripe.com/jobs/search?gh_jid=8421434,greenhouse,2026-11-28
